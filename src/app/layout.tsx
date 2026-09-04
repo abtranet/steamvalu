@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
+import { Footer } from "@/components/sites/twinzo-com-ca6666c1/shared/Footer";
+import { Header } from "@/components/sites/twinzo-com-ca6666c1/shared/Header";
+import { SmoothScroll } from "@/components/sites/twinzo-com-ca6666c1/shared/SmoothScroll";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Website Clone",
-  description: "Pixel-perfect website clone",
+  title: "twinzo | Real-time 3D Digital Twin for Manufacturing & Logistics",
+  description:
+    "twinzo is a real-time 3D digital twin platform that visualizes your factory, tracks assets, and optimizes internal logistics.",
 };
 
 export default function RootLayout({
@@ -23,11 +22,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col bg-background text-foreground">
+        <SmoothScroll />
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }
