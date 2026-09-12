@@ -33,6 +33,23 @@ A reusable template for reverse-engineering any website into a clean, modern Nex
 - `npm run lint` — ESLint check
 - `npm run typecheck` — TypeScript check
 - `npm run check` — Run lint + typecheck + build
+- `npm run test` — Regression tests (`node --test`, no extra dependencies)
+- `npm run test:unit` — The source-level tests only; no browser or server needed
+
+## Tests
+`tests/` uses Node's built-in runner. `demo-view.test.mjs` is pure source
+assertions. `demo-regressions.test.mjs` drives headless Chrome over CDP against
+a production build (it runs `next build` and `next start` itself) and covers the
+two defects from the September 2026 review: the 3D viewer's inspector covering
+the control bar on phones, and "Explorer l’usine" landing on the 2D dashboard.
+
+- `CHROME_PATH=/path/to/chrome` if Chrome is not at the macOS default.
+- `TEST_BASE_URL=http://localhost:3000` to reuse a server you already started.
+- `SKIP_BROWSER_TESTS=1` to run only the source-level tests.
+
+`npm run check` deliberately does not run the browser tests — wire `npm run
+test` into CI as its own step so a browser failure is distinguishable from a
+build failure.
 
 ## Code Style
 - TypeScript strict mode, no `any`

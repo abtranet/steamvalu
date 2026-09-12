@@ -1,0 +1,17 @@
+# Build output and local caches — Vercel builds from source.
+.next
+node_modules
+
+# Working material that is not part of the deployed site.
+Uploads
+docs
+.agents
+.openai
+.claude
+.continue
+.amazonq
+scripts
+tests
+
+# Unreferenced 27MB duplicate of public/videos/ceo-video.mp4.
+public/videos/Ceo_Video.mp4
