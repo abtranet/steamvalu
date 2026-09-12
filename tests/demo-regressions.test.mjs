@@ -216,6 +216,43 @@ describe("demo regressions", { skip: SKIP && "SKIP_BROWSER_TESTS=1" }, () => {
   });
 
   describe("3D viewer controls stay usable on a phone", () => {
+    test("orbit survives telemetry ticks and resizing without remounting the canvas", async () => {
+      const page = await openPlant(DESKTOP);
+      try {
+        await page.waitFor(`document.querySelectorAll('.factory-label').length === 7`);
+        const labels = () => page.evaluate(`
+          const canvas = document.querySelector('canvas');
+          const rect = canvas.getBoundingClientRect();
+          return [...document.querySelectorAll('.factory-label')].map(label => {
+            const box = label.getBoundingClientRect();
+            // Perspective projection is invariant to aspect when expressed
+            // relative to the canvas centre in units of canvas height.
+            return [(box.x + box.width / 2 - rect.x - rect.width / 2) / rect.height,
+              (box.y + box.height / 2 - rect.y - rect.height / 2) / rect.height];
+          });
+        `);
+        const distance = (a, b) => Math.max(...a.map((point, i) => Math.hypot(point[0] - b[i][0], point[1] - b[i][1])));
+        await page.evaluate(`document.querySelector('canvas').dataset.testIdentity = 'original'; return true;`);
+        const before = await labels();
+        await page.drag({ x: 720, y: 500 }, { x: 840, y: 500 });
+        await new Promise(resolve => setTimeout(resolve, 800));
+        const rotated = await labels();
+        assert.ok(distance(before, rotated) > 0.03, "drag must visibly orbit the plant");
+        await new Promise(resolve => setTimeout(resolve, 2500));
+        assert.ok(distance(rotated, await labels()) < 0.003, "telemetry ticks must not reset the released orbit");
+        assert.equal(await page.evaluate(`return Boolean(document.querySelector('[class*="inspector"]'));`), false, "drag must not select equipment");
+        for (const metrics of [MOBILE, { ...MOBILE, width: 844, height: 390 }, DESKTOP]) {
+          await page.resize(metrics);
+          await new Promise(resolve => setTimeout(resolve, 600));
+          assert.ok(distance(rotated, await labels()) < 0.01, "resize must preserve camera pose and target");
+          assert.equal(await page.evaluate(`return document.querySelector('canvas').dataset.testIdentity;`), "original");
+          assert.equal(await page.evaluate(`return document.querySelectorAll('canvas').length;`), 1);
+        }
+      } finally {
+        await page.close();
+      }
+    }, { timeout: 120000 });
+
     test("selecting an equipment does not cover the control bar", async () => {
       const page = await openPlant();
       try {

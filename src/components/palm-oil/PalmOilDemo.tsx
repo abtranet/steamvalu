@@ -57,6 +57,7 @@ class SceneBoundary extends Component<{ children: ReactNode; onFallback?: () => 
 function Scene({ onFallback, ...props }: Omit<FactorySceneProps, "onReady"> & { onFallback?: () => void }) {
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
+  const handleReady = useCallback(() => setReady(true), []);
   useEffect(() => {
     if (ready || failed) return;
     const timer = window.setTimeout(() => setReady(true), 12000);
@@ -64,7 +65,7 @@ function Scene({ onFallback, ...props }: Omit<FactorySceneProps, "onReady"> & { 
   }, [ready, failed]);
   return <div className={styles.scene}>
     <SceneBoundary onFailedChange={setFailed} onFallback={onFallback}>
-      <FactoryScene {...props} onReady={() => setReady(true)} />
+      <FactoryScene {...props} onReady={handleReady} />
     </SceneBoundary>
     {!ready && !failed && <div className={styles.sceneVeil}><SceneLoading /></div>}
   </div>;
@@ -163,7 +164,7 @@ export function PalmOilDemo({ embedded = false, initialView = "dashboard" }: { e
   const metrics = plantMetrics(seconds, scenario);
   const active = STAGES.find(stage => stage.id === selected);
   const affected = STAGES.filter(stage => statusFor(stage.id, scenario) !== "normal");
-  const selectStage = (id: StageId) => { setSelected(id); setLeftOpen(false); };
+  const selectStage = useCallback((id: StageId) => { setSelected(id); setLeftOpen(false); }, []);
   const showView = useCallback((next: DemoView) => { setView(next); if (next === "dashboard") setLeftOpen(false); }, []);
   const changeScenario = (value: Scenario) => dispatch({ type: "scenario", value });
   const reset = () => { dispatch({ type: "reset" }); setSelected(null); setFocusRevision(0); setPreset("perspective"); setRevision(r => r + 1); };

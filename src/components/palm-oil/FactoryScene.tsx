@@ -1,15 +1,20 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Html, OrbitControls, Grid, Environment, Lightformer } from "@react-three/drei";
-import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+import { createContext, memo, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Html, Grid, Environment, Lightformer } from "@react-three/drei";
+import { FactoryCamera } from "./FactoryCamera";
 import * as THREE from "three";
 import { STAGES, statusFor, type StageId, type Scenario, type ViewPreset } from "./process";
 
-const MotionContext = createContext({ running: true, speed: 1, scenario: "normal" as Scenario, labels: true });
+const MotionContext = createContext({ running: true, speed: 1 });
+const ScenarioContext = createContext<Scenario>("normal");
+// Stable options keep Canvas configuration independent of telemetry renders.
+const CAMERA_OPTIONS = { position: [-61, 49, 65] as [number, number, number], fov: 43, near: 0.5, far: 500 };
+const GL_OPTIONS = { antialias: true, powerPreference: "high-performance" as const, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.05 };
 const STATUS_COLORS = { normal: "#20bd9b", warning: "#f4ae35", critical: "#f06958" };
-function ZoneMarker({ position, status, onClick }: { position: [number, number, number]; status: keyof typeof STATUS_COLORS; onClick: () => void }) {
+function ZoneMarker({ position, stageId, onClick }: { position: [number, number, number]; stageId: StageId; onClick: () => void }) {
+  const status = statusFor(stageId, useContext(ScenarioContext));
   return <group position={position} onClick={(event) => { event.stopPropagation(); onClick(); }}><mesh position={[0, 0.7, 0]}><sphereGeometry args={[0.25, 12, 12]} /><meshStandardMaterial color={STATUS_COLORS[status]} emissive={STATUS_COLORS[status]} emissiveIntensity={0.65} /></mesh><mesh position={[0, 0.3, 0]}><cylinderGeometry args={[0.03, 0.03, 0.6, 8]} /><meshStandardMaterial color="#3c5356" /></mesh></group>;
 }
 function StudioLighting() {
@@ -313,9 +318,7 @@ function ScraperConveyor({ position, length, rotation = [0, 0, 0] }: { position:
   );
 }
 
-function FactoryLayout({ onSelectTwin }: { onSelectTwin: (id: StageId) => void }) {
-  const { scenario } = useContext(MotionContext);
-  const getStatus = (id: StageId) => statusFor(id, scenario);
+const FactoryLayout = memo(function FactoryLayout({ onSelectTwin }: { onSelectTwin: (id: StageId) => void }) {
   // Base materials for factory structures
   const concreteMaterial = useMemo(() => new THREE.MeshStandardMaterial({ color: '#455568', roughness: 0.74, metalness: 0.12 }), []);
   const steelMaterial = useMemo(() => new THREE.MeshStandardMaterial({ color: '#d4dde4', metalness: 0.72, roughness: 0.24 }), []);
@@ -361,7 +364,7 @@ function FactoryLayout({ onSelectTwin }: { onSelectTwin: (id: StageId) => void }
         <AccessStairs position={[3.35, 0.7, -1.1]} rotation={[0, Math.PI / 2, 0]} />
         <IndustrialPipe points={[[-2.3, 3.5, 0], [-2.3, 4.3, -0.9], [-1.75, 4.3, -3.4]]} radius={0.2} />
         <IndustrialPipe points={[[2.3, 3.5, 0], [2.3, 4.7, -1], [1.75, 4.7, -3.4]]} radius={0.2} />
-        <ZoneMarker position={[0, 10.8, -3.4]} status={getStatus('sterilization')} onClick={() => onSelectTwin('sterilization')} />
+        <ZoneMarker position={[0, 10.8, -3.4]} stageId='sterilization' onClick={() => onSelectTwin('sterilization')} />
       </group>
 
       {/* ZONE 2: PRESSING (Extraction) */}
@@ -378,7 +381,7 @@ function FactoryLayout({ onSelectTwin }: { onSelectTwin: (id: StageId) => void }
           <primitive attach="material" object={tankMaterial} />
         </mesh>
         <IndustrialPipe points={[[-2, 6.1, 0], [-2, 7.2, 0], [2, 7.2, 0], [2, 6.1, 0]]} radius={0.22} />
-        <ZoneMarker position={[0, 7.4, 0]} status={getStatus('pressing')} onClick={() => onSelectTwin('pressing')} />
+        <ZoneMarker position={[0, 7.4, 0]} stageId='pressing' onClick={() => onSelectTwin('pressing')} />
       </group>
 
       {/* ZONE 3: CLARIFICATION (Tanks) */}
@@ -401,7 +404,7 @@ function FactoryLayout({ onSelectTwin }: { onSelectTwin: (id: StageId) => void }
           <primitive attach="material" object={tankMaterial} />
         </mesh>
         <IndustrialPipe points={[[-3, 8.2, -2], [-3, 9.4, -2], [3, 9.4, -2], [3, 8.2, -2]]} radius={0.25} />
-        <ZoneMarker position={[0, 9.6, 0]} status={getStatus('clarification')} onClick={() => onSelectTwin('clarification')} />
+        <ZoneMarker position={[0, 9.6, 0]} stageId='clarification' onClick={() => onSelectTwin('clarification')} />
       </group>
 
       {/* ZONE 4: BOILER & POWER PLANT */}
@@ -425,7 +428,7 @@ function FactoryLayout({ onSelectTwin }: { onSelectTwin: (id: StageId) => void }
         </mesh>
         <IndustrialPipe points={[[-0.15, 11.1, -1.8], [1.1, 11.1, -1.8], [2.2, 10.2, -2.4], [2.22, 10.2, -3]]} radius={0.38} color="#bdc3c4" />
         <IndustrialPipe points={[[-2.2, 8.2, -3], [-1.3, 8.2, -3], [1.6, 8.2, -3], [2.22, 8.2, -3]]} radius={0.24} color="#c38636" />
-        <ZoneMarker position={[-1.4, 17.8, -1.8]} status={getStatus('boiler')} onClick={() => onSelectTwin('boiler')} />
+        <ZoneMarker position={[-1.4, 17.8, -1.8]} stageId='boiler' onClick={() => onSelectTwin('boiler')} />
       </group>
 
       <FinishingStations onSelect={onSelectTwin} />
@@ -434,7 +437,7 @@ function FactoryLayout({ onSelectTwin }: { onSelectTwin: (id: StageId) => void }
       <IndustrialPipe points={[[8.5, 6.1, -8], [13, 6.1, -8], [18, 6.1, -9.2], [19, 7.1, -10]]} radius={0.25} color="#b78b43" />
     </group>
   );
-}
+});
 
 function SiteDetails() {
   return <group>
@@ -461,12 +464,11 @@ function Drum() {
 }
 
 function FinishingStations({ onSelect }: { onSelect: (id: StageId) => void }) {
-  const { scenario } = useContext(MotionContext);
   return <group>
     <group position={[-28, 0, -8]} onClick={event => { event.stopPropagation(); onSelect('reception'); }}>
       <mesh position={[-2, 2, 0]} castShadow><cylinderGeometry args={[2, 0.8, 2.5, 4]} /><meshStandardMaterial color="#66837c" metalness={0.5} roughness={0.45} /></mesh>
       {Array.from({ length: 15 }, (_, i) => <FruitBunch key={i} position={[-2 + Math.sin(i * 5) * 1.3, 3.2, Math.cos(i * 3) * 1.1]} scale={0.75} />)}
-      <ZoneMarker position={[-2, 3.8, 0]} status={statusFor('reception', scenario)} onClick={() => onSelect('reception')} />
+      <ZoneMarker position={[-2, 3.8, 0]} stageId='reception' onClick={() => onSelect('reception')} />
     </group>
     <group position={[-6, 3.4, -8]} onClick={event => { event.stopPropagation(); onSelect('threshing'); }}>
       <Drum /><SteelFrame position={[0, -3.4, 0]} width={5} height={2} depth={3} />
@@ -476,44 +478,19 @@ function FinishingStations({ onSelect }: { onSelect: (id: StageId) => void }) {
     </group>
     <group position={[-12, 0, 13]} onClick={event => { event.stopPropagation(); onSelect('storage'); }}>
       {[-4, 4].map(x => <group key={x} position={[x, 0, 0]}><mesh position={[0, 0.2, 0]} receiveShadow><cylinderGeometry args={[3.6, 3.6, 0.4, 32]} /><meshStandardMaterial color="#aeb9b6" /></mesh><mesh position={[0, 3, 0]} castShadow><cylinderGeometry args={[3, 3, 5.6, 64]} /><meshStandardMaterial color="#ccd5d3" metalness={0.55} roughness={0.4} /></mesh><mesh position={[0, 6, 0]} castShadow><coneGeometry args={[3.03, 0.8, 32]} /><meshStandardMaterial color="#a7b8b4" metalness={0.6} roughness={0.3} /></mesh>{[1.5, 4.5].map(y => <mesh key={y} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[3.02, 0.045, 6, 32]} /><meshStandardMaterial color="#748c85" /></mesh>)}</group>)}
-      <ZoneMarker position={[0, 6, 0]} status={statusFor('storage', scenario)} onClick={() => onSelect('storage')} />
+      <ZoneMarker position={[0, 6, 0]} stageId='storage' onClick={() => onSelect('storage')} />
     </group>
     <IndustrialPipe points={[[24, 3, -4], [24, 3, 5], [-12, 3, 5], [-12, 3, 10]]} radius={0.2} color="#c59845" />
     <IndustrialPipe points={[[14, 8, 12], [10, 8, 10], [-17, 8, 10], [-17, 8, -8]]} radius={0.18} color="#abc5cf" />
   </group>;
 }
 
-function Selection({ selected, onSelect }: { selected: StageId | null; onSelect: (id: StageId) => void }) {
-  const { labels, scenario } = useContext(MotionContext);
+function Selection({ selected, onSelect, labels }: { selected: StageId | null; onSelect: (id: StageId) => void; labels: boolean }) {
+  const scenario = useContext(ScenarioContext);
   return <group>{STAGES.map(stage => <group key={stage.id} position={stage.position}>
     {selected === stage.id && <mesh position={[0, -stage.position[1] + 0.08, 0]} rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[5.4, 5.65, 48]} /><meshBasicMaterial color="#22dfff" transparent opacity={0.85} side={THREE.DoubleSide} /></mesh>}
     {labels && <Html position={[0, stage.id === 'boiler' ? 12 : 8, 0]} center zIndexRange={[20, 0]}><button onClick={() => onSelect(stage.id)} className={`factory-label ${selected === stage.id ? 'factory-label-selected' : ''}`}><span className={`factory-dot factory-dot-${statusFor(stage.id, scenario)}`} />{stage.code}<span className="factory-label-name">{stage.name}</span></button></Html>}
   </group>)}</group>;
-}
-
-function CameraRig({ preset, revision, selected, focusRevision }: { preset: ViewPreset; revision: number; selected: StageId | null; focusRevision: number }) {
-  const controls = useRef<OrbitControlsImpl>(null);
-  const { camera, size } = useThree();
-  useEffect(() => {
-    const positions: Record<ViewPreset, [number, number, number]> = { perspective: [-61, 49, 65], top: [0, 97, 0.01], front: [0, 22, 88] };
-    const base = positions[preset];
-    // On narrow (portrait) viewports the fixed landscape distance leaves the
-    // plant small with void around it — dolly in so it fills the width.
-    const aspect = size.width / Math.max(1, size.height);
-    const fit = preset === "perspective" && aspect < 1 ? Math.max(0.45, aspect) : 1;
-    camera.position.set(base[0] * fit, base[1] * fit, base[2] * fit);
-    controls.current?.target.set(0, 2, 0);
-    controls.current?.update();
-  }, [camera, preset, revision, size]);
-  useEffect(() => {
-    if (!focusRevision || !selected) return;
-    const stage = STAGES.find(s => s.id === selected)!;
-    const [x, y, z] = stage.position;
-    camera.position.set(x - 18, y + 17, z + 24);
-    controls.current?.target.set(x, y, z);
-    controls.current?.update();
-  }, [camera, selected, focusRevision]);
-  return <OrbitControls ref={controls} makeDefault enableDamping dampingFactor={0.12} minDistance={12} maxDistance={160} maxPolarAngle={Math.PI / 2.04} />;
 }
 
 /** Reports the first painted frame so the viewer can retire its loading state. */
@@ -528,7 +505,7 @@ function ReadySignal({ onReady }: { onReady?: () => void }) {
 }
 
 export type FactorySceneProps = { running: boolean; speed: number; scenario: Scenario; selected: StageId | null; onSelect: (id: StageId) => void; labels: boolean; grid: boolean; preset: ViewPreset; revision: number; focusRevision: number; theme?: "light" | "blue"; onReady?: () => void };
-export function FactoryScene(props: FactorySceneProps) {
+export const FactoryScene = memo(function FactoryScene(props: FactorySceneProps) {
   const [reducedMotion, setReducedMotion] = useState(false);
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -537,9 +514,9 @@ export function FactoryScene(props: FactorySceneProps) {
     query.addEventListener("change", update);
     return () => query.removeEventListener("change", update);
   }, []);
-  const motion = useMemo(() => ({ running: props.running && !reducedMotion, speed: props.speed, scenario: props.scenario, labels: props.labels }), [props.running, props.speed, props.scenario, props.labels, reducedMotion]);
+  const motion = useMemo(() => ({ running: props.running && !reducedMotion, speed: props.speed }), [props.running, props.speed, reducedMotion]);
   const isBlue = props.theme === "blue";
-  return <Canvas shadows dpr={[1, 1.5]} camera={{ position: [-61, 49, 65], fov: 43, near: 0.1, far: 500 }} gl={{ antialias: true, powerPreference: 'high-performance', toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.05 }} fallback={<div className="factory-fallback">La vue 3D nécessite WebGL. Les indicateurs et la simulation restent disponibles.</div>}>
+  return <Canvas shadows="percentage" dpr={[1, 1.5]} camera={CAMERA_OPTIONS} gl={GL_OPTIONS} fallback={<div className="factory-fallback">La vue 3D nécessite WebGL. Les indicateurs et la simulation restent disponibles.</div>}>
     <color attach="background" args={[isBlue ? '#08164e' : '#e5e9e8']} />
     <StudioLighting />
     <fog attach="fog" args={[isBlue ? "#08164e" : "#e5e9e8", 125, 245]} />
@@ -549,8 +526,8 @@ export function FactoryScene(props: FactorySceneProps) {
     <directionalLight position={[35, 20, -20]} intensity={2.2} color="#60bdff" />
     <StudioFloor theme={props.theme} />
     {props.grid && <Grid position={[0, -0.59, 0]} args={[180, 180]} cellSize={2} sectionSize={10} cellColor={isBlue ? '#174284' : '#b9c2be'} sectionColor={isBlue ? '#23569d' : '#a0ada7'} fadeDistance={150} cellThickness={0.5} sectionThickness={0.7} />}
-    <MotionContext.Provider value={motion}><FactoryLayout onSelectTwin={props.onSelect} /><Selection selected={props.selected} onSelect={props.onSelect} /></MotionContext.Provider>
-    <CameraRig preset={props.preset} revision={props.revision} selected={props.selected} focusRevision={props.focusRevision} />
+    <MotionContext.Provider value={motion}><ScenarioContext.Provider value={props.scenario}><FactoryLayout onSelectTwin={props.onSelect} /><Selection selected={props.selected} onSelect={props.onSelect} labels={props.labels} /></ScenarioContext.Provider></MotionContext.Provider>
+    <FactoryCamera preset={props.preset} revision={props.revision} selected={props.selected} focusRevision={props.focusRevision} />
     <ReadySignal onReady={props.onReady} />
   </Canvas>;
-}
+});

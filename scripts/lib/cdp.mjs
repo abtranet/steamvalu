@@ -105,6 +105,23 @@ export async function openPage(chrome, metrics = DESKTOP) {
       await sleep(settle);
     },
 
+    async drag(from, to) {
+      await session.send("Input.dispatchMouseEvent", { type: "mousePressed", ...from, button: "left", buttons: 1, clickCount: 1 });
+      for (let step = 1; step <= 12; step++) {
+        await session.send("Input.dispatchMouseEvent", {
+          type: "mouseMoved", button: "left", buttons: 1,
+          x: from.x + (to.x - from.x) * step / 12,
+          y: from.y + (to.y - from.y) * step / 12,
+        });
+        await sleep(16);
+      }
+      await session.send("Input.dispatchMouseEvent", { type: "mouseReleased", ...to, button: "left", buttons: 0, clickCount: 1 });
+    },
+
+    async resize(metrics) {
+      await session.send("Emulation.setDeviceMetricsOverride", metrics);
+    },
+
     /** Evaluates an expression in the page and returns its value. */
     async evaluate(expression) {
       const result = await session.send("Runtime.evaluate", {
