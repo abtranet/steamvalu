@@ -1,10 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" role="img" aria-labelledby="title desc">
-  <title id="title">STEAM VALUE mark</title>
-  <desc id="desc">Two interlocking hexagons around a connected digital twin node</desc>
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="m106 22 86 50v100l-86 50-86-50V72Z" stroke="#0d4a72" stroke-width="11"/>
-    <path d="m144 58 88 51v101l-88 51-88-51V109Z" stroke="#06bed4" stroke-width="9"/>
-    <path d="M106 91v26m0 52v26M68 143h25m26 0h25" stroke="#06bed4" stroke-width="8"/>
-  </g>
-  <circle cx="106" cy="143" r="24" fill="#10283d" stroke="#06bed4" stroke-width="4"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <defs>
+    <linearGradient id="navyGrad" x1="182" y1="154" x2="768" y2="710" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0B4E93"/>
+      <stop offset="1" stop-color="#082F68"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="284" y1="278" x2="884" y2="850" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1ED5F0"/>
+      <stop offset="1" stop-color="#12B9EE"/>
+    </linearGradient>
+  </defs>
+
+  <!-- back hexagon -->
+  <polygon
+    points="512,134 814,309 814,657 512,832 210,657 210,309"
+    stroke="url(#navyGrad)"
+    stroke-width="34"
+    stroke-linejoin="miter"
+    fill="none"/>
+
+  <!-- front hexagon -->
+  <polygon
+    points="602,226 904,401 904,749 602,924 300,749 300,401"
+    stroke="url(#cyanGrad)"
+    stroke-width="34"
+    stroke-linejoin="miter"
+    fill="none"/>
+
+  <!-- target mark -->
+  <circle cx="560" cy="512" r="77" fill="#0A3C83"/>
+  <circle cx="560" cy="512" r="80" stroke="#18C8F0" stroke-width="10" fill="none"/>
+  <line x1="560" y1="374" x2="560" y2="432" stroke="#18C8F0" stroke-width="18" stroke-linecap="round"/>
+  <line x1="560" y1="592" x2="560" y2="650" stroke="#18C8F0" stroke-width="18" stroke-linecap="round"/>
+  <line x1="422" y1="512" x2="480" y2="512" stroke="#18C8F0" stroke-width="18" stroke-linecap="round"/>
+  <line x1="640" y1="512" x2="698" y2="512" stroke="#18C8F0" stroke-width="18" stroke-linecap="round"/>
 </svg>

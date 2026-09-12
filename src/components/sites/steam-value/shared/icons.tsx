@@ -1,25 +1,24 @@
 import type { SVGProps } from "react";
 
 /**
- * STEAM VALUE wordmark. "STEAM" and the mark outline are white on dark
- * backgrounds, navy on light ones; "VALUE" and the mark accent use the site
- * green (--brand). Set in the rounded geometric wordmark font (Poppins).
+ * STEAM VALUE logo (public/steam-value-logo.svg): overlapping navy and cyan
+ * hexagons around a target, with the wordmark. On dark backgrounds the navy
+ * parts switch to off-white so the outline and "STEAM" stay legible. The
+ * viewBox is cropped to the artwork so it fills its box like an image.
  */
 export function SteamValueLogo({
   dark = false,
   className,
   ...props
 }: SVGProps<SVGSVGElement> & { dark?: boolean }) {
-  const outerHex = dark ? "#f1f7fa" : "#0d4a72";
-  const cyan = dark ? "#00c0e8" : "#06bed4";
-  const valueCyan = dark ? "#00c0e8" : "#06aecd";
-  const nodeFill = dark ? "#0a3346" : "#10283d";
-  const steamText = dark ? "#f1f7fa" : "#0d4a72";
-  const subText = dark ? "#94a3b8" : "#647b8d";
+  const navy = dark ? "#f1f7fa" : "url(#sv-logo-navy)";
+  const cyan = dark ? "#16cfea" : "url(#sv-logo-cyan)";
+  const target = dark ? "#16cfea" : "#15bfe5";
+  const subText = dark ? "#94a3b8" : "#425f78";
 
   return (
     <svg
-      viewBox="0 0 840 260"
+      viewBox="120 30 2040 740"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
@@ -27,67 +26,38 @@ export function SteamValueLogo({
       className={className}
       {...props}
     >
-      <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path
-          d="M116 22 202 72v100l-86 50-86-50V72Z"
-          stroke={outerHex}
-          strokeWidth="11"
-          style={{ transition: "stroke 0.3s ease" }}
-        />
-        <path
-          d="m154 58 88 51v101l-88 51-88-51V109Z"
-          stroke={cyan}
-          strokeWidth="9"
-          style={{ transition: "stroke 0.3s ease" }}
-        />
-        <path
-          d="M116 91v26m0 52v26M78 143h25m26 0h25"
-          stroke={cyan}
-          strokeWidth="8"
-          style={{ transition: "stroke 0.3s ease" }}
-        />
+      {!dark && (
+        <defs>
+          <linearGradient id="sv-logo-navy" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#0b4e93" />
+            <stop offset="100%" stopColor="#082f68" />
+          </linearGradient>
+          <linearGradient id="sv-logo-cyan" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#16cfea" />
+            <stop offset="100%" stopColor="#12aeea" />
+          </linearGradient>
+        </defs>
+      )}
+      <g transform="translate(120,60)">
+        <polygon points="290,0 540,145 540,435 290,580 40,435 40,145" stroke={navy} strokeWidth="34" strokeLinejoin="miter" />
+        <polygon points="395,95 645,240 645,530 395,675 145,530 145,240" stroke={cyan} strokeWidth="34" strokeLinejoin="miter" />
+        <circle cx="330" cy="355" r="72" fill="#123b69" />
+        <circle cx="330" cy="355" r="74" stroke={target} strokeWidth="10" />
+        <g stroke={target} strokeWidth="16" strokeLinecap="round">
+          <line x1="330" y1="245" x2="330" y2="285" />
+          <line x1="330" y1="425" x2="330" y2="465" />
+          <line x1="220" y1="355" x2="260" y2="355" />
+          <line x1="400" y1="355" x2="440" y2="355" />
+        </g>
       </g>
-      <circle
-        cx="116"
-        cy="143"
-        r="24"
-        fill={nodeFill}
-        stroke={cyan}
-        strokeWidth="4"
-        style={{ transition: "fill 0.3s ease, stroke 0.3s ease" }}
-      />
-      <g fontFamily="var(--font-poppins), Arial, Helvetica, sans-serif">
-        <text
-          x="294"
-          y="128"
-          fill={steamText}
-          fontSize="58"
-          fontWeight="700"
-          letterSpacing="2"
-          style={{ transition: "fill 0.3s ease" }}
-        >
+      <g fontFamily="Arial, Helvetica, sans-serif">
+        <text x="815" y="345" fontSize="190" fontWeight="800" fill={navy} letterSpacing="-5">
           STEAM
         </text>
-        <text
-          x="530"
-          y="128"
-          fill={valueCyan}
-          fontSize="58"
-          fontWeight="700"
-          letterSpacing="2"
-          style={{ transition: "fill 0.3s ease" }}
-        >
+        <text x="1475" y="345" fontSize="190" fontWeight="800" fill={cyan} letterSpacing="-5">
           VALUE
         </text>
-        <text
-          x="297"
-          y="176"
-          fill={subText}
-          fontSize="18"
-          fontWeight="500"
-          letterSpacing="8"
-          style={{ transition: "fill 0.3s ease" }}
-        >
+        <text x="825" y="480" fontSize="70" fontWeight="400" fill={subText} letterSpacing="20">
           DIGITAL TWIN PLATFORM
         </text>
       </g>
@@ -112,17 +82,20 @@ export function ArrowUpRightIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+/**
+ * STEAM VALUE mark (public/steam-value-mark.svg), cropped to the hexagons.
+ * On dark backgrounds the navy hexagon switches to off-white.
+ */
 export function SteamValueMark({
   dark = true,
   className,
   ...props
 }: SVGProps<SVGSVGElement> & { dark?: boolean }) {
-  const steam = dark ? "#f1f7fa" : "#0d4a72";
-  const green = dark ? "var(--brand, #3afc97)" : "#047857";
-  const node = dark ? "#0a3346" : "#10283d";
+  const navy = dark ? "#f1f7fa" : "url(#sv-mark-navy)";
+  const cyan = dark ? "#1ed5f0" : "url(#sv-mark-cyan)";
   return (
     <svg
-      viewBox="10 12 232 258"
+      viewBox="188 112 738 834"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
@@ -130,35 +103,28 @@ export function SteamValueMark({
       className={className}
       {...props}
     >
-      <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path
-          d="m106 22 86 50v100l-86 50-86-50V72Z"
-          stroke={steam}
-          strokeWidth={dark ? 14 : 16}
-          style={{ transition: "stroke 0.3s ease" }}
-        />
-        <path
-          d="m144 58 88 51v101l-88 51-88-51V109Z"
-          stroke={green}
-          strokeWidth={dark ? 12 : 14}
-          style={{ transition: "stroke 0.3s ease" }}
-        />
-        <path
-          d="M106 91v26m0 52v26M68 143h25m26 0h25"
-          stroke={green}
-          strokeWidth={dark ? 10 : 12}
-          style={{ transition: "stroke 0.3s ease" }}
-        />
+      {!dark && (
+        <defs>
+          <linearGradient id="sv-mark-navy" x1="182" y1="154" x2="768" y2="710" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#0b4e93" />
+            <stop offset="1" stopColor="#082f68" />
+          </linearGradient>
+          <linearGradient id="sv-mark-cyan" x1="284" y1="278" x2="884" y2="850" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="#1ed5f0" />
+            <stop offset="1" stopColor="#12b9ee" />
+          </linearGradient>
+        </defs>
+      )}
+      <polygon points="512,134 814,309 814,657 512,832 210,657 210,309" stroke={navy} strokeWidth="34" strokeLinejoin="miter" />
+      <polygon points="602,226 904,401 904,749 602,924 300,749 300,401" stroke={cyan} strokeWidth="34" strokeLinejoin="miter" />
+      <circle cx="560" cy="512" r="77" fill="#0a3c83" />
+      <circle cx="560" cy="512" r="80" stroke="#18c8f0" strokeWidth="10" />
+      <g stroke="#18c8f0" strokeWidth="18" strokeLinecap="round">
+        <line x1="560" y1="374" x2="560" y2="432" />
+        <line x1="560" y1="592" x2="560" y2="650" />
+        <line x1="422" y1="512" x2="480" y2="512" />
+        <line x1="640" y1="512" x2="698" y2="512" />
       </g>
-      <circle
-        cx="106"
-        cy="143"
-        r="24"
-        fill={node}
-        stroke={green}
-        strokeWidth={dark ? 5 : 6}
-        style={{ transition: "fill 0.3s ease, stroke 0.3s ease" }}
-      />
     </svg>
   );
 }

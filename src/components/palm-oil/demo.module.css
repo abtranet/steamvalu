@@ -157,7 +157,6 @@
 .shell { --panel: #0a174e; --line: #284886; --muted: #94b1d9; --accent: #24ddff; background: #040b2d; color: #e6f1ff; color-scheme: dark; }
 .header { background: linear-gradient(180deg, #080f2d, #0a1850); border-bottom-color: #2d5094; }
 .brandMark { background: #0b255b; border-color: #287db0; box-shadow: 0 0 12px #08c6ff22; }
-.brandMarkSvg { filter: hue-rotate(30deg); }
 .brand small { color: #91bee7; }
 .viewSwitch { display: flex; align-items: center; gap: 4px; padding: 3px; border: 1px solid #2b4b88; border-radius: 5px; background: #07123b; }
 .viewSwitch button { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 11px; font-size: 10px; white-space: nowrap; border: 1px solid transparent; border-radius: 3px; color: #a4bce1; }
