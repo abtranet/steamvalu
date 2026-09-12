@@ -4,6 +4,7 @@ import { createContext, memo, useContext, useEffect, useMemo, useRef, useState }
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Html, Grid, Environment, Lightformer } from "@react-three/drei";
 import { FactoryCamera } from "./FactoryCamera";
+import { FactoryPiping } from "./FactoryPiping";
 import * as THREE from "three";
 import { STAGES, statusFor, type StageId, type Scenario, type ViewPreset } from "./process";
 
@@ -74,29 +75,6 @@ function StudioFloor({ theme }: { theme?: "light" | "blue" }) {
       <planeGeometry args={[180, 180]} />
       <meshStandardMaterial color={theme === "blue" ? "#0a2069" : "#d8d6d0"} roughness={0.62} metalness={theme === "blue" ? 0.22 : 0.02} />
     </mesh>
-  );
-}
-
-function IndustrialPipe({ points, radius = 0.24, color = '#b8bec0' }: { points: [number, number, number][]; radius?: number; color?: string }) {
-  const curve = useMemo(() => new THREE.CatmullRomCurve3(
-    points.map(([x, y, z]) => new THREE.Vector3(x, y, z)),
-    false,
-    'centripetal',
-  ), [points]);
-
-  return (
-    <group>
-      <mesh castShadow receiveShadow>
-        <tubeGeometry args={[curve, 64, radius, 20, false]} />
-        <meshStandardMaterial color={color} metalness={0.9} roughness={0.18} />
-      </mesh>
-      {points.slice(1, -1).map(([x, y, z], index) => (
-        <mesh key={`${x}-${y}-${z}-${index}`} position={[x, y, z]} castShadow>
-          <sphereGeometry args={[radius * 1.16, 16, 12]} />
-          <meshStandardMaterial color="#899093" metalness={0.82} roughness={0.25} />
-        </mesh>
-      ))}
-    </group>
   );
 }
 
@@ -362,8 +340,6 @@ const FactoryLayout = memo(function FactoryLayout({ onSelectTwin }: { onSelectTw
         <ProcessColumn position={[0, 0, -3.4]} height={10.2} radius={1.75} />
         <ServiceDeck position={[0, 5.05, -3.4]} width={6.5} depth={4.05} />
         <AccessStairs position={[3.35, 0.7, -1.1]} rotation={[0, Math.PI / 2, 0]} />
-        <IndustrialPipe points={[[-2.3, 3.5, 0], [-2.3, 4.3, -0.9], [-1.75, 4.3, -3.4]]} radius={0.2} />
-        <IndustrialPipe points={[[2.3, 3.5, 0], [2.3, 4.7, -1], [1.75, 4.7, -3.4]]} radius={0.2} />
         <ZoneMarker position={[0, 10.8, -3.4]} stageId='sterilization' onClick={() => onSelectTwin('sterilization')} />
       </group>
 
@@ -380,7 +356,6 @@ const FactoryLayout = memo(function FactoryLayout({ onSelectTwin }: { onSelectTw
           <cylinderGeometry args={[1.5, 1.5, 5.2, 32]} />
           <primitive attach="material" object={tankMaterial} />
         </mesh>
-        <IndustrialPipe points={[[-2, 6.1, 0], [-2, 7.2, 0], [2, 7.2, 0], [2, 6.1, 0]]} radius={0.22} />
         <ZoneMarker position={[0, 7.4, 0]} stageId='pressing' onClick={() => onSelectTwin('pressing')} />
       </group>
 
@@ -403,7 +378,6 @@ const FactoryLayout = memo(function FactoryLayout({ onSelectTwin }: { onSelectTw
           <cylinderGeometry args={[1.5, 1.5, 6, 32]} />
           <primitive attach="material" object={tankMaterial} />
         </mesh>
-        <IndustrialPipe points={[[-3, 8.2, -2], [-3, 9.4, -2], [3, 9.4, -2], [3, 8.2, -2]]} radius={0.25} />
         <ZoneMarker position={[0, 9.6, 0]} stageId='clarification' onClick={() => onSelectTwin('clarification')} />
       </group>
 
@@ -426,15 +400,12 @@ const FactoryLayout = memo(function FactoryLayout({ onSelectTwin }: { onSelectTw
           <cylinderGeometry args={[0.6, 0.8, 12, 32]} />
           <primitive attach="material" object={concreteMaterial} />
         </mesh>
-        <IndustrialPipe points={[[-0.15, 11.1, -1.8], [1.1, 11.1, -1.8], [2.2, 10.2, -2.4], [2.22, 10.2, -3]]} radius={0.38} color="#bdc3c4" />
-        <IndustrialPipe points={[[-2.2, 8.2, -3], [-1.3, 8.2, -3], [1.6, 8.2, -3], [2.22, 8.2, -3]]} radius={0.24} color="#c38636" />
         <ZoneMarker position={[-1.4, 17.8, -1.8]} stageId='boiler' onClick={() => onSelectTwin('boiler')} />
       </group>
 
       <FinishingStations onSelect={onSelectTwin} />
-      {/* CONNECTING PIPELINES */}
-      <IndustrialPipe points={[[-15.25, 7.4, -11.4], [-12, 7.4, -11.4], [-8, 7.4, -9.5], [1.5, 6.1, -8]]} radius={0.34} color="#c1c6c7" />
-      <IndustrialPipe points={[[8.5, 6.1, -8], [13, 6.1, -8], [18, 6.1, -9.2], [19, 7.1, -10]]} radius={0.25} color="#b78b43" />
+      {/* PROCESS PIPING, PIPE RACK AND SUPPORTS */}
+      <FactoryPiping onSelect={onSelectTwin} />
     </group>
   );
 });
@@ -480,8 +451,6 @@ function FinishingStations({ onSelect }: { onSelect: (id: StageId) => void }) {
       {[-4, 4].map(x => <group key={x} position={[x, 0, 0]}><mesh position={[0, 0.2, 0]} receiveShadow><cylinderGeometry args={[3.6, 3.6, 0.4, 32]} /><meshStandardMaterial color="#aeb9b6" /></mesh><mesh position={[0, 3, 0]} castShadow><cylinderGeometry args={[3, 3, 5.6, 64]} /><meshStandardMaterial color="#ccd5d3" metalness={0.55} roughness={0.4} /></mesh><mesh position={[0, 6, 0]} castShadow><coneGeometry args={[3.03, 0.8, 32]} /><meshStandardMaterial color="#a7b8b4" metalness={0.6} roughness={0.3} /></mesh>{[1.5, 4.5].map(y => <mesh key={y} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[3.02, 0.045, 6, 32]} /><meshStandardMaterial color="#748c85" /></mesh>)}</group>)}
       <ZoneMarker position={[0, 6, 0]} stageId='storage' onClick={() => onSelect('storage')} />
     </group>
-    <IndustrialPipe points={[[24, 3, -4], [24, 3, 5], [-12, 3, 5], [-12, 3, 10]]} radius={0.2} color="#c59845" />
-    <IndustrialPipe points={[[14, 8, 12], [10, 8, 10], [-17, 8, 10], [-17, 8, -8]]} radius={0.18} color="#abc5cf" />
   </group>;
 }
 
