@@ -1,19 +1,29 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Footer } from "@/components/sites/twinzo-com-ca6666c1/shared/Footer";
-import { Header } from "@/components/sites/twinzo-com-ca6666c1/shared/Header";
-import { SmoothScroll } from "@/components/sites/twinzo-com-ca6666c1/shared/SmoothScroll";
+import { Fraunces, Geist, Poppins } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
+import { SiteChrome } from "@/components/SiteChrome";
 
-const inter = Inter({
-  variable: "--font-inter",
+const geist = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "twinzo | Real-time 3D Digital Twin for Manufacturing & Logistics",
-  description:
-    "twinzo is a real-time 3D digital twin platform that visualizes your factory, tracks assets, and optimizes internal logistics.",
+  "title": "STEAM VALUE™ | Jumeaux numériques industriels composés",
+  "description": "STEAM VALUE™ compose les jumeaux de vos équipements, rassemble les données opérationnelles et révèle la santé globale de votre système sans remplacer vos outils existants."
 };
 
 export default function RootLayout({
@@ -22,12 +32,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang="fr" className={`${geist.variable} ${fraunces.variable} ${poppins.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <SmoothScroll />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
+        <Analytics />
       </body>
     </html>
   );
