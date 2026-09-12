@@ -1,0 +1,351 @@
+.shell { --panel: #131e23; --line: #263239; --muted: #829397; --accent: #65dec0; display:flex; flex-direction:column; width:100%; height:100dvh; min-height:560px; overflow:hidden; background:#10191e; color:#e3ebeb; font-size:12px; letter-spacing:-.01em; }
+.referenceDashboard { display:none; }
+@media (min-width: 1001px) {
+  .referenceMode { position:relative; background:#fff; color:#101828; }
+  .referenceMode>.header, .referenceMode>.workspace, .referenceMode>.statusbar { display:none; }
+  .referenceMode>.referenceDashboard { position:absolute; inset:0; z-index:1; display:grid; place-items:center; overflow:hidden; background:#fff; }
+  .referenceDashboard img { display:block; width:min(100%, 1280px); height:auto; max-height:100%; object-fit:contain; }
+}
+.shell button,.shell select,.shell a { -webkit-tap-highlight-color:transparent; }
+.shell button { cursor:pointer; }
+.shell button:focus-visible,.shell a:focus-visible,.shell select:focus-visible,.shell input:focus-visible { outline:2px solid #65dec0; outline-offset:3px; }
+.shell button:disabled { cursor:default; opacity:.6; }
+.header { height:65px; flex-shrink:0; display:flex; align-items:center; gap:22px; padding:0 23px 0 18px; border-bottom:1px solid var(--line); background:#10191e; z-index:40; }
+.back { color:#819298; padding:8px; border:1px solid #2b383d; border-radius:7px; }
+.back:hover { color:#fff; border-color:#65dec0; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:750; font-size:15px; letter-spacing:.035em; white-space:nowrap; }
+.brand small { display:block; margin-top:3px; font-size:7px; color:#8d9ea1; letter-spacing:.21em; font-weight:500; }
+.brandMark { display:grid; place-items:center; background:#12252a; border:1px solid #284c47; border-radius:8px; height:33px; width:33px; flex-shrink:0; box-shadow:0 0 10px rgba(101,222,192,0.12); }
+.brand:hover .brandMark { border-color:#65dec0; box-shadow:0 0 14px rgba(101,222,192,0.28); }
+.brandMarkSvg { width:21px; height:21px; }
+.headerDivider { height:25px; width:1px; background:var(--line); }
+.project { display:flex; align-items:center; gap:10px; font-size:12px; color:#e1e8e8; }
+.project>svg { color:#839593; }
+.projectSub { color:#71858a; margin-left:6px; }
+.headerRight { display:flex; align-items:center; gap:18px; margin-left:auto; }
+.simBadge { display:flex; align-items:center; gap:7px; font-size:9px; color:#a0c2b7; letter-spacing:.08em; border:1px solid #2b4b43; background:#152d28; padding:6px 9px; border-radius:4px; }
+.simBadge>span { width:5px; height:5px; background:#66d5b5; border-radius:50%; }
+.iconButton { color:#8c9ca1; display:grid; place-items:center; }
+.iconButton:hover { color:var(--accent); }
+.avatar { width:29px; height:29px; border:1px solid #4c605d; background:#273b36; border-radius:50%; display:grid; place-items:center; font-size:10px; color:#a7d7c9; }
+.workspace { flex:1; min-height:0; display:flex; position:relative; }
+.sidebar { width:248px; flex-shrink:0; background:#141e23; border-right:1px solid var(--line); display:flex; flex-direction:column; z-index:35; }
+.sidebarTitle { display:flex; justify-content:space-between; align-items:center; padding:24px 18px 20px; font-size:9px; font-weight:600; letter-spacing:.12em; color:#8f9da2; }
+.search { margin:0 14px 23px; border:1px solid #2c373d; border-radius:5px; padding:9px; display:flex; gap:8px; color:#839398; background:#111a1e; }
+.search input { width:100%; min-width:0; outline:none; background:transparent; font-size:10px; color:#d3dddd; }
+.search input::placeholder { color:#667a82; }
+.siteRoot { display:flex; align-items:center; gap:8px; margin:0 8px; padding:11px 8px; text-align:left; border-radius:5px; color:#bac9cc; font-size:11px; }
+.siteRoot small { display:block; color:#70878b; font-size:9px; margin-top:4px; }
+.siteRootActive { background:#1b2a2d; }
+.siteRoot>.dot { margin-left:auto; }
+.tree { padding:8px 10px; overflow-y:auto; }
+.stageRow { position:relative; width:100%; display:flex; align-items:center; gap:9px; text-align:left; padding:12px 9px 12px 22px; color:#a9b9bf; border:1px solid transparent; border-radius:5px; font-size:10px; }
+.stageRow:hover { background:#1b2a30; }
+.stageRow small { display:block; color:#5f777e; font-family:monospace; font-size:8px; margin-top:4px; }
+.stageRow>.dot { margin-left:auto; width:5px; height:5px; }
+.stageSelected { background:#1c3431; border-color:#32534a; color:#a8eddb; }
+.treeLine { position:absolute; width:8px; height:52px; border-left:1px solid #2d3b40; left:9px; top:-15px; border-bottom:1px solid #2d3b40; }
+.stageIndex { font-family:monospace; font-size:9px; color:#536e75; }
+.sidebarBottom { margin:auto 18px 0; padding:26px 0 23px; border-top:1px solid var(--line); }
+.eyebrow { color:#829799; font-size:8px; font-weight:650; letter-spacing:.15em; }
+.sidebarBottom h2 { font-size:18px; font-weight:500; margin-top:10px; letter-spacing:-.025em; }
+.sidebarBottom p { font-size:10px; color:#70888e; line-height:1.9; margin-top:10px; max-width:170px; }
+.siteMeta { display:flex; gap:14px; margin-top:20px; font-size:8px; color:#779991; }
+.siteMeta>span { display:flex; align-items:center; gap:5px; }
+.aboutLink { display:flex; justify-content:space-between; padding:17px 18px; border-top:1px solid var(--line); color:#70898c; font-size:9px; }
+.viewer { position:relative; flex:1; min-width:0; overflow:hidden; background:#e5e9e8; }
+.scene { position:absolute; inset:0; }
+.scene canvas { touch-action:none; }
+.loading { position:absolute; inset:0; display:flex; justify-content:center; align-items:center; flex-direction:column; gap:16px; background:#e5e9e8; color:#35584d; text-align:center; padding:30px; }
+.loading small { color:#748b83; }
+.topOverlay { pointer-events:none; position:absolute; top:25px; left:28px; right:28px; z-index:22; }
+.viewHeading { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; }
+.viewHeading .eyebrow { color:#6f8780; font-size:8px; }
+.viewHeading h1 { font-size:21px; color:#243d36; font-weight:500; margin-top:6px; letter-spacing:-.035em; }
+.liveBadge { display:flex; align-items:center; gap:6px; color:#4b6c60; font-size:9px; background:#f6fbf8b5; padding:7px 10px; border:1px solid #c4d3cb; border-radius:5px; }
+.dot,.pausedDot { display:inline-block; width:6px; height:6px; border-radius:50%; background:#62cba8; flex-shrink:0; }
+.pausedDot { background:#a0aaa4; }
+.critical { background:#f07765; }
+.warning { background:#f0bb56; }
+.kpis { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; max-width:940px; }
+.kpi { padding:13px 16px 12px; background:#152124ee; border:1px solid #334245; border-radius:7px; box-shadow:0 6px 18px #243c3914; backdrop-filter:blur(12px); }
+.kpiLabel { display:flex; justify-content:space-between; gap:5px; font-size:8px; letter-spacing:.09em; color:#95aaa9; }
+.kpiLabel svg { color:#6d8b82; }
+.kpiValue { display:flex; align-items:baseline; gap:5px; font-size:29px; font-variant-numeric:tabular-nums; color:#d4efe4; line-height:1.5; letter-spacing:-.04em; }
+.kpiValue>span { font-size:11px; color:#8ca89e; letter-spacing:0; }
+.kpiValue>.spark,.kpiValue>.sparkWarning { width:70px; height:30px; margin-left:auto; align-self:center; }
+.kpi small { font-size:8px; color:#718b83; }
+.spark { color:#69cba9; width:100%; }
+.sparkWarning { color:#e1b562; width:100%; }
+.viewTools { position:absolute; left:25px; top:210px; display:flex; flex-direction:column; gap:7px; z-index:25; }
+.toolButton { width:36px; height:36px; border:1px solid #cad4ce; background:#f7faf8ed; display:grid; place-items:center; color:#638277; border-radius:6px; box-shadow:0 3px 9px #344c3510; }
+.toolButton:hover { background:white; }
+.toolActive { color:#18765d; border-color:#91c6b2; background:#e8f7ee; }
+.inspector { position:absolute; z-index:27; right:26px; top:202px; width:250px; border:1px solid #394848; border-radius:9px; background:#142023f5; padding:18px; box-shadow:0 12px 45px #1d332d29; backdrop-filter:blur(16px); }
+.inspectorTop { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+.inspectorTop button { color:#7a9391; }
+.equipmentCode { color:#64d8b6; font-size:9px; font-family:monospace; letter-spacing:.1em; }
+.inspector h2 { font-size:19px; margin-top:6px; letter-spacing:-.03em; font-weight:550; }
+.inspector>p { color:#849b9a; font-size:10px; margin-top:6px; }
+.equipmentStatus { display:flex; width:fit-content; align-items:center; gap:6px; color:#a0c5b7; background:#253b31; font-size:8px; border:1px solid #345046; padding:5px 7px; border-radius:4px; margin:15px 0; }
+.statusAlert { color:#f3c688; background:#3c3124; border-color:#57432a; }
+.statusAlert .dot { background:#f3ba59; }
+.readout { border-top:1px solid #2d403e; border-bottom:1px solid #2d403e; padding:15px 0 6px; }
+.readout>span { color:#8ea4a1; font-size:10px; }
+.readout strong { display:block; font-size:30px; font-weight:500; font-variant-numeric:tabular-nums; }
+.readout small { font-size:12px; margin-left:7px; color:#839c92; }
+.readout svg { height:40px; }
+.inspector>.description { font-size:10px; line-height:1.9; margin:14px 0; }
+.focusButton { display:flex; justify-content:center; align-items:center; gap:8px; width:100%; padding:10px 9px; background:#273e37; border:1px solid #426457; color:#a9e0c8; border-radius:5px; font-size:10px; }
+.focusButton:hover { background:#365346; }
+.sceneCaption { position:absolute; pointer-events:none; left:32px; bottom:165px; color:#617b70; display:flex; gap:10px; align-items:center; font-size:9px; font-weight:600; letter-spacing:.13em; }
+.sceneCaption small { display:block; font-size:8px; color:#8da098; margin-top:5px; font-weight:400; letter-spacing:.03em; }
+.captionRule { width:22px; height:1px; background:#87a398; }
+.bottomOverlay { position:absolute; bottom:20px; left:26px; right:26px; z-index:30; }
+.controls { min-height:55px; background:#142125f5; border:1px solid #3d504d; border-radius:7px; padding:9px 12px; display:flex; align-items:center; gap:16px; backdrop-filter:blur(12px); box-shadow:0 6px 20px #14241e18; }
+.playControls { display:flex; align-items:center; gap:11px; flex-shrink:0; }
+.playButton { background:#65d7b4; border-radius:5px; color:#15372c; display:grid; place-items:center; height:31px; width:33px; }
+.playButton:hover { background:#9de9cb; }
+.resetButton { color:#9bb0a6; padding:5px; }
+.timer { font-variant-numeric:tabular-nums; font-family:monospace; font-size:11px; color:#a3b7ae; }
+.controls select { background:#24332f; color:#b6c6bd; border:1px solid #3b4e45; border-radius:4px; padding:5px; font-size:10px; cursor:pointer; }
+.cameraPresets { display:flex; gap:2px; padding-left:16px; border-left:1px solid #3c4a44; }
+.cameraPresets button { white-space:nowrap; font-size:9px; color:#8ca198; padding:7px 9px; border-radius:4px; }
+.cameraPresets .presetActive { color:#d5e8db; background:#34453d; }
+.scenarioSelect { display:flex; align-items:center; gap:6px; margin-left:auto; color:#87a396; }
+.scenarioSelect select { max-width:195px; background:transparent; border-color:transparent; }
+.processStrip { display:flex; align-items:center; margin-top:9px; border:1px solid #bdccc3; border-radius:5px; background:#eef4f0e6; padding:9px 10px; }
+.processStrip button { flex:1; display:flex; align-items:center; justify-content:space-between; gap:7px; font-size:8px; white-space:nowrap; color:#637f71; padding:4px; }
+.processStrip button>span { color:#95a89d; font-family:monospace; }
+.processStrip button:last-child>svg { display:none; }
+.processStrip .processActive { color:#00775b; font-weight:650; }
+.alarm { display:flex; align-items:center; gap:10px; margin:0 0 12px auto; max-width:535px; background:#3c3028f5; border:1px solid #bc8149; border-left:3px solid #e7ae5d; border-radius:6px; color:#e9b778; padding:12px; box-shadow:0 4px 15px #2a302222; }
+.alarm strong { display:block; font-size:10px; }
+.alarm span { display:block; color:#bda88c; font-size:9px; margin-top:4px; }
+.alarm button { padding:6px 8px; font-size:9px; background:#5b422d; color:#f4d4a3; border-radius:3px; }
+.alarmAcknowledged { opacity:.8; }
+.statusbar { display:flex; justify-content:space-between; align-items:center; gap:15px; height:30px; flex-shrink:0; padding:0 18px; border-top:1px solid #293b3b; color:#7f9691; font-size:8px; background:#101a1d; }
+.statusbar>span { display:flex; align-items:center; gap:7px; }
+.statusbar .dot { height:5px; width:5px; }
+.muted { color:#516d69; }
+.navigationHint { color:#6c8881; }
+.empty { padding:20px 10px; color:#88a098; }
+.modalBackdrop { position:fixed; inset:0; z-index:100; background:#081513b0; backdrop-filter:blur(8px); display:grid; place-items:center; padding:20px; }
+.help { position:relative; max-width:430px; width:100%; background:#162625; border:1px solid #38554c; border-radius:16px; padding:35px; box-shadow:0 30px 100px #0005; }
+.help>svg { color:#79dfbc; }
+.help h2 { font-size:27px; font-weight:500; margin:20px 0; }
+.help p { color:#9eb3a9; font-size:12px; line-height:1.9; margin-bottom:15px; }
+.help>div { color:#6f9082; font-size:10px; border-top:1px solid #354b42; padding:17px 0; line-height:1.8; }
+.helpClose { position:absolute; top:17px; right:17px; color:#95b2a3; }
+.mobileClose,.explorerToggle { display:none; }
+.shell :global(.factory-label) { display:flex; align-items:center; gap:6px; background:#f9fcf8ec; border:1px solid #b4c6ba; color:#3a5f50; border-radius:4px; padding:5px 8px; white-space:nowrap; font-family:monospace; font-size:8px; box-shadow:0 3px 8px #384b3320; cursor:pointer; }
+.shell :global(.factory-label-name) { color:#738b7c; font-family:var(--font-geist-sans),sans-serif; padding-left:6px; border-left:1px solid #c9d6cc; font-size:8px; }
+.shell :global(.factory-label-selected) { background:#d9f6e6; border-color:#479c75; }
+.shell :global(.factory-dot) { width:5px; height:5px; border-radius:50%; background:#39ab81; }
+.shell :global(.factory-dot-critical) { background:#e56b56; }
+.shell :global(.factory-dot-warning) { background:#d89b36; }
+.shell :global(.factory-fallback) { color:#36554a; padding:40px; }
+@media(min-width:1600px) { .sidebar{width:270px}.kpis{max-width:1050px}.kpi{padding:18px}.kpiValue{font-size:34px}.inspector{width:280px;top:230px}.stageRow{padding-top:15px;padding-bottom:15px;font-size:11px}.controls{padding:12px 16px}.cameraPresets button{font-size:11px}.processStrip button{font-size:10px} }
+@media(max-width:1200px) { .sidebar{width:215px}.header{gap:14px}.cameraPresets button{font-size:8px;padding:7px 6px}.controls{gap:9px}.cameraPresets{padding-left:8px}.scenarioSelect select{max-width:150px;font-size:9px}.kpi{padding:10px}.kpiValue{font-size:25px}.kpiValue>.spark,.kpiValue>.sparkWarning{width:40px}.kpi small{font-size:7px}.statusbar .navigationHint{display:none}.processStrip button{font-size:7px}.inspector{width:230px} }
+@media(max-width:1000px) { .sidebar{position:absolute;left:0;top:0;bottom:0;transform:translateX(-100%);width:248px;transition:transform .2s}.sidebarOpen{transform:translateX(0)}.mobileClose,.explorerToggle{display:grid}.desktopOnly{display:none}.topOverlay{left:20px;right:20px}.headerRight{gap:13px}.headerDivider{display:none}.project{margin-left:10px}.inspector{top:185px}.viewTools{top:193px}.viewHeading h1{font-size:19px}.bottomOverlay{left:20px;right:20px} }
+@media(max-width:700px) { .shell{min-height:620px}.header{height:57px;padding:0 12px;gap:10px}.brand{font-size:12px}.brand small{font-size:6px}.brandMark{width:28px;height:28px}.back{padding:6px}.project,.avatar{display:none}.headerRight{gap:12px}.simBadge{font-size:6px;padding:5px 6px;letter-spacing:.04em}.headerRight .iconButton:last-of-type{display:none}.topOverlay{top:16px;left:15px;right:15px}.viewHeading{margin-bottom:14px}.viewHeading h1{font-size:17px}.viewHeading .eyebrow{font-size:6px}.liveBadge{font-size:7px;padding:5px 6px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.kpi{padding:8px 10px}.kpiLabel{font-size:7px}.kpiValue{font-size:23px;line-height:1.3}.kpiValue>span{font-size:9px}.kpi small{font-size:6px}.kpiValue>.spark,.kpiValue>.sparkWarning{width:62px;height:23px}.viewTools{left:15px;top:235px}.toolButton{height:31px;width:31px}.bottomOverlay{left:12px;right:12px;bottom:12px}.controls{flex-wrap:wrap;padding:8px;gap:8px}.playControls{gap:10px}.playButton{width:30px;height:28px}.timer{font-size:10px}.cameraPresets{order:3;width:100%;justify-content:center;border-left:none;border-top:1px solid #354941;padding:5px 0 0}.cameraPresets button{flex:1;font-size:9px}.scenarioSelect{flex:1;justify-content:flex-end}.scenarioSelect select{max-width:140px;font-size:8px}.scenarioSelect>svg{display:none}.processStrip{overflow-x:auto;gap:12px;padding:7px}.processStrip button{flex:none;font-size:8px}.processStrip button>svg{margin-left:8px}.statusbar{height:26px;padding:0 12px;font-size:6px}.statusbar .muted{display:none}.sceneCaption{left:55px;bottom:160px;font-size:7px}.inspector{top:auto;bottom:155px;right:12px;left:55px;width:auto;padding:12px;max-height:calc(100% - 360px);overflow-y:auto}.inspectorTop{margin-bottom:8px}.inspector h2{font-size:15px}.inspector>p{font-size:9px}.equipmentStatus{margin:8px 0}.readout{padding:7px 0;position:relative}.readout strong{font-size:24px}.readout svg{position:absolute;width:100px;right:0;bottom:5px;height:33px}.inspector>.description{font-size:9px;margin:9px 0}.alarm{padding:8px;gap:7px}.alarm strong{font-size:9px}.alarm span{font-size:7px}.alarm button{font-size:8px;padding:5px}.alarm>svg{flex-shrink:0;width:14px}.shell :global(.factory-label-name){display:none}.shell :global(.factory-label){font-size:7px;padding:4px 5px} }
+@media(prefers-reduced-motion:reduce) { .sidebar{transition:none} }
+@media(max-width:1023px) { .kpis{display:none} }
+
+
+/* The dashboard and immersive explorer share the cobalt control-room palette. */
+.shell { --panel: #0a174e; --line: #284886; --muted: #94b1d9; --accent: #24ddff; background: #040b2d; color: #e6f1ff; color-scheme: dark; }
+.header { background: linear-gradient(180deg, #080f2d, #0a1850); border-bottom-color: #2d5094; }
+.brandMark { background: #0b255b; border-color: #287db0; box-shadow: 0 0 12px #08c6ff22; }
+.brandMarkSvg { filter: hue-rotate(30deg); }
+.brand small { color: #91bee7; }
+.viewSwitch { display: flex; align-items: center; gap: 4px; padding: 3px; border: 1px solid #2b4b88; border-radius: 5px; background: #07123b; }
+.viewSwitch button { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 11px; font-size: 10px; white-space: nowrap; border: 1px solid transparent; border-radius: 3px; color: #a4bce1; }
+.viewSwitch button[aria-pressed="true"] { background: linear-gradient(180deg, #1550b6, #102b71); border-color: #4189d1; color: #eefaff; box-shadow: inset 0 -1px #39ceff; }
+.viewer { background: #08164e; }
+.loading { background: #08164e; color: #a3d5ff; }
+.loading small { color: #8caed8; }
+.viewHeading h1 { color: #eef6ff; text-shadow: 0 2px 12px #000839; }
+.viewHeading .eyebrow { color: #a4c8f3; }
+.liveBadge { background: #0b205ded; color: #b1eaff; border-color: #3568a5; }
+.kpi { background: linear-gradient(135deg, #0b2059f5, #091543ed); border-color: #315390; border-radius: 4px; }
+.kpiValue { color: #ecf6ff; }
+.kpiLabel, .kpiValue>span { color: #9fbee5; }
+.kpi small { color: #94add3; }
+.spark { color: #20dbff; }
+.sidebar { background: linear-gradient(180deg, #0a1649, #061034); }
+.siteRootActive, .stageSelected { background: #10306b; border-color: #3378ba; color: #b6eeff; }
+.stageRow:hover { background: #112a61; }
+.search { background: #061039; border-color: #294983; }
+.inspector { background: #091843f5; border-color: #365a98; }
+.equipmentCode, .focusButton { color: #83e8ff; }
+.focusButton { background: #123777; border-color: #347cba; }
+.focusButton:hover { background: #194590; }
+.controls { background: #081941f5; border-color: #335591; }
+.playButton { background: #39d7ff; color: #062850; }
+.playButton:hover { background: #90e9ff; }
+.controls select { background: #10295d; border-color: #32518c; color: #d3e7ff; }
+.cameraPresets .presetActive { background: #16468b; color: #e2f5ff; }
+.processStrip { background: #0b2155ed; border-color: #355b9a; }
+.processStrip button { color: #a3bee4; }
+.processStrip .processActive { color: #40e2ff; }
+.toolButton { color: #a7d7ff; background: #11295bef; border-color: #3963a1; }
+.toolButton:hover, .toolActive { color: #38deff; background: #154187; border-color: #4f9ddd; }
+.sceneCaption { color: #bedcff; }
+.sceneCaption small { color: #93b5dd; }
+.statusbar { background: #040c2a; border-color: #284580; color: #8da9ce; }
+.simBadge { background: #0a2859; border-color: #286a95; color: #8bddf6; }
+.simBadge>span { background: #2bdfff; }
+.help { background: #0a1a49; border-color: #345d9d; }
+.shell :global(.factory-label) { background: #081c4aee; color: #d2edff; border-color: #426a9c; box-shadow: 0 3px 12px #000b35aa; }
+.shell :global(.factory-label-name) { color: #9ebce0; border-color: #375485; }
+.shell :global(.factory-label-selected) { background: #0b46a4; border-color: #32d7ff; }
+@media (max-width: 1100px) { .project { display: none; } .header { gap: 12px; } }
+@media (max-width: 700px) { .header { flex-wrap: wrap; height: auto; min-height: 90px; padding-block: 9px; } .viewSwitch { order: 5; width: 100%; } .viewSwitch button { flex: 1; } .simBadge { display: none; } }
+
+/* Match the dashboard chrome to the immersive demo palette. */
+.dashboardShell > .header { background: linear-gradient(180deg, #080f2d, #0a1850); border-bottom-color: #2d5094; }
+.dashboardShell > .statusbar { background: #040b2d; border-top-color: #284886; }
+.dashboardShell .navigationHint { display: none; }
+
+/* Keep the existing 3D workspace and controls usable on touch screens. */
+.back,.iconButton,.playButton,.resetButton,.toolButton,.helpClose,.mobileClose { min-height:44px; min-width:44px; display:inline-flex; align-items:center; justify-content:center; }
+.brand,.aboutLink { min-height:44px; }
+.viewSwitch button { min-height:44px; font-size:13px; }
+.header { min-height:72px; }
+.brand small { font-size:9px; }
+.statusbar { min-height:32px; font-size:11px; }
+.stageRow { min-height:48px; font-size:13px; }
+.stageRow small,.siteRoot small { font-size:11px; color:#9ab4cd; }
+.siteRoot { font-size:13px; min-height:48px; }
+.search { align-items:center; min-height:44px; }
+.search input { font-size:14px; min-height:28px; }
+.sidebarTitle,.aboutLink { font-size:12px; }
+.controls select,.cameraPresets button,.focusButton,.alarm button,.processStrip button { min-height:44px; font-size:12px; }
+.kpiLabel { font-size:11px; }
+.kpi small { font-size:11px; }
+.inspector>p,.inspector>.description,.readout>span { font-size:13px; line-height:1.6; }
+.inspectorTop button { min-width:44px; min-height:44px; }
+.help p { font-size:16px; }
+.help>div { font-size:13px; }
+.help { max-height:calc(100dvh - 40px); overflow-y:auto; }
+@media (max-width:1000px) { .viewTools { top:220px; } }
+@media (max-width:700px) {
+  .header { min-height:116px; gap:8px; }
+  .headerRight { gap:8px; }
+  .brand { font-size:12px; }
+  .brand small { font-size:8px; }
+  .shell { min-height:740px; }
+  .viewHeading h1 { font-size:18px; }
+  .viewHeading .eyebrow { font-size:9px; }
+  .liveBadge { font-size:10px; }
+  .kpiLabel { font-size:10px; }
+  .kpi small { font-size:10px; }
+  .kpi { padding:10px; }
+  .viewTools { top:246px; gap:6px; }
+  .controls { gap:8px; }
+  .playControls { width:100%; justify-content:space-between; }
+  .scenarioSelect { width:100%; flex:auto; }
+  .scenarioSelect select { width:100%; max-width:none; font-size:16px; }
+  .cameraPresets button { font-size:11px; }
+  .processStrip button { font-size:12px; }
+  .bottomOverlay { bottom:12px; }
+  .sceneCaption { display:none; }
+  .inspector { top:236px; bottom:12px; left:68px; right:12px; max-height:none; z-index:32; }
+  .inspector h2 { font-size:18px; }
+  .alarm { flex-wrap:wrap; }
+  .alarm strong { font-size:12px; }
+  .alarm span { font-size:11px; line-height:1.5; }
+  .statusbar { font-size:10px; }
+  .search input { font-size:16px; }
+}
+
+@media(max-width:1000px) { .sidebar { visibility:hidden; }.sidebarOpen { visibility:visible; } }
+@media(max-width:700px) { .scene { top:0; bottom:0; } }
+
+/* ---------------------------------------------------------------------------
+   Viewer loading, failure and narrow-screen control layout.
+   --------------------------------------------------------------------------- */
+
+.sceneMount { position:absolute; inset:0; }
+
+/* Covers the canvas until the first frame is painted, so entering the plant in
+   3D never shows an empty blue box. */
+.sceneVeil { position:absolute; inset:0; z-index:15; animation:sceneVeilIn .2s ease both; }
+@keyframes sceneVeilIn { from { opacity:0 } to { opacity:1 } }
+.loadingMark { display:grid; place-items:center; width:56px; height:56px; border-radius:14px; background:#0b255b; border:1px solid #2f7fb4; box-shadow:0 0 26px #08c6ff28; }
+.loadingMarkSvg { width:30px; height:30px; }
+.loadingTitle { font-size:15px; font-weight:600; letter-spacing:-.01em; color:#dceeff; }
+.loadingBar { position:relative; width:min(220px, 62%); height:3px; border-radius:99px; overflow:hidden; background:#123063; }
+.loadingBar > span { position:absolute; inset:0; width:42%; border-radius:99px; background:linear-gradient(90deg, #1d63c4, #39d7ff); animation:loadingSweep 1.25s cubic-bezier(.45,0,.35,1) infinite; }
+@keyframes loadingSweep { 0% { transform:translateX(-105%) } 100% { transform:translateX(255%) } }
+@media (prefers-reduced-motion: reduce) {
+  .sceneVeil { animation:none; }
+  .loadingBar > span { animation:none; width:100%; opacity:.65; }
+}
+
+.sceneError { gap:14px; }
+.sceneError strong { font-size:17px; color:#eaf4ff; font-weight:600; }
+.sceneError > span { max-width:420px; font-size:13px; line-height:1.7; color:#a9cbef; }
+.sceneErrorActions { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; }
+.sceneErrorActions > button { width:auto; min-width:180px; }
+.sceneErrorGhost { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 18px; border:1px solid #35619c; border-radius:5px; color:#cfe6ff; background:#0c1e4c; }
+.sceneErrorGhost:hover { background:#123061; border-color:#4b86c9; }
+
+/* Narrow screens: the tool rail runs horizontally under the title and the
+   equipment inspector stops above the control bar, so every control stays
+   both visible and tappable while an equipment is selected. */
+/* The inspector must always stop above the control bar. On a 1280x800 desktop
+   its action button used to fall behind the controls and get clipped by the
+   viewer; `--sv-bottom-h` is the measured height of that bar. */
+.inspector { max-height:calc(100% - 222px - var(--sv-bottom-h, 150px)); overflow-y:auto; overscroll-behavior:contain; }
+/* Panel content can scroll, so pin its action to the bottom edge: "centrer sur
+   l'équipement" must never sit below the fold. */
+.inspector > .focusButton { position:sticky; bottom:-18px; width:100%; margin-top:14px; box-shadow:0 18px 0 0 #091843, 0 -14px 16px #091843f0; }
+@media (min-width: 1600px) { .inspector { max-height:calc(100% - 250px - var(--sv-bottom-h, 150px)); } }
+@media (max-width: 1000px) { .inspector { max-height:calc(100% - 205px - var(--sv-bottom-h, 150px)); } }
+
+@media (max-width: 700px) {
+  .viewTools { flex-direction:row; top:112px; left:12px; right:12px; gap:8px; }
+  /* The title and the live badge shared one row and collided at 390px. */
+  .viewHeading { align-items:flex-start; gap:10px; }
+  .viewHeading > div { min-width:0; }
+  .liveBadge { flex-shrink:0; }
+  .inspector {
+    top:auto;
+    left:12px;
+    right:12px;
+    width:auto;
+    bottom:calc(var(--sv-bottom-h, 190px) + 14px);
+    max-height:calc(100% - var(--sv-bottom-h, 190px) - 172px);
+    z-index:28;
+  }
+  .inspector > .focusButton { bottom:-12px; box-shadow:0 12px 0 0 #091843, 0 -14px 16px #091843f0; }
+  /* A three-line alarm banner plus the control bar left the inspector barely
+     taller than its own action. Keep the alarm to one row on phones; the
+     propagation sentence stays in the DOM for assistive technology and is
+     spelled out in the dashboard's Diagnostics tab. */
+  .alarm { flex-wrap:nowrap; align-items:center; gap:8px; padding:8px 10px; margin-bottom:8px; }
+  .alarm > div { min-width:0; }
+  .alarm strong { font-size:12px; }
+  .alarm > div > span { position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip-path:inset(50%); }
+  .alarm button { flex-shrink:0; }
+}
+
+/* Landscape phones: the viewer is short, so the rail and the inspector follow
+   the same rules as portrait rather than running off the bottom edge. */
+@media (max-height: 560px) and (min-width: 701px) {
+  .viewTools { flex-direction:row; top:96px; left:20px; right:auto; }
+  .inspector {
+    top:auto;
+    bottom:calc(var(--sv-bottom-h, 140px) + 12px);
+    max-height:calc(100% - var(--sv-bottom-h, 140px) - 158px);
+    overflow-y:auto;
+    overscroll-behavior:contain;
+  }
+  .viewHeading { margin-bottom:12px; }
+}
+
+/* On laptop-height screens the sidebar's closing blurb pushed the last process
+   units out of view. The equipment list matters more than the blurb there. */
+@media (max-height: 940px) { .sidebarBottom { display: none; } }

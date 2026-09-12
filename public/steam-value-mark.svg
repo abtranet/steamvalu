@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" role="img" aria-labelledby="title desc">
+  <title id="title">STEAM VALUE mark</title>
+  <desc id="desc">Two interlocking hexagons around a connected digital twin node</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m106 22 86 50v100l-86 50-86-50V72Z" stroke="#0d4a72" stroke-width="11"/>
+    <path d="m144 58 88 51v101l-88 51-88-51V109Z" stroke="#06bed4" stroke-width="9"/>
+    <path d="M106 91v26m0 52v26M68 143h25m26 0h25" stroke="#06bed4" stroke-width="8"/>
+  </g>
+  <circle cx="106" cy="143" r="24" fill="#10283d" stroke="#06bed4" stroke-width="4"/>
+</svg>

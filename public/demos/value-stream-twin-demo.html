@@ -1,0 +1,1575 @@
+<!doctype html>
+<html lang="en" data-visualize-standalone>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Value Stream Twin Demo</title>
+<style>:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, "Segoe UI", sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --icon-size: 16px;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --corner-shape: round;
+  --radius: var(--border-radius-lg, 10px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath d='M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z'/%3E%3C/svg%3E");
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html > body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: var(--visualize-paint-gutter, 0px);
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive > .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align="right"]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align="center"]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: var(--corner-shape);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget > :not(.card, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  margin-block: 6px;
+  border: 0;
+  background: var(--border);
+}
+
+.nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress {
+  display: flex;
+  height: 8px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 8px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar:only-child {
+  border-radius: var(--radius-full);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls > .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls > .form-label > :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.nav-link,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn,
+.nav-link {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover,
+.nav-link:not(:disabled):not([aria-disabled="true"]):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.nav-pills .nav-link {
+  min-width: 0;
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.nav-justified .nav-link {
+  flex: 1 1 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.nav-pills .nav-link.active {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+.btn:disabled,
+.nav-link:disabled,
+.nav-link[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type="file"] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type="file"]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type="file"]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type="color"] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: var(--corner-shape);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type="checkbox"] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type="checkbox"]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: "";
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type="radio"] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type="radio"]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: "";
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed="true"],
+  [aria-selected="true"],
+  .is-selected
+) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed="true"], [aria-selected="true"], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Keep small-screen WebKit from zooming when a text field receives focus. */
+  .form-control,
+  .form-select {
+    font-size: max(16px, var(--font-size-normal));
+  }
+
+  .form-control[type="file"]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type="color"] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type="date"],
+    [type="datetime-local"],
+    [type="month"],
+    [type="time"],
+    [type="week"]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: "";
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+
+  .form-range::-webkit-slider-runnable-track {
+    height: 44px;
+  }
+
+  .form-range::-moz-range-track {
+    height: 44px;
+  }
+
+  .form-range::-webkit-slider-thumb {
+    margin-top: 12px;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget > svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html>body{padding:0}
+/* Shared interaction sizing and typography refinement. */
+#vs-twin button,#vs-twin select { min-height:44px; }
+#vs-twin button:focus-visible,#vs-twin input:focus-visible { outline:3px solid #46ddf3; outline-offset:3px; }
+#vs-twin .vs-small,#vs-twin .vs-trend,#vs-twin .vs-label,#vs-twin .vs-status,#vs-twin .vs-component b,#vs-twin .vs-component span { font-size:12px; line-height:1.5; }
+#vs-twin .vs-inspect { font-size:14px; line-height:1.6; }
+#vs-twin .vs-load input,#vs-twin .vs-time input { min-height:44px; }
+@media(max-width:530px) {
+ #vs-twin .vs-metric { min-width:80px; }
+ #vs-twin .vs-view { gap:6px; }
+ #vs-twin .vs-view button { font-size:12px; padding:8px; }
+ #vs-twin .vs-stage { min-height:440px; }
+ #vs-twin .vs-hint { bottom:112px; padding-inline:12px; }
+ #vs-twin .vs-control { grid-template-columns:1fr; }
+ #vs-twin .vs-time { min-width:0; }
+ #vs-twin .vs-component { min-width:120px; }
+}
+
+</style>
+</head>
+<body>
+<style>
+#vs-twin{--vs-bg:#060c18;--vs-panel:#0c1626;--vs-line:#213049;--vs-ink:#ecf4ff;--vs-muted:#91a4bf;--vs-cyan:#46ddf3;--vs-alert:#ffae57;background:var(--vs-bg);color:var(--vs-ink);font:14px/1.45 Inter,Arial,sans-serif;border-radius:16px;overflow:hidden;color-scheme:dark}#vs-twin *{box-sizing:border-box}#vs-twin button,#vs-twin select{font:inherit;color:var(--vs-ink);border:1px solid var(--vs-line);background:#101d30;border-radius:7px;padding:8px 12px;cursor:pointer}#vs-twin button:hover{border-color:var(--vs-cyan);background:#182b41}#vs-twin button[aria-pressed=true]{background:#123d50;border-color:#46ddf3;color:#8eeeff}#vs-twin input{accent-color:var(--vs-cyan);min-width:0}#vs-twin .vs-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:17px 22px;border-bottom:1px solid var(--vs-line)}#vs-twin .vs-brand{background:#f5faff;border-radius:7px;padding:5px 12px;width:195px;display:flex;align-items:center}#vs-twin .vs-brand svg{width:100%;height:51px}#vs-twin .vs-title{flex:1}#vs-twin .vs-title strong{font-size:18px;font-weight:500;display:block;letter-spacing:-.3px}#vs-twin .vs-small{color:var(--vs-muted);font-size:11px;letter-spacing:.7px}#vs-twin .vs-live{font-size:11px;color:#79e4ca;letter-spacing:1px;display:flex;align-items:center;gap:8px}#vs-twin .vs-dot{width:6px;height:6px;border-radius:50%;background:#79e4ca;box-shadow:0 0 12px #79e4ca}#vs-twin .vs-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:14px 22px}#vs-twin .vs-location{color:var(--vs-muted);font-size:12px}#vs-twin .vs-scenarios{display:flex;gap:6px;flex-wrap:wrap}#vs-twin .vs-scenarios button{font-size:12px}#vs-twin .vs-grid{display:grid;grid-template-columns:180px minmax(0,1fr) 184px;gap:12px;padding:0 16px 16px}#vs-twin .vs-panel{background:var(--vs-panel);border:1px solid var(--vs-line);border-radius:10px;padding:15px}#vs-twin .vs-label{font-size:11px;letter-spacing:1.3px;color:var(--vs-muted);text-transform:uppercase}#vs-twin .vs-metric{padding:19px 0;border-bottom:1px solid var(--vs-line)}#vs-twin .vs-metric:last-child{border:0;padding-bottom:3px}#vs-twin .vs-number{font-size:28px;letter-spacing:-1px;font-variant-numeric:tabular-nums;margin:4px 0}#vs-twin .vs-number small{font-size:12px;color:var(--vs-muted);letter-spacing:0}#vs-twin .vs-trend{font-size:11px;color:var(--vs-cyan)}#vs-twin .vs-stage{position:relative;min-height:440px;background:radial-gradient(ellipse at 50% 62%,#132b4e 0%,#091527 56%,#080f1d 100%);border:1px solid var(--vs-line);border-radius:10px;overflow:hidden}#vs-twin .vs-canvas{width:100%;height:365px;display:block;touch-action:pan-y;cursor:grab}#vs-twin .vs-scene-head{position:absolute;top:18px;left:18px;pointer-events:none}#vs-twin .vs-scene-head strong{font-size:16px;font-weight:500}#vs-twin .vs-scene-head p{margin:4px 0;color:var(--vs-muted);font-size:11px}#vs-twin .vs-scene-tag{position:absolute;right:14px;top:16px;color:var(--vs-cyan);font-size:10px;letter-spacing:1px;border:1px solid #264357;border-radius:4px;padding:4px 7px}#vs-twin .vs-view{position:absolute;bottom:18px;left:14px;right:14px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}#vs-twin .vs-view button{font-size:11px;padding:7px 10px}#vs-twin .vs-hint{position:absolute;bottom:62px;left:0;right:0;text-align:center;font-size:11px;color:var(--vs-muted);pointer-events:none}#vs-twin .vs-component{display:block;width:100%;text-align:left;margin-top:9px;padding:10px!important}#vs-twin .vs-component span{display:block;font-size:11px;color:var(--vs-muted);margin-top:2px}#vs-twin .vs-component b{font-weight:500;font-size:12px}#vs-twin .vs-inspect{border-top:1px solid var(--vs-line);margin-top:16px;padding-top:14px;font-size:12px;color:var(--vs-muted);min-height:92px}#vs-twin .vs-inspect strong{color:var(--vs-ink);font-weight:500;display:block;margin-bottom:5px}#vs-twin .vs-inspect p{margin:0}#vs-twin .vs-control{padding:16px 22px;border-top:1px solid var(--vs-line);display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;background:#0a1321}#vs-twin .vs-play{min-width:94px;background:#d6f7ff;color:#082333;border:0}#vs-twin .vs-play:hover{background:#a9ebfc;color:#082333}#vs-twin .vs-time{display:flex;gap:12px;align-items:center;font-size:11px;color:var(--vs-muted);font-variant-numeric:tabular-nums}#vs-twin .vs-time input{flex:1;width:100%}#vs-twin .vs-load{display:flex;gap:12px;align-items:center;font-size:12px}#vs-twin .vs-load input{width:110px}#vs-twin .vs-bottom{padding:13px 22px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--vs-muted)}#vs-twin .vs-message{color:#9ce8dc}#vs-twin .vs-spark{height:46px;width:100%;display:block;margin-top:10px}#vs-twin .vs-status{padding-top:15px;color:#79e4ca;font-size:11px}#vs-twin .vs-hidden{display:none}#vs-twin .vs-error{padding:150px 25px 100px;color:var(--vs-muted);font-size:14px} @media(max-width:800px){#vs-twin .vs-grid{grid-template-columns:145px minmax(0,1fr)}#vs-twin .vs-right{grid-column:1/-1;display:flex;gap:12px;flex-wrap:wrap;align-items:center}#vs-twin .vs-right>.vs-label{width:100%}#vs-twin .vs-component{width:auto;flex:1;margin-top:0;min-width:100px}#vs-twin .vs-inspect{margin:0;border:0;padding:0;min-height:0;flex:1;min-width:180px}#vs-twin .vs-control{grid-template-columns:auto 1fr}#vs-twin .vs-load{grid-column:1/-1}#vs-twin .vs-load input{flex:1}#vs-twin .vs-scene-tag{display:none}}@media(max-width:530px){#vs-twin .vs-top{padding:14px;gap:10px}#vs-twin .vs-brand{width:155px}#vs-twin .vs-brand svg{height:39px}#vs-twin .vs-title strong{font-size:15px}#vs-twin .vs-live{width:100%}#vs-twin .vs-grid{grid-template-columns:1fr;padding:0 10px 10px}#vs-twin .vs-metrics{display:flex;gap:12px;padding:10px;flex-wrap:wrap}#vs-twin .vs-metrics>.vs-label{width:100%}#vs-twin .vs-metric{padding:0;flex:1;border:0}#vs-twin .vs-number{font-size:22px}#vs-twin .vs-metric .vs-small{font-size:11px;letter-spacing:0}#vs-twin .vs-spark,#vs-twin .vs-trend{display:none}#vs-twin .vs-stage{min-height:370px}#vs-twin .vs-canvas{height:310px}#vs-twin .vs-toolbar{padding:12px}#vs-twin .vs-control{padding:14px;gap:10px}#vs-twin .vs-right{grid-column:auto}#vs-twin .vs-title .vs-small{letter-spacing:0}#vs-twin .vs-scenarios button{padding:8px}#vs-twin .vs-view{bottom:12px}#vs-twin .vs-hint{bottom:53px}}
+#vs-twin{--vs-bg:#050a36;--vs-panel:#071451;--vs-line:#244595;--vs-muted:#98b8ec;--vs-cyan:#1ee6ff;background:radial-gradient(ellipse at 60% 48%,#0c2390 0%,#071052 50%,#030826 100%);border:1px solid #294682;border-radius:10px;box-shadow:inset 0 0 0 4px #070e37,inset 0 0 35px #102e91}
+#vs-twin .vs-top{background:linear-gradient(180deg,#070d2a,#0a1452);border-bottom:1px solid #355fa6;box-shadow:0 4px 20px #001aff33;padding-top:14px;padding-bottom:14px}
+#vs-twin .vs-brand{background:transparent;padding:0 8px;width:192px;border-radius:0}
+#vs-twin .vs-title{text-align:center;background:linear-gradient(180deg,#163b8d,#081b60 65%,#104495);border-bottom:2px solid #62d7fc;padding:10px 16px;clip-path:polygon(0 0,100% 0,94% 100%,6% 100%)}
+#vs-twin .vs-title strong{font-size:17px;letter-spacing:1.8px;text-transform:uppercase;text-shadow:0 0 15px #3c91ff}
+#vs-twin .vs-title .vs-small{font-size:10px;letter-spacing:1.2px;color:#acd6ff}
+#vs-twin .vs-live{color:#49e6ed;font-size:10px;letter-spacing:.6px}
+#vs-twin .vs-dot{background:#21edff;box-shadow:0 0 10px #21edff}
+#vs-twin .vs-toolbar{background:linear-gradient(90deg,#071047,#0a195d,#071047);padding-top:16px;padding-bottom:16px}
+#vs-twin button,#vs-twin select{background:linear-gradient(180deg,#15327a,#0a1851);border-color:#3256a2;border-radius:5px;box-shadow:inset 0 1px #456ad855}
+#vs-twin button:hover{background:linear-gradient(180deg,#164cb0,#103288);border-color:#35dfff}
+#vs-twin button[aria-pressed=true]{background:linear-gradient(180deg,#1578ff,#0644da);border-color:#38bfff;color:#f0fbff;box-shadow:inset 0 1px #79c8ff,0 0 14px #006eff40}
+#vs-twin .vs-panel{background:linear-gradient(135deg,#071354ed,#071451b0);border-color:#274695;border-radius:4px;box-shadow:inset 0 0 20px #102b7b50}
+#vs-twin .vs-label{border-left:2px solid #19eaff;padding-left:8px;color:#a2c5ff;letter-spacing:.7px}
+#vs-twin .vs-metric{border-color:#233c82}
+#vs-twin .vs-number{color:#f2f8ff;text-shadow:0 0 16px #679aff33}
+#vs-twin .vs-trend{color:#32d4f5}
+#vs-twin .vs-stage{background:radial-gradient(ellipse at 50% 60%,#153eb1 0%,#0c227c 38%,#07134e 75%,#060e39 100%);border:1px solid #26478d;border-radius:4px;box-shadow:inset 0 0 50px #03083055;min-height:460px}
+#vs-twin .vs-canvas{height:390px}
+#vs-twin .vs-scene-head strong{letter-spacing:.5px}
+#vs-twin .vs-scene-tag{background:#072969;border-color:#326fbb;color:#70daff;border-radius:12px;letter-spacing:.5px}
+#vs-twin .vs-component{border-radius:20px;padding:11px 12px!important}
+#vs-twin .vs-component span{color:#9fc6fc}
+#vs-twin .vs-inspect{border-color:#305092}
+#vs-twin .vs-status{color:#23dffb}
+#vs-twin .vs-control{background:linear-gradient(180deg,#07174c,#040d30);border-color:#315496}
+#vs-twin .vs-play{color:white;background:linear-gradient(180deg,#176cfc,#073a9e);border:1px solid #4198ff}
+#vs-twin .vs-bottom{background:#040c2f;border-top:1px solid #18326b}
+#vs-twin .vs-view button{border-radius:3px}
+@media(max-width:800px){#vs-twin .vs-title strong{font-size:14px;letter-spacing:.7px}#vs-twin .vs-title{padding:10px}#vs-twin .vs-live{width:100%;justify-content:flex-end}#vs-twin .vs-top{gap:10px}}
+@media(max-width:530px){#vs-twin .vs-title{text-align:left;clip-path:none;border:0;background:none;padding:0}#vs-twin .vs-brand{width:155px}#vs-twin .vs-title .vs-small{font-size:10px;letter-spacing:0}#vs-twin .vs-canvas{height:330px}#vs-twin .vs-stage{min-height:390px}}
+
+</style>
+<div id="vs-twin" aria-label="Steam Value interactive digital twin preview">
+<header class="vs-top"><div class="vs-brand" aria-label="Steam Value logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 260" role="img" aria-labelledby="vs-logo-title vs-logo-desc">
+  <title id="vs-logo-title">STEAM VALUE</title>
+  <desc id="vs-logo-desc">STEAM VALUE Digital Twin Platform logo</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M116 22 202 72v100l-86 50-86-50V72Z" stroke="#e9f7ff" stroke-width="11"/>
+    <path d="m154 58 88 51v101l-88 51-88-51V109Z" stroke="#06bed4" stroke-width="9"/>
+    <path d="M116 91v26m0 52v26M78 143h25m26 0h25" stroke="#06bed4" stroke-width="8"/>
+  </g>
+  <circle cx="116" cy="143" r="24" fill="#10283d" stroke="#06bed4" stroke-width="4"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="294" y="128" fill="#e9f7ff" font-size="58" font-weight="700" letter-spacing="2">STEAM</text>
+    <text x="530" y="128" fill="#29ddff" font-size="58" font-weight="700" letter-spacing="2">VALUE</text>
+    <text x="297" y="176" fill="#91bddd" font-size="18" font-weight="500" letter-spacing="8">DIGITAL TWIN PLATFORM</text>
+  </g>
+</svg>
+</div><div class="vs-title"><strong>Digital twin control room</strong><span class="vs-small">ASSET INTELLIGENCE / INTERACTIVE PREVIEW</span></div><div class="vs-live"><span class="vs-dot"></span>SIMULATION ACTIVE</div></header>
+<div class="vs-toolbar"><span class="vs-location">Plant 01 &nbsp; / &nbsp; Utilities &nbsp; / &nbsp; <span style="color:#e3edfc">Compressor C-02</span></span><div class="vs-scenarios" aria-label="Operating scenario"><button type="button" data-scenario="normal" aria-pressed="true">Normal</button><button type="button" data-scenario="stress" aria-pressed="false">High demand</button><button type="button" data-scenario="optimized" aria-pressed="false">Optimized</button></div></div>
+<div class="vs-grid"><aside class="vs-panel vs-metrics"><div class="vs-label">Operating metrics</div><div class="vs-metric"><div class="vs-small">OUTPUT PRESSURE</div><div class="vs-number"><span data-value="pressure">7.2</span> <small>bar</small></div><div class="vs-trend" data-value="pressureNote">Within operating range</div><svg class="vs-spark" viewBox="0 0 150 46" role="img" aria-label="Illustrative pressure trend"><path d="M0 40H150M0 20H150" stroke="#23334a"/><path id="vs-spark" d="M0 28L10 27L20 30L30 22L40 25L50 20L60 24L70 18L80 21L90 17L100 20L110 15L120 20L130 17L140 19L150 16" fill="none" stroke="#46ddf3" stroke-width="2"/></svg></div><div class="vs-metric"><div class="vs-small">MOTOR TEMPERATURE</div><div class="vs-number"><span data-value="temp">64</span><small> °C</small></div><div class="vs-trend" data-value="tempNote">Stable thermal profile</div></div><div class="vs-metric"><div class="vs-small">POWER DRAW</div><div class="vs-number"><span data-value="power">42.8</span> <small>kW</small></div><div class="vs-trend" data-value="powerNote">75% operating load</div></div></aside>
+<section class="vs-stage" aria-label="Interactive 3D compressor"><div class="vs-scene-head"><strong>Compressor C-02</strong><p>Rotary screw / digital twin</p></div><div class="vs-scene-tag">3D ASSET VIEW</div><canvas class="vs-canvas" aria-label="Animated 3D compressor. Drag to rotate, or use the rotate button. Select equipment using the component buttons.">Animated equipment visualization</canvas><div class="vs-hint">Drag to orbit · Select a component to inspect</div><div class="vs-view"><button type="button" id="vs-rotate" aria-pressed="true">Auto rotate</button><button type="button" id="vs-thermal" aria-pressed="false">Thermal view</button><button type="button" id="vs-explode" aria-pressed="false">Exploded view</button></div></section>
+<aside class="vs-panel vs-right"><div class="vs-label">Component health</div><button type="button" class="vs-component" data-part="motor" aria-pressed="true"><b>01 &nbsp; Drive motor</b><span data-value="motorState">● Running normally</span></button><button type="button" class="vs-component" data-part="compressor" aria-pressed="false"><b>02 &nbsp; Compressor</b><span>● Pressure regulated</span></button><button type="button" class="vs-component" data-part="cooler" aria-pressed="false"><b>03 &nbsp; Cooling unit</b><span data-value="coolerState">● Heat exchange active</span></button><div class="vs-inspect" aria-live="polite"><strong id="vs-part-title">Drive motor</strong><p id="vs-part-desc">Electric drive powering the screw assembly.</p><div class="vs-status" id="vs-part-reading">1,480 rpm · Vibration 1.2 mm/s</div></div></aside></div>
+<div class="vs-control"><button type="button" class="vs-play" id="vs-play">Ⅱ &nbsp; Pause</button><div class="vs-time"><span id="vs-time">00:00</span><input type="range" id="vs-timeline" min="0" max="45" step="0.1" value="0" aria-label="Demo playback position"><span>00:45</span></div><label class="vs-load">Load <output id="vs-load-value">75%</output><input id="vs-load" type="range" min="30" max="100" value="75" aria-label="Operating load"></label></div>
+<footer class="vs-bottom"><span class="vs-message" id="vs-message" aria-live="polite">Normal operation · All systems within range</span><span>Illustrative data · Concept simulation</span></footer></div>
+<script>
+(()=>{
+const root=document.getElementById('vs-twin');
+if(!root)return;
+const q=s=>root.querySelector(s),qa=s=>[...root.querySelectorAll(s)];
+const state={playing:!matchMedia('(prefers-reduced-motion: reduce)').matches,rotating:true,thermal:false,exploded:false,scenario:'normal',load:75,time:0,part:'motor',yaw:1.02,pitch:0};
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;state.rotating=!reduced;
+const set=(k,v)=>q('[data-value="'+k+'"]').textContent=v;
+const presets={normal:75,stress:98,optimized:60};
+const descriptions={motor:['Drive motor','Electric drive powering the screw assembly.'],compressor:['Screw compressor','Rotating screws compress intake air for the plant.'],cooler:['Cooling unit','Finned heat exchanger removes compression heat.']};
+function values(){const wobble=Math.sin(state.time*1.8)*.16;return {pressure:5.8+state.load*.018+wobble,temp:34+state.load*.4+(state.scenario==='stress'?18:0)+wobble*2,power:8+state.load*.465*(state.scenario==='optimized' ? 0.86 : 1),rpm:Math.round(700+state.load*10.4)}}
+function metrics(){const v=values(),hot=v.temp>85;set('pressure',v.pressure.toFixed(1));set('temp',v.temp.toFixed(0));set('power',v.power.toFixed(1));set('pressureNote',state.scenario==='stress'?'Elevated demand':'Within operating range');set('tempNote',hot?'Above 85°C demo threshold':'Stable thermal profile');set('powerNote',state.load+'% operating load');set('motorState',hot?'▲ Temperature warning':'● Running normally');set('coolerState',hot?'▲ Cooling demand elevated':'● Heat exchange active');q('[data-value="temp"]').style.color=hot?'#ffae57':'#ecf4ff';q('#vs-part-reading').textContent=state.part==='motor'?v.rpm.toLocaleString()+' rpm · Vibration '+(hot?'3.8':'1.2')+' mm/s':state.part==='compressor'?v.pressure.toFixed(1)+' bar · '+Math.round(state.load*3.2)+' m³/h':(v.temp-15).toFixed(0)+'°C outlet · Fan '+Math.round(state.load*16)+' rpm';q('#vs-time').textContent='00:'+String(Math.floor(state.time)).padStart(2,'0');q('#vs-timeline').value=state.time;let points=[];for(let i=0;i<=30;i++)points.push((i*5)+','+(25-Math.sin(i*.72+state.time)*4-Math.sin(i*1.8+state.time*.5)*2-(state.load-75)*.3));q('#vs-spark').setAttribute('d','M'+points.join('L'));}
+function render(){q('#vs-play').textContent=state.playing?'Ⅱ  Pause':'▶  Play';q('#vs-rotate').setAttribute('aria-pressed',state.rotating);q('#vs-thermal').setAttribute('aria-pressed',state.thermal);q('#vs-explode').setAttribute('aria-pressed',state.exploded);qa('[data-scenario]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.scenario===state.scenario));qa('[data-part]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.part===state.part));q('#vs-load-value').textContent=state.load+'%';q('#vs-load').value=state.load;q('#vs-part-title').textContent=descriptions[state.part][0];q('#vs-part-desc').textContent=descriptions[state.part][1];q('#vs-message').textContent=state.scenario==='stress'?'High demand · Motor temperature warning':state.scenario==='optimized'?'Optimized operation · Lower load and power draw':'Normal operation · All systems within range';q('#vs-message').style.color=state.scenario==='stress'?'#ffae57':'#9ce8dc';q('.vs-live').lastChild.textContent=state.playing?'SIMULATION ACTIVE':'SIMULATION PAUSED';metrics();}
+qa('[data-scenario]').forEach(b=>b.onclick=()=>{state.scenario=b.dataset.scenario;state.load=presets[state.scenario];render()});qa('[data-part]').forEach(b=>b.onclick=()=>{state.part=b.dataset.part;render()});q('#vs-play').onclick=()=>{state.playing=!state.playing;render()};q('#vs-rotate').onclick=()=>{state.rotating=!state.rotating;render()};q('#vs-thermal').onclick=()=>{state.thermal=!state.thermal;render()};q('#vs-explode').onclick=()=>{state.exploded=!state.exploded;render()};q('#vs-load').oninput=e=>{state.load=+e.target.value;render()};q('#vs-timeline').oninput=e=>{state.time=+e.target.value;render()};render();
+// Self-contained 3D projection: no CDN or WebGL dependency.
+const canvas=q('canvas'),ctx=canvas.getContext('2d');
+if(!ctx){q('.vs-hint').textContent='Canvas rendering is unavailable in this browser.';return;}
+const model=[],origins={motor:[1.45,.88,0],compressor:[-.63,1,0],cooler:[-2.13,.98,0]};
+const palette={white:[245,247,244],metal:[173,184,189],dark:[55,63,67],cyan:[30,193,213],black:[20,31,43]};
+function face(points,color,part='base'){model.push({points,color:palette[color],material:color,part});}
+function box(w,h,d,color,part,x,y,z){const v=[[-w/2,-h/2,-d/2],[w/2,-h/2,-d/2],[w/2,h/2,-d/2],[-w/2,h/2,-d/2],[-w/2,-h/2,d/2],[w/2,-h/2,d/2],[w/2,h/2,d/2],[-w/2,h/2,d/2]].map(p=>[p[0]+x,p[1]+y,p[2]+z]);for(const f of [[0,3,2,1],[4,5,6,7],[0,1,5,4],[3,7,6,2],[0,4,7,3],[1,2,6,5]])face(f.map(i=>v[i]),color,part);}
+function cyl(r,len,color,part,x,y,z,axis='x'){
+const count=r>.3?80:20,rings=[[],[]];
+for(let side=0;side<2;side++)for(let i=0;i<count;i++){const a=i*Math.PI*2/count;let p=[(side-.5)*len,Math.cos(a)*r,Math.sin(a)*r];if(axis==='y')p=[p[1],p[0],p[2]];rings[side].push([p[0]+x,p[1]+y,p[2]+z]);}
+face([...rings[0]].reverse(),color,part);model[model.length-1].normal=axis==='y'?[0,-1,0]:[-1,0,0];
+face(rings[1],color,part);model[model.length-1].normal=axis==='y'?[0,1,0]:[1,0,0];
+for(let i=0;i<count;i++){const j=(i+1)%count,a=(i+.5)*Math.PI*2/count;face([rings[0][i],rings[0][j],rings[1][j],rings[1][i]],color,part);model[model.length-1].normal=axis==='y'?[Math.cos(a),0,Math.sin(a)]:[0,Math.cos(a),Math.sin(a)];}
+}
+box(5.4,.22,2.2,'dark','base',0,.08,0);for(const z of [-.85,.85])box(5.65,.18,.2,'metal','base',0,-.1,z);for(const x of [-2.25,2.25])for(const z of [-.75,.75])box(.45,.18,.45,'black','base',x,-.21,z);
+cyl(.69,1.85,'white','motor',0,0,0);cyl(.75,.13,'metal','motor',-.85,0,0);cyl(.72,.15,'white','motor',.9,0,0);for(let i=0;i<14;i++){let a=i*Math.PI/7;box(1.5,.035,.045,'white','motor',.02,Math.sin(a)*.68,Math.cos(a)*.68);}box(.68,.29,.56,'white','motor',.2,.78,0);for(const x of [-.5,.58])box(.25,.56,1.06,'white','motor',x,-.54,0);cyl(.25,.43,'metal','motor',-1.12,0,0);
+cyl(.81,1.45,'white','compressor',0,0,0);cyl(.87,.13,'metal','compressor',.68,0,0);cyl(.85,.15,'white','compressor',-.66,0,0);for(let i=0;i<8;i++){let a=i*Math.PI/4;cyl(.047,.1,'dark','compressor',.77,Math.sin(a)*.74,Math.cos(a)*.74);}box(.8,.25,.8,'white','compressor',0,.86,0);cyl(.15,.47,'metal','compressor',.12,1.15,0,'y');cyl(.24,.1,'white','compressor',.12,1.4,0,'y');box(.85,.48,1.18,'white','compressor',0,-.64,0);
+box(.36,1.7,1.95,'dark','cooler',0,0,0);for(let i=0;i<12;i++)box(.41,.055,1.74,'metal','cooler',0,-.73+i*.13,0);for(const z of [-.9,.9])box(.47,1.77,.09,'metal','cooler',0,0,z);cyl(.62,.18,'dark','cooler',.28,0,0);
+// Flanged piping, instrument housing, support brackets and radiator mesh.
+for(const x of [-2.25,2.25])for(const z of [-.76,.76]){cyl(.07,.06,'metal','base',x,.23,z,'y');cyl(.11,.03,'metal','base',x,.205,z,'y');}
+for(const x of [-.53,.54]){cyl(.84,.045,'white','compressor',x,0,0);cyl(.855,.025,'metal','compressor',x+.03,0,0);}
+for(const y of [-.65,.65])for(const z of [-.65,.65])cyl(.042,1.42,'metal','compressor',0,y,z);
+for(const x of [-.52,.57])for(const z of [-.42,.42]){cyl(.055,.09,'metal','motor',x,-.73,z,'y');}
+box(.46,.025,.29,'dark','motor',.2,.94,0);
+for(const x of [-.04,.44])for(const z of [-.2,.2])cyl(.025,.025,'metal','motor',x,.946,z,'y');
+cyl(.095,.13,'black','motor',.25,.77,.37,'y');
+// Rounded end shield with concentric machined rings.
+cyl(.66,.14,'white','motor',1.00,0,0);cyl(.56,.02,'white','motor',1.08,0,0);cyl(.24,.025,'metal','motor',1.10,0,0);cyl(.15,.03,'dark','motor',1.12,0,0);
+for(let i=0;i<8;i++){const a=i*Math.PI/4;cyl(.035,.03,'metal','motor',1.1,Math.cos(a)*.56,Math.sin(a)*.56);}
+// Narrow grille uprights and exterior corner fasteners.
+for(let i=0;i<17;i++)box(.018,1.52,.018,'black','cooler',-.224,0,-.8+i*.1);
+for(const y of [-.77,.77])for(const z of [-.82,.82])cyl(.04,.03,'metal','cooler',-.25,y,z);
+box(.10,.25,.32,'dark','compressor',-.25,.67,.69);
+cyl(.12,.22,'metal','compressor',.13,1.36,0,'y');cyl(.19,.06,'white','compressor',.13,1.48,0,'y');
+
+let width=1,height=1,scale=1,drag=null,hitPoints={};
+function resize(){width=Math.max(1,canvas.clientWidth);height=Math.max(1,canvas.clientHeight);const ratio=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);scale=Math.min(width/8.7,height/5.2);}
+const observer=typeof ResizeObserver==='function'?new ResizeObserver(resize):null;if(observer)observer.observe(canvas);else window.addEventListener('resize',resize);resize();
+function offset(part){const p=(origins[part]||[0,0,0]).slice();if(state.exploded){if(part==='motor')p[0]+=1;if(part==='cooler')p[0]-=.85;if(part==='compressor')p[1]+=.5;}return p;}
+function project(p,part='base'){let o=offset(part),x=p[0]+o[0],y=p[1]+o[1]-.65,z=p[2]+o[2],yaw=state.yaw-.38,tilt=.4+state.pitch;let X=x*Math.cos(yaw)+z*Math.sin(yaw),Z=-x*Math.sin(yaw)+z*Math.cos(yaw);let Y=y*Math.cos(tilt)-Z*Math.sin(tilt),depth=y*Math.sin(tilt)+Z*Math.cos(tilt);return [width*.5+X*scale,height*.61-Y*scale,depth];}
+function polygon(points,fill,stroke){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=.45;ctx.stroke();}}
+function line(points,color,w=1){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.strokeStyle=color;ctx.lineWidth=w;ctx.lineJoin='round';ctx.stroke();}
+function draw(){
+ctx.clearRect(0,0,width,height);
+// The floor fades into the cobalt environment, as in the reference.
+ctx.save();
+for(let i=-12;i<=12;i++){const opacity=.09*(1-Math.abs(i)/15);line([project([-9,-.34,i*.6]),project([9,-.34,i*.6])],'rgba(45,137,255,'+opacity+')',.6);line([project([i*.6,-.34,-9]),project([i*.6,-.34,9])],'rgba(45,137,255,'+opacity+')',.6);}
+for(let x=-5;x<=5;x+=.4)for(let z=-3;z<=3;z+=.4){const p=project([x,-.34,z]);ctx.fillStyle='rgba(31,141,255,.15)';ctx.fillRect(p[0],p[1],1,1);}
+// Broad soft shadow plus tight contact shadow anchors the skid.
+const shadow=project([.15,-.33,.15]);ctx.translate(shadow[0],shadow[1]);ctx.scale(1,.32);const glow=ctx.createRadialGradient(0,0,scale*.4,0,0,scale*3.3);glow.addColorStop(0,'rgba(0,1,16,.7)');glow.addColorStop(.55,'rgba(0,3,25,.38)');glow.addColorStop(1,'rgba(0,3,25,0)');ctx.fillStyle=glow;ctx.beginPath();ctx.arc(0,0,scale*3.3,0,Math.PI*2);ctx.fill();ctx.restore();
+const faces=model.map(f=>{const p=f.points.map(v=>project(v,f.part));return {...f,p,depth:p.reduce((s,v)=>s+v[2],0)/p.length};});
+faces.sort((a,b)=>(a.part==='base'?0:1)-(b.part==='base'?0:1)||a.depth-b.depth);
+const hot=values().temp>85,yaw=state.yaw-.38,tilt=.4+state.pitch;
+for(const f of faces){
+let color=f.color;if(state.thermal&&f.part!=='base')color=f.part==='motor'?(hot?[246,80,70]:[249,162,65]):f.part==='compressor'?[242,207,102]:[37,188,215];
+const v=f.points,e1=v[1].map((n,i)=>n-v[0][i]),e2=v[2].map((n,i)=>n-v[0][i]);let n=f.normal||[e1[1]*e2[2]-e1[2]*e2[1],e1[2]*e2[0]-e1[0]*e2[2],e1[0]*e2[1]-e1[1]*e2[0]];const len=Math.hypot(...n)||1;n=n.map(a=>a/len);
+const nx=n[0]*Math.cos(yaw)+n[2]*Math.sin(yaw),nz=-n[0]*Math.sin(yaw)+n[2]*Math.cos(yaw),ny=n[1]*Math.cos(tilt)-nz*Math.sin(tilt),depthN=n[1]*Math.sin(tilt)+nz*Math.cos(tilt);
+const key=Math.max(0,-nx*.38+ny*.75+depthN*.53),rim=Math.max(0,nx*.75+ny*.3-depthN*.55),spec=Math.pow(Math.max(0,-nx*.19+ny*.4+depthN*.896),f.material==='metal'?45:24);
+const ambient=.61,diffuse=key*.48;
+const rgb=color.map((c,i)=>Math.max(0,Math.min(255,Math.round(c*(ambient+diffuse)+spec*(f.material==='metal'?120:64)+rim*[6,14,25][i]))));
+// Suppress mesh outlines so machined cylinders read as continuous surfaces.
+const fill='rgb('+rgb.join(',')+')';polygon(f.p,fill,null);
+// Matching fill stroke seals subpixel seams without drawing a wireframe.
+ctx.strokeStyle=fill;ctx.lineWidth=.45;ctx.stroke();
+}
+// Animated cooling fan is drawn only when its open side faces the viewer.
+const fanCenter=project([.41,0,0],'cooler');if(Math.sin(yaw)<-.05){for(let i=0;i<7;i++){const a=state.time*(3+state.load*.065)+i*Math.PI*2/7;polygon([[.42,Math.sin(a)*.12,Math.cos(a)*.12],[.42,Math.sin(a+.22)*.54,Math.cos(a+.22)*.54],[.42,Math.sin(a+.6)*.54,Math.cos(a+.6)*.54],[.42,Math.sin(a+.4)*.16,Math.cos(a+.4)*.16]].map(p=>project(p,'cooler')),'#64727c');}ctx.beginPath();ctx.arc(fanCenter[0],fanCenter[1],Math.max(2,scale*.1),0,Math.PI*2);ctx.fillStyle='#b2c2ce';ctx.fill();}
+if(!state.exploded){const pipe=[[-2.12,1.8,-.6],[-2.07,1.99,-.6],[-1.9,2.10,-.6],[-1.2,2.13,-.6],[-.65,2.13,-.6],[-.53,2.04,-.6],[-.5,1.8,-.6]];
+const pipeScreen=pipe.map(p=>project(p));ctx.lineCap='round';line(pipeScreen,'#4d6478',Math.max(3,scale*.13));line(pipeScreen,'#c6d6df',Math.max(2,scale*.085));line(pipeScreen.map(p=>[p[0]-.7,p[1]-1]),'#f2f8fa',Math.max(1,scale*.028));
+const lower=[[-2.1,1.7,.6],[-2.01,1.89,.6],[-1.85,1.98,.6],[-1.2,2.05,.6],[-.75,1.96,.6]].map(p=>project(p));line(lower,'#627987',Math.max(2,scale*.08));line(lower,'#e0edf1',Math.max(1,scale*.048));
+for(let i=0;i<5;i++){const phase=(((i/5+state.time*.13)%1)+1)%1,t=phase*(pipe.length-1),j=Math.min(pipe.length-2,Math.max(0,Math.floor(t))),mix=Math.min(1,Math.max(0,t-j)),p=project(pipe[j].map((v,k)=>v+(pipe[j+1][k]-v)*mix));ctx.save();ctx.shadowBlur=9;ctx.shadowColor='#00ddff';ctx.beginPath();ctx.arc(p[0],p[1],1.8,0,Math.PI*2);ctx.fillStyle='#39e6ff';ctx.fill();ctx.restore();}}
+for(const part of Object.keys(origins)){const p=project([0,.55,.8],part);hitPoints[part]=p;if(part===state.part){const alert=hot&&part==='motor',color=alert?'#ff6387':'#2be3ff',r=12+Math.sin(state.time*3)*1.5;ctx.beginPath();ctx.arc(p[0],p[1],r+5,0,Math.PI*2);ctx.strokeStyle=alert?'rgba(255,90,131,.25)':'rgba(43,227,255,.2)';ctx.lineWidth=3;ctx.stroke();ctx.beginPath();ctx.arc(p[0],p[1],r,0,Math.PI*2);ctx.strokeStyle=color;ctx.lineWidth=1;ctx.stroke();ctx.beginPath();ctx.arc(p[0],p[1],3.5,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();}}
+canvas.dataset.rendered='true';}
+
+canvas.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY};if(canvas.setPointerCapture)canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)>1){state.rotating=false;state.yaw+=dx*.009;state.pitch=Math.max(-.3,Math.min(.3,state.pitch+dy*.004));q('#vs-rotate').setAttribute('aria-pressed','false');}drag.x=e.clientX;drag.y=e.clientY;});
+canvas.addEventListener('pointerup',e=>{if(drag&&Math.hypot(e.clientX-drag.startX,e.clientY-drag.startY)<5){const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const nearest=Object.entries(hitPoints).sort((a,b)=>Math.hypot(a[1][0]-x,a[1][1]-y)-Math.hypot(b[1][0]-x,b[1][1]-y))[0];if(nearest&&Math.hypot(nearest[1][0]-x,nearest[1][1]-y)<60){state.part=nearest[0];render();}}drag=null;});canvas.addEventListener('pointercancel',()=>drag=null);
+let last=performance.now(),lastMetric=0;
+function frame(now){if(!root.isConnected){if(observer)observer.disconnect();else window.removeEventListener('resize',resize);return;}const dt=Math.max(0,Math.min((now-last)/1000,.05));last=now;if(state.playing)state.time=((state.time+dt)%45+45)%45;if(state.playing&&state.rotating)state.yaw+=dt*.075;if(now-lastMetric>160){metrics();lastMetric=now;}draw();requestAnimationFrame(frame);}
+draw();requestAnimationFrame(frame);
+})();
+
+</script>
+
+
+
+<script>
+(() => {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set(["top", "right", "bottom", "left"]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+  let lastPointerWasTouch = false;
+  let pinnedByTouch = false;
+
+  const getTrigger = (target) =>
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest("[data-tooltip]")
+      : null;
+  const containsTarget = (trigger, target) =>
+    target?.nodeType != null && trigger.contains(target);
+  const getContent = (trigger) =>
+    trigger.getAttribute("data-tooltip")?.trim() ?? "";
+  const getPlacement = (trigger) => {
+    const placement = trigger.getAttribute("data-tooltip-placement");
+    return tooltipPlacements.has(placement) ? placement : "top";
+  };
+  const getTooltip = () => {
+    if (tooltip == null) {
+      tooltip = document.createElement("div");
+      tooltip.id = tooltipId;
+      tooltip.className = "tooltip";
+      tooltip.setAttribute("role", "tooltip");
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) => {
+    const ids = new Set(
+      (trigger.getAttribute("aria-describedby") ?? "")
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute("aria-describedby");
+    } else {
+      trigger.setAttribute("aria-describedby", [...ids].join(" "));
+    }
+  };
+  const clearOpenTimeout = () => {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) => {
+    clearOpenTimeout();
+    pinnedByTouch = false;
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) => {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              "--tooltip-available-width",
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              "--tooltip-available-height",
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: "fixed",
+    })
+      .then(({ x, y }) => {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = "visible";
+      })
+      .catch(() => {
+        if (activeTrigger === trigger && request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) => {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = "hidden";
+    floating.style.transform = "translate(0, 0)";
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () => {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) => {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() < skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() => {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) => {
+    if (event.pointerType === "touch") {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handlePointer = (event) => {
+    lastPointerWasTouch =
+      event.type === "pointerdown" && event.pointerType === "touch";
+  };
+  const handleTouchClick = (event) => {
+    const isTouch = event.pointerType === "touch" || lastPointerWasTouch;
+    lastPointerWasTouch = false;
+    if (!isTouch || event.detail === 0) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (
+      trigger == null ||
+      !trigger.isConnected ||
+      getContent(trigger).length === 0 ||
+      (pinnedByTouch && activeTrigger === trigger)
+    ) {
+      if (pinnedByTouch) {
+        closeTooltip();
+      }
+      return;
+    }
+    openTooltip(trigger);
+    pinnedByTouch = activeTrigger === trigger;
+    window.setTimeout(() => {
+      if (activeTrigger === trigger && !trigger.isConnected) {
+        closeTooltip(false);
+      }
+    }, 0);
+  };
+  const handleLeave = (event) => {
+    if (pinnedByTouch) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) => {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(":focus-visible")) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === "Escape") {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) => {
+    lastPointerWasTouch = false;
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () => {
+    closeTooltip(false);
+    lastPointerWasTouch = false;
+    document.removeEventListener("pointerover", handlePointerOpen);
+    document.removeEventListener("pointerdown", handlePointer);
+    document.removeEventListener("pointercancel", handlePointer);
+    document.removeEventListener("click", handleTouchClick);
+    document.removeEventListener("pointerout", handleLeave);
+    document.removeEventListener("focusin", handleFocusIn);
+    document.removeEventListener("focusout", handleLeave);
+    document.removeEventListener("keydown", handleKeyDown);
+    document.removeEventListener("contextmenu", handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener("pointerover", handlePointerOpen);
+  document.addEventListener("pointerdown", handlePointer);
+  document.addEventListener("pointercancel", handlePointer);
+  document.addEventListener("click", handleTouchClick);
+  document.addEventListener("pointerout", handleLeave);
+  document.addEventListener("focusin", handleFocusIn);
+  document.addEventListener("focusout", handleLeave);
+  document.addEventListener("keydown", handleKeyDown);
+  document.addEventListener("contextmenu", handleContextMenu);
+  window.addEventListener("pagehide", destroy, { once: true });
+})();
+</script>
+<script id="codex-visualization-tabs">
+(() => {
+  const selector = '.nav[role="tablist"] [role="tab"]';
+  const disabled = ':disabled,[aria-disabled="true"]';
+  const selectTab = (selected) => {
+    const panelId = selected.getAttribute("aria-controls");
+    for (const tab of selected.closest('[role="tablist"]').querySelectorAll('[role="tab"]')) {
+      const active = tab === selected;
+      tab.classList.toggle("active", active);
+      tab.setAttribute("aria-selected", String(active));
+      const id = tab.getAttribute("aria-controls");
+      const panel = id && document.getElementById(id);
+      if (panel != null) {
+        panel.hidden = id !== panelId;
+        if (!panel.hidden && selected.id) {
+          panel.setAttribute("aria-labelledby", selected.id);
+        }
+      }
+    }
+  };
+  const interact = (event) => {
+    const tab = event.target?.closest?.(selector);
+    if (event.defaultPrevented || tab == null || tab.matches(disabled)) {
+      return;
+    }
+    if (event.type === "click") {
+      selectTab(tab);
+      return;
+    }
+    const tabs = Array.from(
+      tab.closest('[role="tablist"]').querySelectorAll('[role="tab"]'),
+    ).filter((candidate) => !candidate.matches(disabled));
+    const current = tabs.indexOf(tab);
+    let next;
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      next = (current + 1) % tabs.length;
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      next = (current + tabs.length - 1) % tabs.length;
+    } else if (event.key === "Home") {
+      next = 0;
+    } else if (event.key === "End") {
+      next = tabs.length - 1;
+    } else {
+      return;
+    }
+    event.preventDefault();
+    tabs[next].focus();
+    selectTab(tabs[next]);
+  };
+
+  for (const list of document.querySelectorAll('.nav[role="tablist"]')) {
+    const selected =
+      list.querySelector('[role="tab"][aria-selected="true"]') ??
+      list.querySelector('[role="tab"].active') ??
+      list.querySelector('[role="tab"]');
+    if (selected != null) {
+      selectTab(selected);
+    }
+  }
+  document.addEventListener("click", interact);
+  document.addEventListener("keydown", interact);
+  window.addEventListener("pagehide", () => {
+    document.removeEventListener("click", interact);
+    document.removeEventListener("keydown", interact);
+  }, { once: true });
+})();
+</script>
+
+<script>
+(() => {
+  const initialize = () => {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById("codex-visualization-lucide")
+    ?.addEventListener("load", initialize, { once: true });
+})();
+</script>
+
+<script>
+(() => {
+  const root = document.getElementById('vs-twin');
+  if (!root || window.parent === window) return;
+  let previousHeight = 0;
+  function reportHeight() {
+    const height = Math.ceil(root.getBoundingClientRect().height);
+    if (height === previousHeight) return;
+    previousHeight = height;
+    window.parent.postMessage({ type: 'steam-value-twin:resize', height }, '*');
+  }
+  window.addEventListener("message", event => {
+    if (event.source === window.parent && event.data?.type === "steam-value-twin:measure") {
+      previousHeight = 0;
+      reportHeight();
+    }
+  });
+  new ResizeObserver(reportHeight).observe(root);
+  window.addEventListener('load', reportHeight, { once: true });
+  reportHeight();
+})();
+</script>
+
+</body>
+</html>

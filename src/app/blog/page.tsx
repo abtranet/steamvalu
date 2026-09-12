@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { BlogHero } from "@/components/sites/twinzo-com-ca6666c1/blog-8caafe43/BlogHero";
-import { BlogPostGrid } from "@/components/sites/twinzo-com-ca6666c1/blog-8caafe43/BlogPostGrid";
+import { BlogHero } from "@/components/sites/steam-value/blog-8caafe43/BlogHero";
+import { BlogPostGrid } from "@/components/sites/steam-value/blog-8caafe43/BlogPostGrid";
 
 export const metadata: Metadata = {
-  title: "Latest Industry 4.0 Insights & Digital Twin Trends | Twinzo - Digital Twin",
-  description:
-    "Stay updated with the latest in Digital Twin, logistics, and Industry 4.0. Read expert insights, latest news and trends.",
+  "title": "Ressources | STEAM VALUE™",
+  "description": "De la donnée isolée à l’intelligence du système."
 };
 
 export default function BlogPage() {

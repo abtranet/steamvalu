@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { HeroSection } from "@/components/sites/twinzo-com-ca6666c1/monitor-production-af1f7c13/HeroSection";
-import { ProblemSolutionSection } from "@/components/sites/twinzo-com-ca6666c1/monitor-production-af1f7c13/ProblemSolutionSection";
-import { CtaBanner } from "@/components/sites/twinzo-com-ca6666c1/monitor-production-af1f7c13/CtaBanner";
-import { StatsSection } from "@/components/sites/twinzo-com-ca6666c1/monitor-production-af1f7c13/StatsSection";
-import { RelatedUseCases } from "@/components/sites/twinzo-com-ca6666c1/monitor-production-af1f7c13/RelatedUseCases";
+import { HeroSection } from "@/components/sites/steam-value/monitor-production-af1f7c13/HeroSection";
+import { ProblemSolutionSection } from "@/components/sites/steam-value/monitor-production-af1f7c13/ProblemSolutionSection";
+import { CtaBanner } from "@/components/sites/steam-value/monitor-production-af1f7c13/CtaBanner";
+import { StatsSection } from "@/components/sites/steam-value/monitor-production-af1f7c13/StatsSection";
+import { RelatedUseCases } from "@/components/sites/steam-value/monitor-production-af1f7c13/RelatedUseCases";
 
 export const metadata: Metadata = {
-  title: "Monitor production | twinzo - Digital Twin",
-  description:
-    "Monitor your facility in the operational digital twin.  Try it for FREE!",
+  "title": "Performance du procédé | STEAM VALUE™",
+  "description": "Mettre en regard la santé des équipements, les zones de production et les indicateurs du processus dans une lecture commune."
 };
 
 export default function MonitorProductionPage() {
@@ -17,16 +16,15 @@ export default function MonitorProductionPage() {
       <HeroSection />
       <ProblemSolutionSection />
       <CtaBanner
-        headline="Book Your Free Expert Session"
-        buttonLabel="Book now"
-        href="https://calendly.com/d/cv66-765-hyx/book-your-free-expert-session?utm_content=expert_session"
-        external
+        headline="Commencer par un système. Étendre avec des preuves."
+        buttonLabel="Découvrir"
+        href="/demo"
       />
       <StatsSection />
       <CtaBanner
-        headline="Get free Whitepaper for step-by-step instructions"
-        buttonLabel="Download now"
-        href="/get-whitepaper"
+        headline="La valeur se mesure avant de se généraliser."
+        buttonLabel="Voir la démarche"
+        href="/about"
       />
       <RelatedUseCases />
     </>

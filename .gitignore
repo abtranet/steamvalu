@@ -47,3 +47,6 @@ next-env.d.ts
 
 # Local temp files
 temp/
+
+# Local reference material gathered while designing; not part of the site.
+Uploads/

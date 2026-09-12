@@ -1,22 +1,22 @@
-import { Devices } from "@/components/sites/twinzo-com-ca6666c1/root-8a5edab2/Devices";
-import { GetInControlCta } from "@/components/sites/twinzo-com-ca6666c1/root-8a5edab2/GetInControlCta";
-import { Hero } from "@/components/sites/twinzo-com-ca6666c1/root-8a5edab2/Hero";
-import { Michal } from "@/components/sites/twinzo-com-ca6666c1/root-8a5edab2/Michal";
-import { StepsSection } from "@/components/sites/twinzo-com-ca6666c1/root-8a5edab2/StepsSection";
-import { Testimonials } from "@/components/sites/twinzo-com-ca6666c1/root-8a5edab2/Testimonials";
-import { TypesSection } from "@/components/sites/twinzo-com-ca6666c1/root-8a5edab2/TypesSection";
-import { UseCases } from "@/components/sites/twinzo-com-ca6666c1/root-8a5edab2/UseCases";
+import { DemoSection } from "@/components/demos/DemoSection";
+import { Devices } from "@/components/sites/steam-value/root-8a5edab2/Devices";
+import { GetInControlCta } from "@/components/sites/steam-value/root-8a5edab2/GetInControlCta";
+import { Hero } from "@/components/sites/steam-value/root-8a5edab2/Hero";
+import { OurApproach } from "@/components/sites/steam-value/root-8a5edab2/DemoOverview";
+import { Rollout } from "@/components/sites/steam-value/root-8a5edab2/Rollout";
+import { TypesSection } from "@/components/sites/steam-value/root-8a5edab2/TypesSection";
+import { UseCases } from "@/components/sites/steam-value/root-8a5edab2/UseCases";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <StepsSection />
       <Devices />
       <TypesSection />
+      <DemoSection />
       <UseCases />
-      <Testimonials />
-      <Michal />
+      <Rollout />
+      <OurApproach />
       <GetInControlCta />
     </>
   );
