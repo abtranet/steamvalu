@@ -3,7 +3,7 @@
 import { memo, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import type { StageId } from "./process";
-import { PIPE_RACK, PIPE_ROUTES, PIPE_STEEL, SHOE_HEIGHT, locateOnPath, pointAlong, samplePipe, type PipePath, type PipeRoute, type Vec3 } from "./factory-piping";
+import { PIPE_ROUTES, SHOE_HEIGHT, locateOnPath, pointAlong, samplePipe, type PipePath, type PipeRoute, type Vec3 } from "./factory-piping";
 
 const UP = new THREE.Vector3(0, 1, 0);
 const PIPE_PATHS = PIPE_ROUTES.map(route => samplePipe(route.points, route.radius));
@@ -53,23 +53,6 @@ const disc = (centre: THREE.Vector3, axis: THREE.Vector3, radius: number, thickn
 
 type PipingParts = { steel: THREE.Matrix4[]; clamps: THREE.Matrix4[]; fittings: THREE.Matrix4[] };
 
-function addRack({ steel }: PipingParts) {
-  const { bents, postZ, tiers, beamDepth, bracedBays } = PIPE_RACK;
-  const top = tiers[1] + beamDepth / 2;
-  const ends = [bents[0] - 0.13, bents[bents.length - 1] + 0.13];
-  for (const x of bents) {
-    for (const z of postZ) {
-      steel.push(member(new THREE.Vector3(x, 0, z), new THREE.Vector3(x, top, z), 0.26));
-      steel.push(block(new THREE.Vector3(x, 0.025, z), new THREE.Vector3(1, 0, 0), [0.5, 0.05, 0.5]));
-    }
-    for (const y of tiers) steel.push(member(new THREE.Vector3(x, y, postZ[0] - 0.13), new THREE.Vector3(x, y, postZ[1] + 0.13), beamDepth));
-  }
-  for (const z of postZ) {
-    for (const y of tiers) steel.push(member(new THREE.Vector3(ends[0], y, z), new THREE.Vector3(ends[1], y, z), beamDepth));
-    for (const [from, to] of bracedBays) steel.push(member(new THREE.Vector3(from + 0.15, 0.5, z), new THREE.Vector3(to - 0.15, tiers[0] - 0.2, z), 0.12));
-  }
-}
-
 function addRoute(parts: PipingParts, route: PipeRoute, path: PipePath) {
   const { steel, clamps, fittings } = parts;
   const r = route.radius;
@@ -118,9 +101,7 @@ function addRoute(parts: PipingParts, route: PipeRoute, path: PipePath) {
 
 function buildPipingParts(): PipingParts {
   const parts: PipingParts = { steel: [], clamps: [], fittings: [] };
-  addRack(parts);
   PIPE_ROUTES.forEach((route, index) => addRoute(parts, route, PIPE_PATHS[index]));
-  for (const { from, to, size } of PIPE_STEEL) parts.steel.push(member(vec(from), vec(to), size));
   return parts;
 }
 

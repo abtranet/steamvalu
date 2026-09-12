@@ -5,15 +5,12 @@ import type { StageId } from "./process";
  *
  * Runs are polylines of straight pipe joined by long-radius elbows. Every run
  * starts and ends inside an equipment nozzle or on another run (a tee), and
- * carries explicit supports so no span exceeds MAX_SUPPORT_SPAN. Cross-plant
- * services share a two-tier pipe rack along the south edge of the site road.
+ * carries explicit supports so no span exceeds MAX_SUPPORT_SPAN.
  */
 
 export type Vec3 = [number, number, number];
 
 export type PipeSupport =
-  /** Rests on steel directly below (rack beam). */
-  | { kind: "shoe"; at: Vec3 }
   /** Column from `base` with a cross-arm under the pipe. */
   | { kind: "tpost"; at: Vec3; base: number }
   /** Column from `base` straight to the pipe shoe (dummy leg). */
@@ -38,8 +35,6 @@ export type PipeRoute = {
   supports: PipeSupport[];
 };
 
-export type SteelMember = { from: Vec3; to: Vec3; size: number };
-
 export type PipePath = { positions: Vec3[]; tangents: Vec3[]; distances: number[]; length: number };
 
 /** Long-radius elbows: centreline bend radius of 1.5 × diameter. */
@@ -48,158 +43,30 @@ export const BEND_RADIUS_FACTOR = 3;
 export const MAX_SUPPORT_SPAN = 6.2;
 export const SHOE_HEIGHT = 0.095;
 
-export const PIPE_RACK = {
-  bents: [-21.6, -15.8, -10, -4, 2, 8, 14, 19.5, 24.8],
-  postZ: [5.8, 7.2],
-  /** Beam centreline heights: lower tier (process liquids), upper tier (steam). */
-  tiers: [6.6, 8.6],
-  beamDepth: 0.25,
-  bracedBays: [[-15.8, -10], [-4, 2]],
-} as const;
-
-const STEAM_RADIUS = 0.18;
-const OIL_RADIUS = 0.2;
-/** Centreline heights of pipes bearing on rack shoes. */
-const STEAM_Y = PIPE_RACK.tiers[1] + PIPE_RACK.beamDepth / 2 + SHOE_HEIGHT + STEAM_RADIUS;
-const OIL_Y = PIPE_RACK.tiers[0] + PIPE_RACK.beamDepth / 2 + SHOE_HEIGHT + OIL_RADIUS;
+/** Steam header elevation: clears the boiler deck railing and the site road. */
+const STEAM_Y = 9;
 const STEAM_Z = 6.1;
-const OIL_Z = 6.9;
 
-const rackShoes = (xs: number[], y: number, z: number): PipeSupport[] => xs.map(x => ({ kind: "shoe", at: [x, y, z] }));
 const tposts = (points: Vec3[], base: number): PipeSupport[] => points.map(at => ({ kind: "tpost", at, base }));
 
 export const PIPE_ROUTES: PipeRoute[] = [
   {
+    // Boiler column → along the south edge of the road → north across the
+    // road → down beside the sterilisation frame → steriliser column.
     id: "steam-main",
     service: "Vapeur chaudière → stérilisation",
-    radius: STEAM_RADIUS,
+    radius: 0.18,
     color: "#abc5cf",
     points: [[12.6, STEAM_Y, 11.2], [12.6, STEAM_Y, STEAM_Z], [-21.3, STEAM_Y, STEAM_Z], [-21.3, STEAM_Y, -11.4], [-21.3, 7.5, -11.4], [-18.5, 7.5, -11.4]],
     flanges: [0.25, -0.25],
     supports: [
       { kind: "hanger", at: [12.6, STEAM_Y, 9.75], top: 9.315 },
-      { kind: "shoe", at: [12.6, STEAM_Y, 7.2] },
-      ...rackShoes([8, 2, -4, -10, -15.8], STEAM_Y, STEAM_Z),
-      { kind: "shoe", at: [-21.24, STEAM_Y, 5.8] },
-      ...tposts([[-21.3, STEAM_Y, 0.3]], 0),
+      ...tposts([[12.6, STEAM_Y, 7.2], [8, STEAM_Y, STEAM_Z], [2, STEAM_Y, STEAM_Z], [-4, STEAM_Y, STEAM_Z], [-10, STEAM_Y, STEAM_Z], [-15.8, STEAM_Y, STEAM_Z], [-20.7, STEAM_Y, STEAM_Z], [-21.3, STEAM_Y, 0.3]], 0),
       ...tposts([[-21.3, STEAM_Y, -5]], 0.7),
       { kind: "bracket", at: [-21.3, STEAM_Y, -9.3], anchor: [-20.54, STEAM_Y, -9.3] },
       { kind: "stanchion", at: [-19.9, 7.5, -11.4], base: 5.14 },
     ],
   },
-  {
-    id: "sterilizer-to-digester",
-    service: "Stérilisation → digesteurs",
-    radius: 0.34,
-    color: "#c1c6c7",
-    points: [[-15.5, 7.4, -11.4], [3, 7.4, -11.4], [3, 4.6, -11.4], [3, 4.6, -9.3]],
-    flanges: [0.25, -0.2],
-    supports: [
-      ...tposts([[-11.6, 7.4, -11.4], [-7, 7.4, -11.4], [-2.4, 7.4, -11.4]], 0),
-      ...tposts([[1.8, 7.4, -11.4]], 0.76),
-      { kind: "stanchion", at: [3, 4.6, -10.1], base: 0.76 },
-    ],
-  },
-  {
-    id: "press-to-clarifier",
-    service: "Huile brute → clarification",
-    radius: 0.25,
-    color: "#b78b43",
-    points: [[8.3, 3.6, -8], [14, 3.6, -8], [14, 3.6, -10], [19.3, 3.6, -10]],
-    flanges: [0.2, -0.3],
-    supports: tposts([[11.3, 3.6, -8], [14, 3.6, -9], [17, 3.6, -10]], 0),
-  },
-  {
-    id: "clarified-oil",
-    service: "Huile clarifiée → stockage",
-    radius: OIL_RADIUS,
-    color: "#c59845",
-    points: [[24, 1.8, -4.7], [24, 1.8, -3.4], [24, OIL_Y, -3.4], [24, OIL_Y, OIL_Z], [-12, OIL_Y, OIL_Z], [-12, OIL_Y, 9], [-16, OIL_Y, 9], [-16, OIL_Y, 11], [-16, 5.8, 11]],
-    flanges: [0.2, -0.2],
-    supports: [
-      { kind: "stanchion", at: [24, 1.8, -4.2], base: 0.8 },
-      { kind: "bracket", at: [24, 4.4, -3.4], anchor: [24, 4.4, -4.5] },
-      ...tposts([[24, OIL_Y, 0]], 0),
-      { kind: "shoe", at: [24, OIL_Y, 5.8] },
-      ...rackShoes([19.5, 14, 8, 2, -4, -10], OIL_Y, OIL_Z),
-      ...tposts([[-12, OIL_Y, 8], [-14, OIL_Y, 9]], 0),
-    ],
-  },
-  {
-    id: "clarified-oil-east-tank",
-    service: "Huile clarifiée → cuve est",
-    branchOf: "clarified-oil",
-    radius: OIL_RADIUS,
-    color: "#c59845",
-    points: [[-12, OIL_Y, 8], [-8, OIL_Y, 8], [-8, OIL_Y, 11], [-8, 5.8, 11]],
-    flanges: [0.35, -0.2],
-    supports: tposts([[-9, OIL_Y, 8]], 0),
-  },
-  {
-    id: "digester-vapour",
-    service: "Équilibrage vapeur digesteurs",
-    stage: "pressing",
-    radius: 0.22,
-    color: "#b8bec0",
-    points: [[3, 5.9, -9.15], [3, 7, -9.15], [7, 7, -9.15], [7, 5.9, -9.15]],
-    flanges: [0.12, -0.12],
-    supports: [],
-  },
-  {
-    id: "clarifier-balance",
-    service: "Équilibrage clarificateurs",
-    stage: "clarification",
-    radius: 0.25,
-    color: "#b8bec0",
-    points: [[21, 7.9, -10], [21, 9.2, -10], [27, 9.2, -10], [27, 7.9, -10]],
-    flanges: [0.12, -0.12],
-    supports: [{ kind: "stanchion", at: [24, 9.2, -10], base: 8.2 }],
-  },
-  {
-    id: "sterilizer-vent-west",
-    service: "Évent autoclave ouest",
-    stage: "sterilization",
-    radius: 0.2,
-    color: "#b8bec0",
-    points: [[-19.3, 3.45, -9.2], [-19.3, 4.3, -9.2], [-19.3, 4.3, -10.4], [-18.2, 4.3, -10.4]],
-    flanges: [0.15, -0.24],
-    supports: [{ kind: "hanger", at: [-18.62, 4.3, -10.4], top: 4.96 }],
-  },
-  {
-    id: "sterilizer-vent-east",
-    service: "Évent autoclave est",
-    stage: "sterilization",
-    radius: 0.2,
-    color: "#b8bec0",
-    points: [[-14.7, 3.45, -9.2], [-14.7, 4.3, -9.2], [-14.7, 4.3, -10.4], [-15.8, 4.3, -10.4]],
-    flanges: [0.15, -0.24],
-    supports: [{ kind: "hanger", at: [-15.38, 4.3, -10.4], top: 4.96 }],
-  },
-  {
-    id: "boiler-flue",
-    service: "Carneau chaudière → cheminée",
-    stage: "boiler",
-    radius: 0.38,
-    color: "#bdc3c4",
-    points: [[13.2, 13.4, 11.6], [13.8, 13.4, 11], [16.6, 13.4, 11]],
-    flanges: [0.4, -0.243],
-    supports: [],
-  },
-  {
-    id: "boiler-bypass",
-    service: "Dérivation fumées",
-    stage: "boiler",
-    radius: 0.24,
-    color: "#c38636",
-    points: [[11, 8.2, 10.6], [11, 8.2, 9.1], [17, 8.2, 9.1], [17, 8.2, 10.6]],
-    flanges: [0.7, -0.33],
-    supports: tposts([[14, 8.2, 9.1]], 0.84),
-  },
-];
-
-/** Extra steel added for piping: a roof bridge between the clarifier tanks. */
-export const PIPE_STEEL: SteelMember[] = [
-  { from: [22.3, 8.1, -10], to: [25.7, 8.1, -10], size: 0.22 },
 ];
 
 const sub = (a: Vec3, b: Vec3): Vec3 => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { MAX_SUPPORT_SPAN, PIPE_RACK, PIPE_ROUTES, SHOE_HEIGHT, elbowTangents, locateOnPath, samplePipe } from "../src/components/palm-oil/factory-piping.ts";
+import { MAX_SUPPORT_SPAN, PIPE_ROUTES, elbowTangents, locateOnPath, samplePipe } from "../src/components/palm-oil/factory-piping.ts";
 
 const distance = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
 const paths = new Map(PIPE_ROUTES.map(route => [route.id, samplePipe(route.points, route.radius)]));
@@ -65,21 +65,6 @@ test("supports sit on the centreline and no span exceeds the limit", () => {
     for (let i = 1; i < stations.length; i++) {
       const span = stations[i] - stations[i - 1];
       assert.ok(span <= MAX_SUPPORT_SPAN, `${route.id}: ${span.toFixed(2)} m unsupported ending ${stations[i].toFixed(1)} m along`);
-    }
-  }
-});
-
-test("rack shoes bear on a rack beam", () => {
-  const [west, east] = [PIPE_RACK.bents[0], PIPE_RACK.bents[PIPE_RACK.bents.length - 1]];
-  const beamTops = PIPE_RACK.tiers.map(y => y + PIPE_RACK.beamDepth / 2);
-  for (const route of PIPE_ROUTES) {
-    for (const support of route.supports.filter(support => support.kind === "shoe")) {
-      const [x, y, z] = support.at;
-      const bearing = y - route.radius - SHOE_HEIGHT;
-      assert.ok(beamTops.some(top => Math.abs(top - bearing) < 0.01), `${route.id}: shoe at ${support.at} bears at ${bearing.toFixed(3)}`);
-      const onBent = PIPE_RACK.bents.some(bent => Math.abs(bent - x) < 0.01) && z >= PIPE_RACK.postZ[0] && z <= PIPE_RACK.postZ[1];
-      const onRunner = PIPE_RACK.postZ.some(post => Math.abs(post - z) < 0.01) && x >= west && x <= east;
-      assert.ok(onBent || onRunner, `${route.id}: shoe at ${support.at} is not over rack steel`);
     }
   }
 });
