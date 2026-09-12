@@ -1,0 +1,317 @@
+[
+  {
+    "route": "/",
+    "scrollWidth": 375,
+    "title": "STEAM VALUE™ | Jumeaux numériques industriels composés",
+    "visibleUnloadedImages": [],
+    "width": 375
+  },
+  {
+    "route": "/features",
+    "scrollWidth": 375,
+    "title": "Plateforme | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 375
+  },
+  {
+    "route": "/about",
+    "scrollWidth": 375,
+    "title": "À propos | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 375
+  },
+  {
+    "route": "/monitor-production",
+    "scrollWidth": 375,
+    "title": "Performance du procédé | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 375
+  },
+  {
+    "route": "/blog",
+    "scrollWidth": 375,
+    "title": "Ressources | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 375
+  },
+  {
+    "route": "/demo",
+    "scrollWidth": 375,
+    "title": "Huilerie de palme · Jumeau numérique 3D | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 375
+  },
+  {
+    "route": "/demo/compressor",
+    "scrollWidth": 375,
+    "title": "Compresseur C-02 · Démo interactive | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 375
+  },
+  {
+    "route": "/demo/embed",
+    "scrollWidth": 375,
+    "title": "Huilerie de palme · Démo intégrée | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 375
+  },
+  {
+    "route": "/demos/value-stream-twin-demo.html",
+    "scrollWidth": 375,
+    "title": "Value Stream Twin Demo",
+    "visibleUnloadedImages": [],
+    "width": 375
+  },
+  {
+    "route": "/",
+    "scrollWidth": 390,
+    "title": "STEAM VALUE™ | Jumeaux numériques industriels composés",
+    "visibleUnloadedImages": [],
+    "width": 390
+  },
+  {
+    "route": "/features",
+    "scrollWidth": 390,
+    "title": "Plateforme | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 390
+  },
+  {
+    "route": "/about",
+    "scrollWidth": 390,
+    "title": "À propos | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 390
+  },
+  {
+    "route": "/monitor-production",
+    "scrollWidth": 390,
+    "title": "Performance du procédé | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 390
+  },
+  {
+    "route": "/blog",
+    "scrollWidth": 390,
+    "title": "Ressources | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 390
+  },
+  {
+    "route": "/demo",
+    "scrollWidth": 390,
+    "title": "Huilerie de palme · Jumeau numérique 3D | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 390
+  },
+  {
+    "route": "/demo/compressor",
+    "scrollWidth": 390,
+    "title": "Compresseur C-02 · Démo interactive | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 390
+  },
+  {
+    "route": "/demo/embed",
+    "scrollWidth": 390,
+    "title": "Huilerie de palme · Démo intégrée | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 390
+  },
+  {
+    "route": "/demos/value-stream-twin-demo.html",
+    "scrollWidth": 390,
+    "title": "Value Stream Twin Demo",
+    "visibleUnloadedImages": [],
+    "width": 390
+  },
+  {
+    "route": "/",
+    "scrollWidth": 768,
+    "title": "STEAM VALUE™ | Jumeaux numériques industriels composés",
+    "visibleUnloadedImages": [],
+    "width": 768
+  },
+  {
+    "route": "/features",
+    "scrollWidth": 768,
+    "title": "Plateforme | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 768
+  },
+  {
+    "route": "/about",
+    "scrollWidth": 768,
+    "title": "À propos | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 768
+  },
+  {
+    "route": "/monitor-production",
+    "scrollWidth": 768,
+    "title": "Performance du procédé | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 768
+  },
+  {
+    "route": "/blog",
+    "scrollWidth": 768,
+    "title": "Ressources | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 768
+  },
+  {
+    "route": "/demo",
+    "scrollWidth": 768,
+    "title": "Huilerie de palme · Jumeau numérique 3D | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 768
+  },
+  {
+    "route": "/demo/compressor",
+    "scrollWidth": 768,
+    "title": "Compresseur C-02 · Démo interactive | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 768
+  },
+  {
+    "route": "/demo/embed",
+    "scrollWidth": 768,
+    "title": "Huilerie de palme · Démo intégrée | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 768
+  },
+  {
+    "route": "/demos/value-stream-twin-demo.html",
+    "scrollWidth": 768,
+    "title": "Value Stream Twin Demo",
+    "visibleUnloadedImages": [],
+    "width": 768
+  },
+  {
+    "route": "/",
+    "scrollWidth": 1280,
+    "title": "STEAM VALUE™ | Jumeaux numériques industriels composés",
+    "visibleUnloadedImages": [],
+    "width": 1280
+  },
+  {
+    "route": "/features",
+    "scrollWidth": 1280,
+    "title": "Plateforme | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1280
+  },
+  {
+    "route": "/about",
+    "scrollWidth": 1280,
+    "title": "À propos | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1280
+  },
+  {
+    "route": "/monitor-production",
+    "scrollWidth": 1280,
+    "title": "Performance du procédé | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1280
+  },
+  {
+    "route": "/blog",
+    "scrollWidth": 1280,
+    "title": "Ressources | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1280
+  },
+  {
+    "route": "/demo",
+    "scrollWidth": 1280,
+    "title": "Huilerie de palme · Jumeau numérique 3D | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1280
+  },
+  {
+    "route": "/demo/compressor",
+    "scrollWidth": 1280,
+    "title": "Compresseur C-02 · Démo interactive | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1280
+  },
+  {
+    "route": "/demo/embed",
+    "scrollWidth": 1280,
+    "title": "Huilerie de palme · Démo intégrée | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1280
+  },
+  {
+    "route": "/demos/value-stream-twin-demo.html",
+    "scrollWidth": 1280,
+    "title": "Value Stream Twin Demo",
+    "visibleUnloadedImages": [],
+    "width": 1280
+  },
+  {
+    "route": "/",
+    "scrollWidth": 1440,
+    "title": "STEAM VALUE™ | Jumeaux numériques industriels composés",
+    "visibleUnloadedImages": [],
+    "width": 1440
+  },
+  {
+    "route": "/features",
+    "scrollWidth": 1440,
+    "title": "Plateforme | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1440
+  },
+  {
+    "route": "/about",
+    "scrollWidth": 1440,
+    "title": "À propos | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1440
+  },
+  {
+    "route": "/monitor-production",
+    "scrollWidth": 1440,
+    "title": "Performance du procédé | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1440
+  },
+  {
+    "route": "/blog",
+    "scrollWidth": 1440,
+    "title": "Ressources | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1440
+  },
+  {
+    "route": "/demo",
+    "scrollWidth": 1440,
+    "title": "Huilerie de palme · Jumeau numérique 3D | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1440
+  },
+  {
+    "route": "/demo/compressor",
+    "scrollWidth": 1440,
+    "title": "Compresseur C-02 · Démo interactive | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1440
+  },
+  {
+    "route": "/demo/embed",
+    "scrollWidth": 1440,
+    "title": "Huilerie de palme · Démo intégrée | STEAM VALUE™",
+    "visibleUnloadedImages": [],
+    "width": 1440
+  },
+  {
+    "route": "/demos/value-stream-twin-demo.html",
+    "scrollWidth": 1440,
+    "title": "Value Stream Twin Demo",
+    "visibleUnloadedImages": [],
+    "width": 1440
+  }
+]
