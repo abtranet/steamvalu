@@ -1,0 +1,345 @@
+// SteamValu blog dataset. Static content -- no CMS backend.
+// Mock/demo data per clone-website scope defaults -- real content, no backend.
+export interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  image: string;
+  imageAlt: string;
+  /**
+   * Article body, one string per paragraph.
+   *
+   * Posts without a body render from the excerpt alone, which is too thin to
+   * index -- see `isIndexable`. Adding paragraphs here opts the post into the
+   * sitemap and search indexing automatically.
+   */
+  body?: string[];
+}
+
+/** Minimum body length, in words, before a post is worth indexing. */
+const MIN_INDEXABLE_WORDS = 250;
+
+function wordCount(text: string): number {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+/**
+ * Whether a post carries enough original copy to be indexed.
+ *
+ * Excerpt-only posts are still reachable and still link out, but are served
+ * `noindex` and kept out of the sitemap so the domain is not filled with thin
+ * pages.
+ */
+export function isIndexable(post: BlogPost): boolean {
+  if (!post.body?.length) return false;
+  return post.body.reduce((total, p) => total + wordCount(p), 0) >= MIN_INDEXABLE_WORDS;
+}
+
+export function getPostBySlug(slug: string): BlogPost | undefined {
+  return blogPosts.find((post) => post.slug === slug);
+}
+
+/** Most recent other posts, for internal linking from a post page. */
+export function getRelatedPosts(slug: string, limit = 3): BlogPost[] {
+  return blogPosts.filter((post) => post.slug !== slug).slice(0, limit);
+}
+
+export const blogPosts: BlogPost[] = [
+  {
+    slug: 'on-premise-deployment-isolated-network',
+    title: 'On-Premise SteamValu on an Air-Gapped Plant Network',
+    excerpt: 'Defense, aviation MRO, and nuclear-adjacent sites cannot point live tracking at a public cloud. SteamValu runs fully on two Linux VMs inside your isolated LAN. Your IT owns DNS, TLS, and the VMs while operators keep the same 3D twin, RTLS, and alerts.',
+    date: 'August 30, 2026',
+    image: '/sites/steamvalu/blog-8caafe43/images/on-premise-factory-isolated-network.png',
+    imageAlt: 'On-Premise SteamValu on an Air-Gapped Plant Network',
+  },
+  {
+    slug: 'gps-indoor-location-asset-tracking-across-sites',
+    title: 'GPS Plus Indoor Location: Track Assets From Supplier Yard to Factory Floor',
+    excerpt: 'GPS shows the trailer on the motorway. Inside your hall it goes dark. Combine outdoor GPS with indoor RTLS so the same rack, container, or truck stays on the map from the supplier branch through your gate to the rack.',
+    date: 'August 28, 2026',
+    image: '/sites/steamvalu/blog-8caafe43/images/logistic-analysis.png',
+    imageAlt: 'GPS Plus Indoor Location: Track Assets From Supplier Yard to Factory Floor',
+  },
+  {
+    slug: 'slam-localization-technologies',
+    title: 'SLAM Localization: Sensors, Algorithms, and Industrial Providers',
+    excerpt: 'How visual, visual-inertial, and LiDAR SLAM estimate pose and map in GPS-denied halls. Front-end tracking, loop closure, map alignment, and providers including Slamcore.',
+    date: 'August 27, 2026',
+    image: '/sites/steamvalu/blog-8caafe43/images/slamcore-stereo-imu-sensor.png',
+    imageAlt: 'SLAM Localization: Sensors, Algorithms, and Industrial Providers',
+  },
+  {
+    slug: 'photogrammetry-for-plant-3d-models',
+    title: 'How Photogrammetry Builds Plant 3D Models From Photos',
+    excerpt: 'When the CAD aisle no longer exists, overlapping photos still can. Here is how feature matching, bundle adjustment, dense stereo, and meshing turn hall, drone, and satellite captures into a scaled twin mesh.',
+    date: 'August 27, 2026',
+    image: '/sites/steamvalu/blog-8caafe43/images/photogrammetry-production-hall-3d.png',
+    imageAlt: 'How Photogrammetry Builds Plant 3D Models From Photos',
+  },
+  {
+    slug: 'ignition-mes-digital-twin-integration',
+    title: 'Ignition MES Integration With the SteamValu Digital Twin',
+    excerpt: 'Ignition is the SCADA and MES platform many plants already run. Here is who uses it, how Gateway tags and modules work, and how the SteamValu plugin maps that data onto a live 3D twin.',
+    date: 'August 27, 2026',
+    image: '/sites/steamvalu/blog-8caafe43/images/ignition-steamvalu-3d-live-overlay.png',
+    imageAlt: 'Ignition MES Integration With the SteamValu Digital Twin',
+  },
+  {
+    slug: 'correlate-plant-systems-by-space-on-digital-twin',
+    title: 'Correlate Plant Systems by Space on the Digital Twin',
+    excerpt: 'Gate open next to an HVAC zone, voltage imbalance on the same energy lane as rising scrap, smart bins ignored by the forklift loop. Put the signals on one map and the nearby impacts stop living in separate dashboards.',
+    date: 'August 27, 2026',
+    image: '/sites/steamvalu/blog-8caafe43/images/spatial-correlation-open-dock-gate.png',
+    imageAlt: 'Correlate Plant Systems by Space on the Digital Twin',
+  },
+  {
+    slug: 'man-down-detection-with-rtls',
+    title: 'Man Down Detection With Live RTLS Position',
+    excerpt: 'A technician falls in a dangerous area. The phone beeps; if they do not cancel, security gets the incident and their live position on the twin - not a radio search across floors and stairs.',
+    date: 'August 27, 2026',
+    image: '/sites/steamvalu/blog-8caafe43/images/man-down-rtls-technicians.png',
+    imageAlt: 'Man Down Detection With Live RTLS Position',
+  },
+  {
+    slug: 'quuppa-ble-smart-building-office-twin',
+    title: 'Quuppa BLE in a 3,000-Visitor Office Twin',
+    excerpt: 'Reception knows who badge-scanned. Facilities still cannot see who is in the server room, which meeting room filled, or which parking bay is free. Quuppa BLE positions land on the SteamValu 3D building so security, HVAC, and visitors work from one picture.',
+    date: 'August 26, 2026',
+    image: '/sites/steamvalu/blog-8caafe43/images/quuppa-ble-office-tags-3d.png',
+    imageAlt: 'Quuppa BLE in a 3,000-Visitor Office Twin',
+  },
+  {
+    slug: 'live-3d-stock-from-erp-without-rtls',
+    title: 'Live 3D Stock From ERP Without Installing RTLS',
+    excerpt: 'In IKEA you find stock by coordinates like 13-B. Same in industrial warehouses. Feed those locations to SteamValu for real-time 3D stock positions - no RTLS infrastructure.',
+    date: 'August 26, 2026',
+    image: '/sites/steamvalu/blog-8caafe43/images/ai-rtls-live-3d-digital-twin.png',
+    imageAlt: 'Live 3D Stock From ERP Without Installing RTLS',
+  },
+  {
+    slug: 'add-assets-to-your-digital-twin-without-live-tracking',
+    title: 'Add Assets to Your Digital Twin Without Live Tracking',
+    excerpt: 'A supplier truck has no RTLS tag, but operators still need to see where it is. Place it in 3D, simulate the path, run area analytics, and notify on no-go zones. Same for stock positions of important goods.',
+    date: 'August 26, 2026',
+    image: '/sites/steamvalu/blog-8caafe43/images/place-assets-on-digital-twin-map.png',
+    imageAlt: 'Add Assets to Your Digital Twin Without Live Tracking',
+  },
+  {
+    slug: 'intuitive-ux-for-digital-twin-configuration',
+    title: 'Intuitive UX for Digital Twin Configuration',
+    excerpt: 'CRUD design is a curse of developers who know the backend entity model. Here is how SteamValu rebuilt notification setup into one next→next→next workspace so you can use IoT data in digital twins and make your factory smart.',
+    date: 'August 25, 2026',
+    image: '/sites/steamvalu/blog-8caafe43/images/notification-system-setup.png',
+    imageAlt: 'Intuitive UX for Digital Twin Configuration',
+  },
+  {
+    slug: 'how-telcos-and-police-locate-your-sim-card',
+    title: 'How telcos and police locate your SIM card',
+    excerpt: 'If you wonder how telco operators and police departments locate your SIM card, the answer is trilateration and triangulation. Here is how it actually works in three steps - and how Wi-Fi RSSI takes it from neighborhood to the exact room.',
+    date: 'August 25, 2026',
+    image: '/sites/steamvalu/blog-8caafe43/images/trilateration.png',
+    imageAlt: 'How telcos and police locate your SIM card',
+  },
+  {
+    slug: 'strengthening-europes-defense-manufacturing-why-intralogistics-is-the-new-front-line',
+    title: 'Strengthening Europe’s Defense Manufacturing',
+    excerpt: 'In an era of mounting geopolitical pressure and increasing defense budgets across Europe, the defense manufacturing sector finds itself under a new kind of scrutiny - not just for what it builds, but how efficiently it builds it. As nations accelerate rearmament programs and supply chains remain vulnerable, internal logistics has become a critical but often overlooked battlefield.',
+    date: 'May 20, 2025',
+    image: '/sites/steamvalu/blog-8caafe43/images/682c88b63737d610e68ea3c5_defense.png',
+    imageAlt: 'Strengthening Europe’s Defense Manufacturing',
+  },
+  {
+    slug: 'seamless-integration-of-opc-ua-and-location-data-from-highbyte-to-steamvalu',
+    title: 'Seamless Data Integration from HighByte to SteamValu',
+    excerpt: 'As manufacturing environments become more connected and data-driven, combining machine data with spatial awareness is key to unlocking true operational visibility. That’s why we’re excited to highlight a simple yet powerful integration between HighByte Intelligence Hub and SteamValu’s real-time 3D digital twin platform.',
+    date: 'May 19, 2025',
+    image: '/sites/steamvalu/blog-8caafe43/images/682af278b42d096beec9263e_high_byte.png',
+    imageAlt: 'Seamless Data Integration from HighByte to SteamValu',
+  },
+  {
+    slug: 'tutorial-automate-your-orderings',
+    title: 'Tutorial: Automate your orderings with Digital Twin',
+    excerpt: 'Idle time is one of the biggest areas for optimization in factory operations. It occurs when production stops due to material shortages, equipment breakdowns, or other disruptions that require maintenance. Reducing idle time is critical for improving efficiency and minimizing downtime.',
+    date: 'February 11, 2025',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda788dc1d9306b74305bb_automate-your-orderings-3.png',
+    imageAlt: 'Tutorial: Automate your orderings with Digital Twin',
+  },
+  {
+    slug: 'tutorial-scan-your-model-with-iphone',
+    title: 'Tutorial: Scan your model with iPhone',
+    excerpt: 'With the latest iPhones and iPads, you can quickly create LiDAR scans of your surroundings or objects. From our experience, for optimal results, it is best to limit scans to around 300 square meters, as this ensures better manageability and accuracy.',
+    date: 'January 31, 2025',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda795c5a230660b1591c2_scan-your-model-with-iphon.png',
+    imageAlt: 'Tutorial: Scan your model with iPhone',
+  },
+  {
+    slug: 'tutorial-forklift-optimization-do-it-yourself',
+    title: 'Tutorial: DIY Forklift Optimization with SteamValu',
+    excerpt: 'We made it easy for you to do the first pilot on your own. We are confident that you will be able to install this technology on roughly 1000 square meters yourself following this tutorial. What will you need: Approximately 20 BLE beacons (you can buy them from our recommended vendors HERE)',
+    date: 'January 20, 2025',
+    image: '/sites/steamvalu/blog-8caafe43/images/67b39d9a761984bd48a31565_forklift-diy.png',
+    imageAlt: 'Tutorial: DIY Forklift Optimization with SteamValu',
+  },
+  {
+    slug: 'how-to-scan-your-facility',
+    title: 'How to scan your facility',
+    excerpt: 'Photogrammetry and LiDAR (Light Detection and Ranging) scanning are powerful technologies that have revolutionized the way we capture and create 3D models of the real world. These techniques find applications in fields ranging from architecture and construction to archaeology and gaming.',
+    date: 'January 7, 2025',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda7d364f15dd9c9832150_how-to-scan-your-facility-2.png',
+    imageAlt: 'How to scan your facility',
+  },
+  {
+    slug: 'steamvalu-excel',
+    title: 'SteamValu Excel',
+    excerpt: 'In today\'s digital age, companies are constantly seeking ways to enhance their business processes, and one of the most promising technological advancements in this regard is the development of digital twins. A digital twin is a virtual replica of a real-life entity, be it a product, a process, or an entire system.',
+    date: 'December 19, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda7a84afbd5de6c5d7a0c_steamvalu-excel.png',
+    imageAlt: 'SteamValu Excel',
+  },
+  {
+    slug: 'automatic-ordering-system-as-an-integral-part-of-digital-twin',
+    title: 'AOS as an integral part of Digital twin',
+    excerpt: 'As supply chains get more complex and global, they become more volatile in times of disruption. Global pandemic disrupted the market both on the supply side and on delivery. This strain is exposing neglected shortcomings of external and internal logistics.',
+    date: 'December 4, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda770debd8cc2a332fff3_aos-as-integral-part.png',
+    imageAlt: 'AOS as an integral part of Digital twin',
+  },
+  {
+    slug: 'getting-started-with-rtls',
+    title: 'Getting started with RTLS',
+    excerpt: 'Location technologies can be a very complex topic, but we can help you with understanding basic concepts, that can help you to make the correct decision. It\'s important to know, that SteamValu can combine several technologies in a single building, enabling our customers cost-optimized ways how to implement RTLS.',
+    date: 'November 15, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda715138d8c61186492a0_gettin-started-with-rtls.png',
+    imageAlt: 'Getting started with RTLS',
+  },
+  {
+    slug: 'logistics-analysis-with-digital-twin',
+    title: 'Logistics Analysis with Digital Twin',
+    excerpt: 'Where to start with digital twins in manufacturing? Well, we usually start with internal logistics. Why? Because there are enormous losses = the highest ROI! How is that? Logistics is often the last one in optimization! People think "they are just delivery boys"... 🙄 If logistics were so easy, armies wouldn\'t fail because of missing stuff - not just nowadays.',
+    date: 'October 30, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda72c4620b4a9a15ebcc5_logistic-analysis.png',
+    imageAlt: 'Logistics Analysis with Digital Twin',
+  },
+  {
+    slug: 'digital-twins---future-trend',
+    title: 'Digital twins - future trend',
+    excerpt: 'The digital twin concept originated in the early 1990s, so it is not new at all. In the nearly 30 years of its existence, several definitions of what digital can be were created. While for some it is purely data stored somewhere in a database or in a file system, for others it is a BIM model (Building Information Management), for another, it is a simulation software of production processes, for us, it is live data collection and 3D visualization.',
+    date: 'October 13, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda53ba0c1875dc25949ff_future-trends.png',
+    imageAlt: 'Digital twins - future trend',
+  },
+  {
+    slug: 'what-is-industrial-metaverse',
+    title: 'What is industrial metaverse?',
+    excerpt: 'There are many complicated explanations of what is the metaverse and that it is the future that will come in 10 years. Truth is, that metaverse is already here, at least in parts. Because #metaverse is just interconnected, real-time digital twins, exactly like we do in @SteamValu. So building blocks of metaverse are available and already affordable, which is proved by companies in CEE that already operate such digital twins.',
+    date: 'October 3, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda6566d6f6081df359927_industrial-metaverse-2.png',
+    imageAlt: 'What is industrial metaverse?',
+  },
+  {
+    slug: 'industrial-metaverse---from-vision-to-reality',
+    title: 'Industrial metaverse - from vision to reality',
+    excerpt: 'You may be wondering why the term “metaverse” is being used to describe a virtual environment. The reason is simple: it\'s a term that has been used by science fiction writers and other people interested in VR, AR, and MR for decades.',
+    date: 'September 19, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda6729109f938b44001cb_industrial-metaverse-from-vision.png',
+    imageAlt: 'Industrial metaverse - from vision to reality',
+  },
+  {
+    slug: 'digital-twin-sources',
+    title: 'Digital Twin sources',
+    excerpt: 'The first step towards a digital twin is the creation of a digital model of the object or environment. This step can be difficult, but there are multiple options for creating an accurate representation. One way towards creating a digital twin is to accurately represent the digital model of the physical object or environment.',
+    date: 'September 3, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda74f162b1d216d2cee8b_dt-sources-2.png',
+    imageAlt: 'Digital Twin sources',
+  },
+  {
+    slug: '3d-visualization-benefits',
+    title: '3D Visualization benefits',
+    excerpt: '3D visualization can be used in a wide range of industries, from construction and government to healthcare and sports. Some common benefits include cost savings, safety and security, efficiency, and environmental sustainability. But what are the specifics?',
+    date: 'August 11, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda61a4a560b752ebc5c06_3d-visualisation-benefits.png',
+    imageAlt: '3D Visualization benefits',
+  },
+  {
+    slug: 'importance-of-digital-twin-accessibility',
+    title: 'Importance of Digital Twin accessibility',
+    excerpt: 'I remember when I first got my smartphone. It was exciting to have this powerful little device that could keep me connected 24/7, but it also presented a new challenge: How do I efficiently use the available technology? Having a phone in your pocket is great, but how do you make sure it\'s more than just a distraction?',
+    date: 'August 1, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda5e0debd8cc2a33185a0_importance-of-dt.png',
+    imageAlt: 'Importance of Digital Twin accessibility',
+  },
+  {
+    slug: 'managing-ports-with-digital-twin',
+    title: 'Managing ports with digital twin',
+    excerpt: 'As you might know, ports are facilities that are essential to trade and the economy. They are also very complex and use a lot of different equipment. It’s important to have a good understanding of what is happening in these facilities if we want them to operate safely and efficiently.',
+    date: 'July 17, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda5d0e7935406fe7a1f66_managing-ports.png',
+    imageAlt: 'Managing ports with digital twin',
+  },
+  {
+    slug: 'natural-disasters-and-steamvalu',
+    title: 'Natural disasters and SteamValu',
+    excerpt: 'In Lužice, where our colleague Jiří Žíla lives, he experienced a tornado a year ago! A digital twin for the emergency services would be a great help, so we are providing examples of use. We will summarize the idea we came to based on our personal experience: - Within 24 hours, it is necessary to create a digital twin of the affected area from the standard cadastral map.',
+    date: 'July 2, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda5c65bfcb0081a3f7b33_natural-disaster.png',
+    imageAlt: 'Natural disasters and SteamValu',
+  },
+  {
+    slug: 'using-ai-camera-vision-for-smart-buffer-management',
+    title: 'AI camera vision for smart buffer management',
+    excerpt: 'A lot of our customers are looking into increasing their automation footprint, especially in logistics, where this area was neglected for far too long. Quite often, when looking for a solution, they come to us, to see how we can help. Unfortunately, we do not manufacture AGVs or AMR.',
+    date: 'June 27, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67aba56778a528d6307cf215_using-ai-camera-vision.png',
+    imageAlt: 'AI camera vision for smart buffer management',
+  },
+  {
+    slug: 'managing-airports-with-digital-twin',
+    title: 'Managing airports with digital twin',
+    excerpt: 'Airports are hubs in which we can find airlines, terminals, waiting areas, and a wide variety of shops and services. On the other hand, it is becoming more complex to manage due to the increase in air traffic and the growth of individualized services.',
+    date: 'June 20, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda60799c8a11af9dc479e_managing-airports.png',
+    imageAlt: 'Managing airports with digital twin',
+  },
+  {
+    slug: 'platform-stores-impact-on-software-distribution',
+    title: 'Platform stores impact on software distribution',
+    excerpt: 'Platform stores have revolutionized the way we distribute software. They’ve made it easier than ever to get access to the latest features and functionality in our favorite apps while also providing opportunities for developers to improve their products.',
+    date: 'June 5, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67bda9bbdc1d9306b746bbda_dt-future-trends.png',
+    imageAlt: 'Platform stores impact on software distribution',
+  },
+  {
+    slug: 'bug-in-google-chrome',
+    title: 'Bug in Google Chrome',
+    excerpt: 'Recently, a bug in Google Chrome has been causing issues with the canvas functionality and disabling the setup of layers and areas in SteamValu. The canvas functionality allows users to draw and sketch their areas, while the layer feature enables them to organize their drawings into different layers.',
+    date: 'May 28, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67ab6619497486028c96d7b5_Update-Google-Chrome.avif',
+    imageAlt: 'Bug in Google Chrome',
+  },
+  {
+    slug: 'navigating-the-world-of-3d-modeling',
+    title: 'Navigating the World of 3D Modeling',
+    excerpt: 'The world of 3D modeling is a diverse and creative space where technology meets artistry. Whether you\'re an aspiring digital artist, an architect, or a hobbyist looking to explore the realm of 3D design, you\'ll find a plethora of tools at your disposal.',
+    date: 'May 14, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67aa0ece66f15cb7ec520237_navigating-the-world-of-3d-modeling.png',
+    imageAlt: 'Navigating the World of 3D Modeling',
+  },
+  {
+    slug: 'celebrating-innovation-in-prague',
+    title: 'Celebrating Innovation in Prague',
+    excerpt: 'Prague became the backdrop for a remarkable event showcasing Czech architecture\'s elite. Michal Ukropec, despite his admission of drawing skills akin to a toddler, found himself standing among renowned industry leaders. The surprise of winning the "Innovation of the Year" category left Michal and his team proud.',
+    date: 'May 12, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67aa12d1701a9382a7d2995f_celebrating-innovation-in-prague.png',
+    imageAlt: 'Celebrating Innovation in Prague',
+  },
+  {
+    slug: 'pushing-the-boundaries',
+    title: 'Pushing the Boundaries',
+    excerpt: 'Sometimes, unexpected questions have the power to ignite new paths and possibilities. Michal Ukropec found himself at a crossroads when an attending publisher proposed writing a book about leadership. Uncertain if Industry 4.0 was his expertise topic, Michal reflects on this intriguing proposition.',
+    date: 'May 3, 2024',
+    image: '/sites/steamvalu/blog-8caafe43/images/67a1f880318f0dd9fae194b5_pushing-the-boundaries.png',
+    imageAlt: 'Pushing the Boundaries',
+  },
+];
