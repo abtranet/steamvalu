@@ -3,7 +3,8 @@ import { Fraunces, Geist, Poppins } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SiteChrome } from "@/components/SiteChrome";
-import { SITE_URL } from "@/lib/site";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { GA_MEASUREMENT_ID, SITE_URL } from "@/lib/site";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,8 @@ export default function RootLayout({
         <SiteChrome>{children}</SiteChrome>
         <Analytics />
       </body>
+      {/* Production deployments only, so local runs, tests and previews stay out of the reports. */}
+      {process.env.VERCEL_ENV === "production" && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
     </html>
   );
 }
