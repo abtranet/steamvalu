@@ -30,7 +30,7 @@ function textBody(payload: ContactPayload) {
     payload.message,
     "",
     "—",
-    "Envoyé depuis le formulaire de contact steamvalu.vercel.app",
+    "Envoyé depuis le formulaire de contact steamvalu.com",
   ].filter(Boolean).join("\n");
 }
 

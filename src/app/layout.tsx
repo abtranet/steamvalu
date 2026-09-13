@@ -3,6 +3,7 @@ import { Fraunces, Geist, Poppins } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SiteChrome } from "@/components/SiteChrome";
+import { SITE_URL } from "@/lib/site";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -22,6 +23,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "./" },
   "title": "STEAM VALUE™ | Jumeaux numériques industriels composés",
   "description": "STEAM VALUE™ compose les jumeaux de vos équipements, rassemble les données opérationnelles et révèle la santé globale de votre système sans remplacer vos outils existants."
 };
