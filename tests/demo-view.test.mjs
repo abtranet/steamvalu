@@ -84,7 +84,7 @@ describe("plant call-to-action wiring", () => {
     assert.deepEqual(
       offenders,
       [],
-      'these files send the plant CTA to "/demo", which opens the 2D dashboard',
+      'these files link the plant CTA to a bare "/demo"; use PLANT_3D_HREF so the entry states its view',
     );
   });
 
@@ -105,6 +105,7 @@ describe("plant call-to-action wiring", () => {
     assert.match(page.text, /searchParams/, "the route must read searchParams to pick the view server-side");
     assert.match(page.text, /parseDemoView/, "the route must use the shared parser");
     assert.match(page.text, /initialView/, "the resolved view must reach PalmOilDemo as a prop");
+    assert.match(page.text, /parseDemoView\(params\.view\) \?\? "3d"/, "a demo link without a known view must land in 3D");
   });
 
   test("no stored preference can override the requested view", () => {

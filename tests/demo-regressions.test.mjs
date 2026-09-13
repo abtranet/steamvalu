@@ -107,12 +107,18 @@ describe("demo regressions", { skip: SKIP && "SKIP_BROWSER_TESTS=1" }, () => {
       assert.doesNotMatch(html, /Le procédé, en un regard/, "the dashboard must not be rendered first and swapped");
     });
 
-    test("the dashboard stays the default, including for an unknown view", async () => {
-      for (const route of ["/demo", "/demo?view=dashboard", "/demo?view=bogus"]) {
+    test("every demo entry lands in 3D, including a bare /demo and an unknown view", async () => {
+      for (const route of ["/demo", "/demo?view=3d", "/demo?view=bogus"]) {
         const html = await fetch(`${baseUrl}${route}`).then((r) => r.text());
-        assert.match(html, /Le procédé, en un regard/, `${route} should render the dashboard`);
-        assert.doesNotMatch(html, /id="plant-explorer"/, `${route} should not render the 3D workspace`);
+        assert.match(html, /id="plant-explorer"/, `${route} should render the 3D workspace`);
+        assert.doesNotMatch(html, /Le procédé, en un regard/, `${route} should not render the dashboard`);
       }
+    });
+
+    test("only an explicit dashboard link opens the dashboard", async () => {
+      const html = await fetch(`${baseUrl}/demo?view=dashboard`).then((r) => r.text());
+      assert.match(html, /Le procédé, en un regard/, "?view=dashboard should render the dashboard");
+      assert.doesNotMatch(html, /id="plant-explorer"/, "?view=dashboard should not render the 3D workspace");
     });
 
     test("tapping the hero call to action lands in 3D on a phone", async () => {

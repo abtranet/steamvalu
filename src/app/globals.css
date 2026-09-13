@@ -262,7 +262,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .sv-closing-cta a[href="/demo"] { background: #0d4a72; color: white; }
 .site-footer { background: #081b29; padding: 64px var(--sv-gutter) 28px; }
 .site-footer > div { max-width: calc(var(--sv-content) - 2 * var(--sv-gutter)); padding: 0; }
-.site-footer > div > svg { height: 54px; margin-bottom: 40px; }
+.site-footer > div > svg { height: 80px; margin-bottom: 40px; }
 .site-footer p { font-size: .9375rem; line-height: 1.7; color: #a7bdc9; }
 .site-footer ul { display: grid; gap: 0; }
 .site-footer li a { display: inline-flex; min-height: 44px; align-items: center; font-size: .9375rem; color: #e6eef3; }
@@ -371,7 +371,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 @media (max-width: 639px) {
   .site-header > div { padding-inline: 24px; }
-  .site-header > div > a > svg { height: 48px; max-width: 210px; }
+  .site-header > div > a > svg { height: 60px; max-width: 210px; }
   .sv-hero [data-hero-content] > div:first-child { gap: 20px; }
   .sv-hero [data-hero-content] > div:first-child > div { width: 100%; flex-direction: column; align-items: stretch; }
   .sv-hero [data-hero-content] > div:first-child > div a { width: 100%; min-height: 52px; }

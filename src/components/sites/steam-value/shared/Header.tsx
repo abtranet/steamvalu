@@ -128,7 +128,7 @@ export function Header() {
             aria-label="Accueil STEAM VALUE"
             className="flex items-center transition-opacity duration-200 hover:opacity-85"
           >
-            <SteamValueLogo className="h-[52px] sm:h-[58px] w-auto" />
+            <SteamValueLogo className="h-[60px] sm:h-[68px] w-auto" />
           </Link>
 
           {/* Desktop Navigation */}

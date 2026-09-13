@@ -79,7 +79,7 @@ function Sparkline({ values, warning = false }: { values: number[]; warning?: bo
   return <svg viewBox="0 0 150 42" className={warning ? styles.sparkWarning : styles.spark} aria-hidden="true"><path d="M0 36H150" stroke="currentColor" opacity="0.14" />{clean.length > 1 ? <polyline points={points} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" /> : null}</svg>;
 }
 const format = (value: number, digits = 1) => value.toLocaleString("fr-FR", { minimumFractionDigits: digits, maximumFractionDigits: digits });
-export function PalmOilDemo({ embedded = false, initialView = "dashboard" }: { embedded?: boolean; initialView?: DemoView }) {
+export function PalmOilDemo({ embedded = false, initialView = "3d" }: { embedded?: boolean; initialView?: DemoView }) {
   const simulation = useSimulation();
   const { running, speed, seconds, scenario, acknowledged, dispatch } = simulation;
   // Resolved on the server from `?view=`, so the requested view is the first
@@ -109,8 +109,9 @@ export function PalmOilDemo({ embedded = false, initialView = "dashboard" }: { e
     const url = new URL(window.location.href);
     const current = url.searchParams.get("view");
     if (current === view) return;
-    // Leave a plain /demo URL untouched; only mirror an actual change.
-    if (current === null && view === "dashboard") return;
+    // Leave a plain /demo URL untouched while it shows the default 3D view;
+    // only mirror an actual change.
+    if (current === null && view === "3d") return;
     url.searchParams.set("view", view);
     window.history.replaceState(window.history.state, "", url);
   }, [view, embedded]);

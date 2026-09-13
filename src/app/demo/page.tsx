@@ -8,9 +8,10 @@ export const metadata: Metadata = {
 };
 
 /**
- * `?view=3d` selects the immersive view on the server, so an "Explorer l’usine"
- * entry renders the 3D workspace on the very first paint instead of showing the
- * dashboard and switching afterwards. Refreshing or sharing the URL keeps it.
+ * The view is resolved on the server so the first paint is the requested one.
+ * Every demo entry lands in the 3D plant: a bare `/demo`, `?view=3d` and any
+ * unknown value all open 3D. Only an explicit `?view=dashboard` opens the 2D
+ * dashboard. Refreshing or sharing the URL keeps the view.
  */
 export default async function DemoPage({
   searchParams,
@@ -18,5 +19,5 @@ export default async function DemoPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
-  return <PalmOilDemo initialView={parseDemoView(params.view) ?? "dashboard"} />;
+  return <PalmOilDemo initialView={parseDemoView(params.view) ?? "3d"} />;
 }

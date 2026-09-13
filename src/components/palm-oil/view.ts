@@ -10,3 +10,6 @@ export function parseDemoView(value: string | string[] | undefined | null): Demo
 
 /** Canonical link for an entry point that must land straight in the 3D plant. */
 export const PLANT_3D_HREF = "/demo?view=3d";
+
+/** The only way into the 2D dashboard: every other demo link opens in 3D. */
+export const DEMO_DASHBOARD_HREF = "/demo?view=dashboard";
