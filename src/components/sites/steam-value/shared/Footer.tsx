@@ -1,6 +1,6 @@
 "use client";
 
-import { DEMO_DASHBOARD_HREF, PLANT_3D_HREF } from "@/components/palm-oil/view";
+import { PLANT_3D_HREF } from "@/components/palm-oil/view";
 import { SteamValueLogo } from "./icons";
 import { useLanguage } from "./LanguageProvider";
 
@@ -9,7 +9,7 @@ const FOOTER_COPY = {
     columns: [
       { title: "Plateforme", links: [["Fonctionnement", "/features"], ["Architecture", "/features#architecture"], ["Cas d’usage", "/monitor-production"]] },
       { title: "STEAM VALUE™", links: [["À propos", "/about"], ["Ressources", "/blog"]] },
-      { title: "Démonstrateur", links: [["Usine en 3D", PLANT_3D_HREF], ["Tableau de bord", DEMO_DASHBOARD_HREF], ["Compresseur C-02", "/demo/compressor"]] },
+      { title: "Démonstrateur", links: [["Usine en 3D", PLANT_3D_HREF], ["Tableau de bord", PLANT_3D_HREF], ["Compresseur C-02", "/demo/compressor"]] },
     ],
     description: "Plateforme de composition de jumeaux numériques industriels, conçue pour compléter les systèmes existants et donner une lecture cohérente de l’opération.",
     standards: "Conçue en alignement avec la série ISO 23247 et ISO 23247-6:2026. Aucune certification ISO revendiquée.",
@@ -18,7 +18,7 @@ const FOOTER_COPY = {
     columns: [
       { title: "Platform", links: [["How it works", "/features"], ["Architecture", "/features#architecture"], ["Use cases", "/monitor-production"]] },
       { title: "STEAM VALUE™", links: [["About", "/about"], ["Resources", "/blog"]] },
-      { title: "Demonstrator", links: [["Plant in 3D", PLANT_3D_HREF], ["Dashboard", DEMO_DASHBOARD_HREF], ["Compressor C-02", "/demo/compressor"]] },
+      { title: "Demonstrator", links: [["Plant in 3D", PLANT_3D_HREF], ["Dashboard", PLANT_3D_HREF], ["Compressor C-02", "/demo/compressor"]] },
     ],
     description: "An industrial digital-twin composition platform designed to complement existing systems and provide a coherent operational view.",
     standards: "Designed in alignment with the ISO 23247 series and ISO 23247-6:2026. No ISO certification is claimed.",
