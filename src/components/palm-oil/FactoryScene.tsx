@@ -391,13 +391,13 @@ const FactoryLayout = memo(function FactoryLayout({ onSelectTwin }: { onSelectTw
         <ProcessColumn position={[-1.4, 0.84, -1.8]} height={16.4} radius={1.25} accent="#d28d28" />
         <ServiceDeck position={[-1.4, 7.2, -1.8]} width={4.8} depth={4.2} />
         <AccessStairs position={[1.2, 0.84, 0.1]} rotation={[0, Math.PI / 2, 0]} steps={14} />
-        {/* Chimneys */}
-        <mesh position={[-3, 12, -3]} castShadow>
-          <cylinderGeometry args={[0.8, 1.2, 16, 32]} />
+        {/* Chimneys stand on the slab (top y 0.84); tops stay at y 20 and 16, taper continued to the base. */}
+        <mesh position={[-3, 10.42, -3]} castShadow>
+          <cylinderGeometry args={[0.8, 1.28, 19.16, 32]} />
           <primitive attach="material" object={concreteMaterial} />
         </mesh>
-        <mesh position={[3, 10, -3]} castShadow>
-          <cylinderGeometry args={[0.6, 0.8, 12, 32]} />
+        <mesh position={[3, 8.42, -3]} castShadow>
+          <cylinderGeometry args={[0.6, 0.85, 15.16, 32]} />
           <primitive attach="material" object={concreteMaterial} />
         </mesh>
         <ZoneMarker position={[-1.4, 17.8, -1.8]} stageId='boiler' onClick={() => onSelectTwin('boiler')} />
