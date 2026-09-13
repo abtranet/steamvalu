@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import { CompressorDemo } from "@/components/demos/CompressorDemo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Compresseur C-02 · Démo interactive | STEAM VALUE™",
-  description: "Inspectez le compresseur C-02, faites varier sa charge et explorez les vues thermique et éclatée sur des données simulées.",
-};
+export const metadata: Metadata = pageMetadata("compressor");
 
 export default function CompressorPage() {
-  return <CompressorDemo />;
+  return (
+    <>
+      <JsonLd data={breadcrumbJsonLd("compressor")} />
+      <CompressorDemo />
+    </>
+  );
 }

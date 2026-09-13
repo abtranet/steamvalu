@@ -8,15 +8,17 @@ import { ChevronRightIcon } from "@/components/sites/steam-value/shared/icons";
 import { useLanguage } from "@/components/sites/steam-value/shared/LanguageProvider";
 import { cn } from "@/lib/utils";
 import { PLANT_3D_HREF } from "@/components/palm-oil/view";
+import { openContact } from "@/lib/analytics";
 import { ASSET_BASE } from "./constants";
 import { WORKFLOW_STEPS } from "./workflow";
 
 const HERO_COPY = {
   fr: {
     heading: "Voyez l’usine entière. Agissez sur chaque détail.",
-    body: "STEAM VALUE™ compose les jumeaux de vos équipements, rassemble les données opérationnelles et révèle la santé globale de votre système sans remplacer vos outils existants.",
+    body: "Le jumeau numérique industriel qui compose vos équipements, rassemble les données opérationnelles et révèle la santé globale de l’usine, sans remplacer vos outils existants.",
     cta: "Explorer l’usine",
     compressorCta: "Inspecter le compresseur",
+    expertCta: "Parler à un expert",
     allDemos: "Comparer les deux démos",
     allPlatform: "Toute la plateforme",
     tagline: "Une même lecture opérationnelle",
@@ -24,9 +26,10 @@ const HERO_COPY = {
   },
   en: {
     heading: "See the entire plant. Act on every detail.",
-    body: "STEAM VALUE™ composes the digital twins of your equipment, brings operational data together, and reveals the overall health of your system without replacing your existing tools.",
+    body: "The industrial digital twin that composes your equipment, brings operational data together, and reveals the overall health of the plant, without replacing your existing tools.",
     cta: "Explore the plant",
     compressorCta: "Inspect the compressor",
+    expertCta: "Talk to an expert",
     allDemos: "Compare both demos",
     allPlatform: "The entire platform",
     tagline: "One shared operational view",
@@ -277,6 +280,13 @@ export function Hero() {
               >
                 {copy.compressorCta}
               </a>
+              <button
+                type="button"
+                onClick={() => openContact("hero")}
+                className="rounded-full bg-[#00c0e8] px-6 py-4 text-[15px] font-semibold text-[#062330] transition hover:bg-[#00afd4] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0d4a72] max-[639px]:min-h-[52px] max-[639px]:w-full"
+              >
+                {copy.expertCta}
+              </button>
             </div>
             <a href="#demos" className="inline-flex min-h-11 items-center gap-1 text-sm font-medium text-[#0d4a72] underline decoration-[#b5cad8] underline-offset-4 hover:decoration-[#0d4a72]">
               {copy.allDemos}<ChevronRightIcon className="h-4 w-4" />

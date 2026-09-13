@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Loader2, Mail, X } from "lucide-react";
 import { useLanguage } from "@/components/sites/steam-value/shared/LanguageProvider";
+import { OPEN_CONTACT_EVENT, trackEvent } from "@/lib/analytics";
 import { CONTACT_LIMITS, WHATSAPP_DISPLAY, whatsappLink } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
@@ -84,6 +85,17 @@ export function ContactWidget() {
   const firstField = useRef<HTMLInputElement>(null);
   const titleId = useId();
 
+  // "Parler à un expert" buttons elsewhere on the page open this panel.
+  useEffect(() => {
+    const onOpenRequest = () => {
+      setOpen(true);
+      setStatus("idle");
+      setErrorKey(null);
+    };
+    window.addEventListener(OPEN_CONTACT_EVENT, onOpenRequest);
+    return () => window.removeEventListener(OPEN_CONTACT_EVENT, onOpenRequest);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
     const opener = trigger.current;
@@ -153,6 +165,7 @@ export function ContactWidget() {
       });
 
       if (response.ok) {
+        trackEvent("generate_lead", { method: "form", page_path: window.location.pathname });
         setStatus("sent");
         form.reset();
         return;
@@ -181,7 +194,7 @@ export function ContactWidget() {
       <button
         ref={trigger}
         type="button"
-        onClick={() => { setOpen((value) => !value); setStatus("idle"); setErrorKey(null); }}
+        onClick={() => { if (!open) trackEvent("contact_open", { source: "floating-button" }); setOpen((value) => !value); setStatus("idle"); setErrorKey(null); }}
         aria-expanded={open}
         aria-controls="contact-panel"
         aria-label={open ? copy.close : copy.open}

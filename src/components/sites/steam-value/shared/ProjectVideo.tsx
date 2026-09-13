@@ -12,7 +12,23 @@ export function ProjectVideo({ clip = "manage" }: { clip?: ProjectVideoClip }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [paused, setPaused] = useState<boolean | null>(null);
   const [playing, setPlaying] = useState(false);
+  // Autoplay waits until the page has loaded, so multi-megabyte footage never
+  // competes with the first paint; data-saver connections keep the poster.
+  const [autoplayReady, setAutoplayReady] = useState(false);
   const poster = clip === "hero-5" ? "hero-5-poster" : `poster-${clip}`;
+
+  useEffect(() => {
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    if (connection?.saveData) return;
+    let timer = 0;
+    const arm = () => { timer = window.setTimeout(() => setAutoplayReady(true), 1500); };
+    if (document.readyState === "complete") arm();
+    else window.addEventListener("load", arm, { once: true });
+    return () => {
+      window.removeEventListener("load", arm);
+      window.clearTimeout(timer);
+    };
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -20,7 +36,7 @@ export function ProjectVideo({ clip = "manage" }: { clip?: ProjectVideoClip }) {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let visible = false;
     const sync = () => {
-      if (visible && !document.hidden && (paused === false || (!motion.matches && paused !== true))) {
+      if (visible && !document.hidden && (paused === false || (autoplayReady && !motion.matches && paused !== true))) {
         void video.play().catch(() => { /* Keep the poster if autoplay is blocked. */ });
       } else {
         video.pause();
@@ -39,7 +55,7 @@ export function ProjectVideo({ clip = "manage" }: { clip?: ProjectVideoClip }) {
       document.removeEventListener("visibilitychange", sync);
       video.pause();
     };
-  }, [paused, clip]);
+  }, [paused, clip, autoplayReady]);
 
   return (
     <div className="relative h-full w-full bg-[#101d21]">

@@ -5,15 +5,15 @@ import { FeatureCardsGrid } from "@/components/sites/steam-value/features-de3359
 import { SupportedDataSources } from "@/components/sites/steam-value/features-de335934/SupportedDataSources";
 import { ComingNext } from "@/components/sites/steam-value/features-de335934/ComingNext";
 import { FeaturesCTA } from "@/components/sites/steam-value/features-de335934/FeaturesCTA";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  "title": "Plateforme | STEAM VALUE™",
-  "description": "STEAM VALUE™ compose les jumeaux de vos équipements, rassemble les données opérationnelles et révèle la santé globale de votre système sans remplacer vos outils existants."
-};
+export const metadata: Metadata = pageMetadata("features");
 
 export default function FeaturesPage() {
   return (
     <div>
+      <JsonLd data={breadcrumbJsonLd("features")} />
       <div className="sv-features-intro">
         <FeaturesHero />
         <FeaturesVideoShowcase />

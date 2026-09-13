@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { PalmOilDemo } from "@/components/palm-oil/PalmOilDemo";
 import { parseDemoView } from "@/components/palm-oil/view";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Huilerie de palme · Jumeau numérique 3D | STEAM VALUE™",
-  description: "Explorez une usine d’huile de palme en 3D : réception, stérilisation, égrappage, pressage, clarification et stockage. Démonstration interactive avec données simulées.",
-};
+export const metadata: Metadata = pageMetadata("demo");
 
 /**
  * The view is resolved on the server so the first paint is the requested one.
@@ -19,5 +18,10 @@ export default async function DemoPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
-  return <PalmOilDemo initialView={parseDemoView(params.view) ?? "3d"} />;
+  return (
+    <>
+      <JsonLd data={breadcrumbJsonLd("demo")} />
+      <PalmOilDemo initialView={parseDemoView(params.view) ?? "3d"} />
+    </>
+  );
 }

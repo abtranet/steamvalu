@@ -5,15 +5,15 @@ import { AboutHero } from "@/components/sites/steam-value/about-979bddc4/AboutHe
 import { AboutStory } from "@/components/sites/steam-value/about-979bddc4/AboutStory";
 import { AboutAudience } from "@/components/sites/steam-value/about-979bddc4/AboutAudience";
 import { HistoryTimeline } from "@/components/sites/steam-value/about-979bddc4/HistoryTimeline";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  "title": "À propos | STEAM VALUE™",
-  "description": "La plateforme est conçue comme une couche de composition au-dessus des environnements industriels existants. Chaque jumeau reste identifiable, puis contribue à une lecture système."
-};
+export const metadata: Metadata = pageMetadata("about");
 
 export default function AboutPage() {
   return (
     <div className="bg-black text-white">
+      <JsonLd data={breadcrumbJsonLd("about")} />
       <AboutHero />
       <AboutPlatform />
       <AboutStory />

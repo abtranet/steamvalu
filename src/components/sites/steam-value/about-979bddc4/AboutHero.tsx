@@ -15,7 +15,10 @@ export function AboutHero() {
           <span className="whitespace-nowrap">STEAM VALUE™</span>{" "}
           <strong className="font-bold">
             V3.1
-          </strong>
+          </strong>{" "}
+          <span className="mt-4 block text-[20px] leading-snug tracking-[-0.02em] sm:text-[26px]">
+            Jumeaux numériques industriels composés
+          </span>
         </h1>
       </div>
     </section>

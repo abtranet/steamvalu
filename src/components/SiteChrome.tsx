@@ -6,14 +6,16 @@ import { Footer } from "@/components/sites/steam-value/shared/Footer";
 import { LanguageProvider } from "@/components/sites/steam-value/shared/LanguageProvider";
 import { SmoothScroll } from "@/components/sites/steam-value/shared/SmoothScroll";
 import { ContactWidget } from "@/components/contact/ContactWidget";
+import { CtaTracker } from "@/components/analytics/CtaTracker";
 
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   if (pathname === "/demo" || pathname.startsWith("/demo/")) {
-    return <LanguageProvider>{children}</LanguageProvider>;
+    return <LanguageProvider><CtaTracker />{children}</LanguageProvider>;
   }
   return (
     <LanguageProvider>
+      <CtaTracker />
       <a className="skip-link" href="#main-content">Aller au contenu / Skip to content</a>
       <SmoothScroll />
       <Header />

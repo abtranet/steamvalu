@@ -48,7 +48,7 @@
 .stageIndex { font-family:monospace; font-size:9px; color:#536e75; }
 .sidebarBottom { margin:auto 18px 0; padding:26px 0 23px; border-top:1px solid var(--line); }
 .eyebrow { color:#829799; font-size:8px; font-weight:650; letter-spacing:.15em; }
-.sidebarBottom h2 { font-size:18px; font-weight:500; margin-top:10px; letter-spacing:-.025em; }
+.sidebarBottom .sidebarHeading { display:block; font-size:18px; font-weight:500; margin-top:10px; letter-spacing:-.025em; }
 .sidebarBottom p { font-size:10px; color:#70888e; line-height:1.9; margin-top:10px; max-width:170px; }
 .siteMeta { display:flex; gap:14px; margin-top:20px; font-size:8px; color:#779991; }
 .siteMeta>span { display:flex; align-items:center; gap:5px; }

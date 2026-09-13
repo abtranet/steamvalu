@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { openContact } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "./LanguageProvider";
 import {
@@ -19,6 +20,7 @@ const HEADER_COPY = {
     useCases: "Cas d'usage",
     about: "À propos",
     viewDemo: "Voir la démo",
+    talkToExpert: "Parler à un expert",
     openMenu: "Ouvrir le menu",
     closeMenu: "Fermer le menu",
     navigation: "Navigation principale",
@@ -30,6 +32,7 @@ const HEADER_COPY = {
     useCases: "Use cases",
     about: "About",
     viewDemo: "View demo",
+    talkToExpert: "Talk to an expert",
     openMenu: "Open menu",
     closeMenu: "Close menu",
     navigation: "Main navigation",
@@ -166,6 +169,14 @@ export function Header() {
 
             <div className="ml-2 flex items-center gap-4">
               <LanguageToggle />
+              {/* Shown from xl up so the desktop bar never crowds at 1024px. */}
+              <button
+                type="button"
+                onClick={() => openContact("header")}
+                className="hidden h-12 items-center justify-center rounded-full border border-[#0d4a72] px-5 text-[14px] font-semibold text-[#0d4a72] transition-colors hover:bg-[#0d4a72] hover:text-white xl:inline-flex"
+              >
+                {copy.talkToExpert}
+              </button>
               <Link
                 href="/demo"
                 className="inline-flex h-12 items-center justify-center gap-1.5 rounded-full bg-[#00c0e8] px-5 text-[14px] font-semibold text-[#062330] shadow-sm transition-all hover:scale-[1.02] hover:bg-[#00afd4] hover:shadow-md active:scale-[0.98]"
@@ -251,6 +262,13 @@ export function Header() {
                 <ArrowUpRightIcon className="h-4 w-4" />
               </Link>
             </div>
+            <button
+              type="button"
+              onClick={() => { closeMobile(); openContact("mobile-menu"); }}
+              className="inline-flex h-12 w-full items-center justify-center rounded-full border border-[#0d4a72] px-5 text-[14px] font-semibold text-[#0d4a72]"
+            >
+              {copy.talkToExpert}
+            </button>
           </div>
         </nav>
       </header>

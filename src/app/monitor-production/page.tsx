@@ -4,15 +4,15 @@ import { ProblemSolutionSection } from "@/components/sites/steam-value/monitor-p
 import { CtaBanner } from "@/components/sites/steam-value/monitor-production-af1f7c13/CtaBanner";
 import { StatsSection } from "@/components/sites/steam-value/monitor-production-af1f7c13/StatsSection";
 import { RelatedUseCases } from "@/components/sites/steam-value/monitor-production-af1f7c13/RelatedUseCases";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  "title": "Performance du procédé | STEAM VALUE™",
-  "description": "Mettre en regard la santé des équipements, les zones de production et les indicateurs du processus dans une lecture commune."
-};
+export const metadata: Metadata = pageMetadata("monitorProduction");
 
 export default function MonitorProductionPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd("monitorProduction")} />
       <HeroSection />
       <ProblemSolutionSection />
       <CtaBanner

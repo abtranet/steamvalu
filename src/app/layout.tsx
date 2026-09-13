@@ -5,6 +5,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { SiteChrome } from "@/components/SiteChrome";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { GA_MEASUREMENT_ID, SITE_URL } from "@/lib/site";
+import { pageMetadata, SITE_JSON_LD } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -23,11 +25,11 @@ const poppins = Poppins({
   weight: ["600", "700"],
 });
 
+// Defaults for pages without their own metadata; each public page overrides these.
 export const metadata: Metadata = {
+  ...pageMetadata("home"),
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "./" },
-  "title": "STEAM VALUE™ | Jumeaux numériques industriels composés",
-  "description": "STEAM VALUE™ compose les jumeaux de vos équipements, rassemble les données opérationnelles et révèle la santé globale de votre système sans remplacer vos outils existants."
 };
 
 export default function RootLayout({
@@ -38,6 +40,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${geist.variable} ${fraunces.variable} ${poppins.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <JsonLd data={SITE_JSON_LD} />
         <SiteChrome>{children}</SiteChrome>
         <Analytics />
       </body>

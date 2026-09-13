@@ -22,6 +22,8 @@ const nextConfig: NextConfig = {
   // The floating dev badge sits over the bottom-left of every page, which makes
   // design review and screenshots misleading. Errors are still surfaced.
   devIndicators: false,
+  // AVIF where the browser supports it, WebP otherwise: several sources are 1–2 MB PNGs.
+  images: { formats: ["image/avif", "image/webp"] },
   // steamvalu.com is canonical: send www to the same path (and query) there.
   async redirects() {
     return [
