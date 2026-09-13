@@ -22,6 +22,17 @@ const nextConfig: NextConfig = {
   // The floating dev badge sits over the bottom-left of every page, which makes
   // design review and screenshots misleading. Errors are still surfaced.
   devIndicators: false,
+  // steamvalu.com is canonical: send www to the same path (and query) there.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.steamvalu.com" }],
+        destination: "https://steamvalu.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
