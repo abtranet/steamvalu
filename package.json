@@ -24,7 +24,7 @@
     "shadcn-ui"
   ],
   "engines": {
-    "node": "24.x"
+    "node": ">=24"
   },
   "scripts": {
     "dev": "next dev",
