@@ -1,25 +1,41 @@
 import type { Metadata } from "next";
-import { HeroSection } from "@/components/sites/twinzo-com-ca6666c1/monitor-production-af1f7c13/HeroSection";
-import { ProblemSolutionSection } from "@/components/sites/twinzo-com-ca6666c1/monitor-production-af1f7c13/ProblemSolutionSection";
-import { CtaBanner } from "@/components/sites/twinzo-com-ca6666c1/monitor-production-af1f7c13/CtaBanner";
-import { StatsSection } from "@/components/sites/twinzo-com-ca6666c1/monitor-production-af1f7c13/StatsSection";
-import { RelatedUseCases } from "@/components/sites/twinzo-com-ca6666c1/monitor-production-af1f7c13/RelatedUseCases";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
+import { EXPERT_SESSION_URL } from "@/lib/site";
+import { HeroSection } from "@/components/sites/steamvalu/monitor-production-af1f7c13/HeroSection";
+import { ProblemSolutionSection } from "@/components/sites/steamvalu/monitor-production-af1f7c13/ProblemSolutionSection";
+import { CtaBanner } from "@/components/sites/steamvalu/monitor-production-af1f7c13/CtaBanner";
+import { StatsSection } from "@/components/sites/steamvalu/monitor-production-af1f7c13/StatsSection";
+import { RelatedUseCases } from "@/components/sites/steamvalu/monitor-production-af1f7c13/RelatedUseCases";
 
 export const metadata: Metadata = {
-  title: "Monitor production | twinzo - Digital Twin",
+  title: "Monitor Production in a Live 3D Digital Twin",
   description:
-    "Monitor your facility in the operational digital twin.  Try it for FREE!",
+    "Put ERP, MES and PLC data onto a live 3D model of your plant. Spot bottlenecks as they happen and run Gemba walks without leaving your desk. Book a demo.",
+  alternates: { canonical: "/monitor-production" },
+  openGraph: {
+    type: "website",
+    url: "/monitor-production",
+    title: "Monitor Production in a Live 3D Digital Twin",
+    description:
+      "Put ERP, MES and PLC data onto a live 3D model of your plant and spot bottlenecks as they happen.",
+  },
 };
 
 export default function MonitorProductionPage() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Monitor production", path: "/monitor-production" },
+        ])}
+      />
       <HeroSection />
       <ProblemSolutionSection />
       <CtaBanner
         headline="Book Your Free Expert Session"
         buttonLabel="Book now"
-        href="https://calendly.com/d/cv66-765-hyx/book-your-free-expert-session?utm_content=expert_session"
+        href={EXPERT_SESSION_URL}
         external
       />
       <StatsSection />

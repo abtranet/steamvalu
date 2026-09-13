@@ -1,0 +1,335 @@
+[
+  {
+    "slug": "/blog-post/on-premise-deployment-isolated-network",
+    "image": "/images/articles/on-premise-factory-isolated-network.png",
+    "alt": "On-Premise twinzo on an Air-Gapped Plant Network",
+    "title": "On-Premise twinzo on an Air-Gapped Plant Network",
+    "excerpt": "Defense, aviation MRO, and nuclear-adjacent sites cannot point live tracking at a public cloud. twinzo runs fully on two Linux VMs inside your isolated LAN. Your IT owns DNS, TLS, and the VMs while operators keep the same 3D twin, RTLS, and alerts.",
+    "date": "August 30, 2026",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/on-premise-factory-isolated-network.png"
+  },
+  {
+    "slug": "/blog-post/gps-indoor-location-asset-tracking-across-sites",
+    "image": "/images/articles/logistic-analysis.png",
+    "alt": "GPS Plus Indoor Location: Track Assets From Supplier Yard to Factory Floor",
+    "title": "GPS Plus Indoor Location: Track Assets From Supplier Yard to Factory Floor",
+    "excerpt": "GPS shows the trailer on the motorway. Inside your hall it goes dark. Combine outdoor GPS with indoor RTLS so the same rack, container, or truck stays on the map from the supplier branch through your gate to the rack.",
+    "date": "August 28, 2026",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/logistic-analysis.png"
+  },
+  {
+    "slug": "/blog-post/slam-localization-technologies",
+    "image": "/images/articles/slamcore-stereo-imu-sensor.png",
+    "alt": "SLAM Localization: Sensors, Algorithms, and Industrial Providers",
+    "title": "SLAM Localization: Sensors, Algorithms, and Industrial Providers",
+    "excerpt": "How visual, visual-inertial, and LiDAR SLAM estimate pose and map in GPS-denied halls. Front-end tracking, loop closure, map alignment, and providers including Slamcore.",
+    "date": "August 27, 2026",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/slamcore-stereo-imu-sensor.png"
+  },
+  {
+    "slug": "/blog-post/photogrammetry-for-plant-3d-models",
+    "image": "/images/articles/photogrammetry-production-hall-3d.png",
+    "alt": "How Photogrammetry Builds Plant 3D Models From Photos",
+    "title": "How Photogrammetry Builds Plant 3D Models From Photos",
+    "excerpt": "When the CAD aisle no longer exists, overlapping photos still can. Here is how feature matching, bundle adjustment, dense stereo, and meshing turn hall, drone, and satellite captures into a scaled twin mesh.",
+    "date": "August 27, 2026",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/photogrammetry-production-hall-3d.png"
+  },
+  {
+    "slug": "/blog-post/ignition-mes-digital-twin-integration",
+    "image": "/images/articles/ignition-twinzo-3d-live-overlay.png",
+    "alt": "Ignition MES Integration With the twinzo Digital Twin",
+    "title": "Ignition MES Integration With the twinzo Digital Twin",
+    "excerpt": "Ignition is the SCADA and MES platform many plants already run. Here is who uses it, how Gateway tags and modules work, and how the twinzo plugin maps that data onto a live 3D twin.",
+    "date": "August 27, 2026",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/ignition-twinzo-3d-live-overlay.png"
+  },
+  {
+    "slug": "/blog-post/correlate-plant-systems-by-space-on-digital-twin",
+    "image": "/images/articles/spatial-correlation-open-dock-gate.png",
+    "alt": "Correlate Plant Systems by Space on the Digital Twin",
+    "title": "Correlate Plant Systems by Space on the Digital Twin",
+    "excerpt": "Gate open next to an HVAC zone, voltage imbalance on the same energy lane as rising scrap, smart bins ignored by the forklift loop. Put the signals on one map and the nearby impacts stop living in separate dashboards.",
+    "date": "August 27, 2026",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/spatial-correlation-open-dock-gate.png"
+  },
+  {
+    "slug": "/blog-post/man-down-detection-with-rtls",
+    "image": "/images/articles/man-down-rtls-technicians.png",
+    "alt": "Man Down Detection With Live RTLS Position",
+    "title": "Man Down Detection With Live RTLS Position",
+    "excerpt": "A technician falls in a dangerous area. The phone beeps; if they do not cancel, security gets the incident and their live position on the twin - not a radio search across floors and stairs.",
+    "date": "August 27, 2026",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/man-down-rtls-technicians.png"
+  },
+  {
+    "slug": "/blog-post/quuppa-ble-smart-building-office-twin",
+    "image": "/images/articles/quuppa-ble-office-tags-3d.png",
+    "alt": "Quuppa BLE in a 3,000-Visitor Office Twin",
+    "title": "Quuppa BLE in a 3,000-Visitor Office Twin",
+    "excerpt": "Reception knows who badge-scanned. Facilities still cannot see who is in the server room, which meeting room filled, or which parking bay is free. Quuppa BLE positions land on the twinzo 3D building so security, HVAC, and visitors work from one picture.",
+    "date": "August 26, 2026",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/quuppa-ble-office-tags-3d.png"
+  },
+  {
+    "slug": "/blog-post/live-3d-stock-from-erp-without-rtls",
+    "image": "/images/articles/ai-rtls-live-3d-digital-twin.png",
+    "alt": "Live 3D Stock From ERP Without Installing RTLS",
+    "title": "Live 3D Stock From ERP Without Installing RTLS",
+    "excerpt": "In IKEA you find stock by coordinates like 13-B. Same in industrial warehouses. Feed those locations to twinzo for real-time 3D stock positions - no RTLS infrastructure.",
+    "date": "August 26, 2026",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/ai-rtls-live-3d-digital-twin.png"
+  },
+  {
+    "slug": "/blog-post/add-assets-to-your-digital-twin-without-live-tracking",
+    "image": "/images/articles/place-assets-on-digital-twin-map.png",
+    "alt": "Add Assets to Your Digital Twin Without Live Tracking",
+    "title": "Add Assets to Your Digital Twin Without Live Tracking",
+    "excerpt": "A supplier truck has no RTLS tag, but operators still need to see where it is. Place it in 3D, simulate the path, run area analytics, and notify on no-go zones. Same for stock positions of important goods.",
+    "date": "August 26, 2026",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/place-assets-on-digital-twin-map.png"
+  },
+  {
+    "slug": "/blog-post/intuitive-ux-for-digital-twin-configuration",
+    "image": "/images/articles/notification-system-setup.png",
+    "alt": "Intuitive UX for Digital Twin Configuration",
+    "title": "Intuitive UX for Digital Twin Configuration",
+    "excerpt": "CRUD design is a curse of developers who know the backend entity model. Here is how twinzo rebuilt notification setup into one next→next→next workspace so you can use IoT data in digital twins and make your factory smart.",
+    "date": "August 25, 2026",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/notification-system-setup.png"
+  },
+  {
+    "slug": "/blog-post/how-telcos-and-police-locate-your-sim-card",
+    "image": "/images/articles/trilateration.png",
+    "alt": "How telcos and police locate your SIM card",
+    "title": "How telcos and police locate your SIM card",
+    "excerpt": "If you wonder how telco operators and police departments locate your SIM card, the answer is trilateration and triangulation. Here is how it actually works in three steps - and how Wi-Fi RSSI takes it from neighborhood to the exact room.",
+    "date": "August 25, 2026",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/trilateration.png"
+  },
+  {
+    "slug": "/blog-post/strengthening-europes-defense-manufacturing-why-intralogistics-is-the-new-front-line",
+    "image": "/images/682c88b63737d610e68ea3c5_defense.png",
+    "alt": "Strengthening Europe’s Defense Manufacturing",
+    "title": "Strengthening Europe’s Defense Manufacturing",
+    "excerpt": "In an era of mounting geopolitical pressure and increasing defense budgets across Europe, the defense manufacturing sector finds itself under a new kind of scrutiny - not just for what it builds, but how efficiently it builds it. As nations accelerate rearmament programs and supply chains remain vulnerable, internal logistics has become a critical but often overlooked battlefield.",
+    "date": "May 20, 2025",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/682c88b63737d610e68ea3c5_defense.png"
+  },
+  {
+    "slug": "/blog-post/seamless-integration-of-opc-ua-and-location-data-from-highbyte-to-twinzo",
+    "image": "/images/682af278b42d096beec9263e_high_byte.png",
+    "alt": "Seamless Data Integration from HighByte to Twinzo",
+    "title": "Seamless Data Integration from HighByte to Twinzo",
+    "excerpt": "As manufacturing environments become more connected and data-driven, combining machine data with spatial awareness is key to unlocking true operational visibility. That’s why we’re excited to highlight a simple yet powerful integration between HighByte Intelligence Hub and Twinzo’s real-time 3D digital twin platform.",
+    "date": "May 19, 2025",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/682af278b42d096beec9263e_high_byte.png"
+  },
+  {
+    "slug": "/blog-post/tutorial-automate-your-orderings",
+    "image": "/images/67bda788dc1d9306b74305bb_automate-your-orderings-(3).png",
+    "alt": "Tutorial: Automate your orderings with Digital Twin",
+    "title": "Tutorial: Automate your orderings with Digital Twin",
+    "excerpt": "Idle time is one of the biggest areas for optimization in factory operations. It occurs when production stops due to material shortages, equipment breakdowns, or other disruptions that require maintenance. Reducing idle time is critical for improving efficiency and minimizing downtime.",
+    "date": "February 11, 2025",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda788dc1d9306b74305bb_automate-your-orderings-3.png"
+  },
+  {
+    "slug": "/blog-post/tutorial-scan-your-model-with-iphone",
+    "image": "/images/67bda795c5a230660b1591c2_scan-your-model-with-iphon.png",
+    "alt": "Tutorial: Scan your model with iPhone",
+    "title": "Tutorial: Scan your model with iPhone",
+    "excerpt": "With the latest iPhones and iPads, you can quickly create LiDAR scans of your surroundings or objects. From our experience, for optimal results, it is best to limit scans to around 300 square meters, as this ensures better manageability and accuracy.",
+    "date": "January 31, 2025",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda795c5a230660b1591c2_scan-your-model-with-iphon.png"
+  },
+  {
+    "slug": "/blog-post/tutorial-forklift-optimization-do-it-yourself",
+    "image": "/images/67b39d9a761984bd48a31565_forklift-diy.png",
+    "alt": "Tutorial: DIY Forklift Optimization with twinzo",
+    "title": "Tutorial: DIY Forklift Optimization with twinzo",
+    "excerpt": "We made it easy for you to do the first pilot on your own. We are confident that you will be able to install this technology on roughly 1000 square meters yourself following this tutorial. What will you need: Approximately 20 BLE beacons (you can buy them from our recommended vendors HERE)",
+    "date": "January 20, 2025",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67b39d9a761984bd48a31565_forklift-diy.png"
+  },
+  {
+    "slug": "/blog-post/how-to-scan-your-facility",
+    "image": "/images/67bda7d364f15dd9c9832150_how-to-scan-your-facility-(2).png",
+    "alt": "How to scan your facility",
+    "title": "How to scan your facility",
+    "excerpt": "Photogrammetry and LiDAR (Light Detection and Ranging) scanning are powerful technologies that have revolutionized the way we capture and create 3D models of the real world. These techniques find applications in fields ranging from architecture and construction to archaeology and gaming.",
+    "date": "January 7, 2025",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda7d364f15dd9c9832150_how-to-scan-your-facility-2.png"
+  },
+  {
+    "slug": "/blog-post/twinzo-excel",
+    "image": "/images/67bda7a84afbd5de6c5d7a0c_twinzo-excel.png",
+    "alt": "twinzo Excel",
+    "title": "twinzo Excel",
+    "excerpt": "In today&#x27;s digital age, companies are constantly seeking ways to enhance their business processes, and one of the most promising technological advancements in this regard is the development of digital twins. A digital twin is a virtual replica of a real-life entity, be it a product, a process, or an entire system.",
+    "date": "December 19, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda7a84afbd5de6c5d7a0c_twinzo-excel.png"
+  },
+  {
+    "slug": "/blog-post/automatic-ordering-system-as-an-integral-part-of-digital-twin",
+    "image": "/images/67bda770debd8cc2a332fff3_aos-as-integral-part.png",
+    "alt": "AOS as an integral part of Digital twin",
+    "title": "AOS as an integral part of Digital twin",
+    "excerpt": "As supply chains get more complex and global, they become more volatile in times of disruption. Global pandemic disrupted the market both on the supply side and on delivery. This strain is exposing neglected shortcomings of external and internal logistics.",
+    "date": "December 4, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda770debd8cc2a332fff3_aos-as-integral-part.png"
+  },
+  {
+    "slug": "/blog-post/getting-started-with-rtls",
+    "image": "/images/67bda715138d8c61186492a0_gettin-started-with-rtls.png",
+    "alt": "Getting started with RTLS",
+    "title": "Getting started with RTLS",
+    "excerpt": "Location technologies can be a very complex topic, but we can help you with understanding basic concepts, that can help you to make the correct decision. It&#x27;s important to know, that twinzo can combine several technologies in a single building, enabling our customers cost-optimized ways how to implement RTLS.",
+    "date": "November 15, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda715138d8c61186492a0_gettin-started-with-rtls.png"
+  },
+  {
+    "slug": "/blog-post/logistics-analysis-with-digital-twin",
+    "image": "/images/67bda72c4620b4a9a15ebcc5_logistic-analysis.png",
+    "alt": "Logistics Analysis with Digital Twin",
+    "title": "Logistics Analysis with Digital Twin",
+    "excerpt": "Where to start with digital twins in manufacturing? Well, we usually start with internal logistics. Why? Because there are enormous losses = the highest ROI! How is that? Logistics is often the last one in optimization! People think &quot;they are just delivery boys&quot;... 🙄 If logistics were so easy, armies wouldn&#x27;t fail because of missing stuff - not just nowadays.",
+    "date": "October 30, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda72c4620b4a9a15ebcc5_logistic-analysis.png"
+  },
+  {
+    "slug": "/blog-post/digital-twins---future-trend",
+    "image": "/images/67bda53ba0c1875dc25949ff_future-trends.png",
+    "alt": "Digital twins - future trend",
+    "title": "Digital twins - future trend",
+    "excerpt": "The digital twin concept originated in the early 1990s, so it is not new at all. In the nearly 30 years of its existence, several definitions of what digital can be were created. ‍ While for some it is purely data stored somewhere in a database or in a file system, for others it is a BIM model (Building Information Management), for another, it is a simulation software of production processes, for us, it is live data collection and 3D visualization.",
+    "date": "October 13, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda53ba0c1875dc25949ff_future-trends.png"
+  },
+  {
+    "slug": "/blog-post/what-is-industrial-metaverse",
+    "image": "/images/67bda6566d6f6081df359927_industrial-metaverse-(2).png",
+    "alt": "What is industrial metaverse?",
+    "title": "What is industrial metaverse?",
+    "excerpt": "There are many complicated explanations of what is the metaverse and that it is the future that will come in 10 years. Truth is, that metaverse is already here, at least in parts. Because #metaverse is just interconnected, real-time digital twins, exactly like we do in @twinzo. ‍ So building blocks of metaverse are available and already affordable, which is proved by companies in CEE that already operate such digital twins.",
+    "date": "October 3, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda6566d6f6081df359927_industrial-metaverse-2.png"
+  },
+  {
+    "slug": "/blog-post/industrial-metaverse---from-vision-to-reality",
+    "image": "/images/67bda6729109f938b44001cb_industrial-metaverse-from-vision.png",
+    "alt": "Industrial metaverse - from vision to reality",
+    "title": "Industrial metaverse - from vision to reality",
+    "excerpt": "You may be wondering why the term “metaverse” is being used to describe a virtual environment. The reason is simple: it&#x27;s a term that has been used by science fiction writers and other people interested in VR, AR, and MR for decades.",
+    "date": "September 19, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda6729109f938b44001cb_industrial-metaverse-from-vision.png"
+  },
+  {
+    "slug": "/blog-post/digital-twin-sources",
+    "image": "/images/67bda74f162b1d216d2cee8b_dt-sources-(2).png",
+    "alt": "Digital Twin sources",
+    "title": "Digital Twin sources",
+    "excerpt": "The first step towards a digital twin is the creation of a digital model of the object or environment. This step can be difficult, but there are multiple options for creating an accurate representation. ‍ One way towards creating a digital twin is to accurately represent the digital model of the physical object or environment.",
+    "date": "September 3, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda74f162b1d216d2cee8b_dt-sources-2.png"
+  },
+  {
+    "slug": "/blog-post/3d-visualization-benefits",
+    "image": "/images/67bda61a4a560b752ebc5c06_3d-visualisation-benefits.png",
+    "alt": "3D Visualization benefits",
+    "title": "3D Visualization benefits",
+    "excerpt": "3D visualization can be used in a wide range of industries, from construction and government to healthcare and sports. Some common benefits include cost savings, safety and security, efficiency, and environmental sustainability. But what are the specifics?",
+    "date": "August 11, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda61a4a560b752ebc5c06_3d-visualisation-benefits.png"
+  },
+  {
+    "slug": "/blog-post/importance-of-digital-twin-accessibility",
+    "image": "/images/67bda5e0debd8cc2a33185a0_importance-of-dt.png",
+    "alt": "Importance of Digital Twin accessibility",
+    "title": "Importance of Digital Twin accessibility",
+    "excerpt": "I remember when I first got my smartphone. It was exciting to have this powerful little device that could keep me connected 24/7, but it also presented a new challenge: How do I efficiently use the available technology? Having a phone in your pocket is great, but how do you make sure it&#x27;s more than just a distraction?",
+    "date": "August 1, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda5e0debd8cc2a33185a0_importance-of-dt.png"
+  },
+  {
+    "slug": "/blog-post/managing-ports-with-digital-twin",
+    "image": "/images/67bda5d0e7935406fe7a1f66_managing-ports.png",
+    "alt": "Managing ports with digital twin",
+    "title": "Managing ports with digital twin",
+    "excerpt": "As you might know, ports are facilities that are essential to trade and the economy. They are also very complex and use a lot of different equipment. It’s important to have a good understanding of what is happening in these facilities if we want them to operate safely and efficiently.",
+    "date": "July 17, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda5d0e7935406fe7a1f66_managing-ports.png"
+  },
+  {
+    "slug": "/blog-post/natural-disasters-and-twinzo",
+    "image": "/images/67bda5c65bfcb0081a3f7b33_natural-disaster.png",
+    "alt": "Natural disasters and twinzo",
+    "title": "Natural disasters and twinzo",
+    "excerpt": "In Lužice, where our colleague Jiří Žíla lives, he experienced a tornado a year ago! A digital twin for the emergency services would be a great help, so we are providing examples of use. We will summarize the idea we came to based on our personal experience: - Within 24 hours, it is necessary to create a digital twin of the affected area from the standard cadastral map.",
+    "date": "July 2, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda5c65bfcb0081a3f7b33_natural-disaster.png"
+  },
+  {
+    "slug": "/blog-post/using-ai-camera-vision-for-smart-buffer-management",
+    "image": "/images/67aba56778a528d6307cf215_using-ai-camera-vision.png",
+    "alt": "AI camera vision for smart buffer management",
+    "title": "AI camera vision for smart buffer management",
+    "excerpt": "A lot of our customers are looking into increasing their automation footprint, especially in logistics, where this area was neglected for far too long. Quite often, when looking for a solution, they come to us, to see how we can help. Unfortunately, we do not manufacture AGVs or AMR.",
+    "date": "June 27, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67aba56778a528d6307cf215_using-ai-camera-vision.png"
+  },
+  {
+    "slug": "/blog-post/managing-airports-with-digital-twin",
+    "image": "/images/67bda60799c8a11af9dc479e_managing-airports.png",
+    "alt": "Managing airports with digital twin",
+    "title": "Managing airports with digital twin",
+    "excerpt": "Airports are hubs in which we can find airlines, terminals, waiting areas, and a wide variety of shops and services. On the other hand, it is becoming more complex to manage due to the increase in air traffic and the growth of individualized services.",
+    "date": "June 20, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda60799c8a11af9dc479e_managing-airports.png"
+  },
+  {
+    "slug": "/blog-post/platform-stores-impact-on-software-distribution",
+    "image": "/images/67bda9bbdc1d9306b746bbda_dt-future-trends.png",
+    "alt": "Platform stores impact on software distribution",
+    "title": "Platform stores impact on software distribution",
+    "excerpt": "Platform stores have revolutionized the way we distribute software. They’ve made it easier than ever to get access to the latest features and functionality in our favorite apps while also providing opportunities for developers to improve their products.",
+    "date": "June 5, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67bda9bbdc1d9306b746bbda_dt-future-trends.png"
+  },
+  {
+    "slug": "/blog-post/bug-in-google-chrome",
+    "image": "/images/67ab6619497486028c96d7b5_Update-Google-Chrome.avif",
+    "alt": "Bug in Google Chrome",
+    "title": "Bug in Google Chrome",
+    "excerpt": "Recently, a bug in Google Chrome has been causing issues with the canvas functionality and disabling the setup of layers and areas in Twinzo. The canvas functionality allows users to draw and sketch their areas, while the layer feature enables them to organize their drawings into different layers.",
+    "date": "May 28, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67ab6619497486028c96d7b5_Update-Google-Chrome.avif"
+  },
+  {
+    "slug": "/blog-post/navigating-the-world-of-3d-modeling",
+    "image": "/images/67aa0ece66f15cb7ec520237_navigating-the-world-of-3d-modeling.png",
+    "alt": "Navigating the World of 3D Modeling",
+    "title": "Navigating the World of 3D Modeling",
+    "excerpt": "The world of 3D modeling is a diverse and creative space where technology meets artistry. Whether you&#x27;re an aspiring digital artist, an architect, or a hobbyist looking to explore the realm of 3D design, you&#x27;ll find a plethora of tools at your disposal.",
+    "date": "May 14, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67aa0ece66f15cb7ec520237_navigating-the-world-of-3d-modeling.png"
+  },
+  {
+    "slug": "/blog-post/celebrating-innovation-in-prague",
+    "image": "/images/67aa12d1701a9382a7d2995f_celebrating-innovation-in-prague.png",
+    "alt": "Celebrating Innovation in Prague",
+    "title": "Celebrating Innovation in Prague",
+    "excerpt": "Prague became the backdrop for a remarkable event showcasing Czech architecture&#x27;s elite. Michal Ukropec, despite his admission of drawing skills akin to a toddler, found himself standing among renowned industry leaders. The surprise of winning the &quot;Innovation of the Year&quot; category left Michal and his team proud.",
+    "date": "May 12, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67aa12d1701a9382a7d2995f_celebrating-innovation-in-prague.png"
+  },
+  {
+    "slug": "/blog-post/pushing-the-boundaries",
+    "image": "/images/67a1f880318f0dd9fae194b5_pushing-the-boundaries.png",
+    "alt": "Pushing the Boundaries",
+    "title": "Pushing the Boundaries",
+    "excerpt": "Sometimes, unexpected questions have the power to ignite new paths and possibilities. Michal Ukropec found himself at a crossroads when an attending publisher proposed writing a book about leadership. Uncertain if Industry 4.0 was his expertise topic, Michal reflects on this intriguing proposition.",
+    "date": "May 3, 2024",
+    "localImage": "/sites/steamvalu/blog-8caafe43/images/67a1f880318f0dd9fae194b5_pushing-the-boundaries.png"
+  }
+]

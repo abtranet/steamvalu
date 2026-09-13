@@ -1,24 +1,38 @@
 import type { Metadata } from "next";
-import { FeaturesHero } from "@/components/sites/twinzo-com-ca6666c1/features-de335934/FeaturesHero";
-import { FeatureCardsGrid } from "@/components/sites/twinzo-com-ca6666c1/features-de335934/FeatureCardsGrid";
-import { SupportedDataSources } from "@/components/sites/twinzo-com-ca6666c1/features-de335934/SupportedDataSources";
-import { ComingNext } from "@/components/sites/twinzo-com-ca6666c1/features-de335934/ComingNext";
-import { FeaturesCTA } from "@/components/sites/twinzo-com-ca6666c1/features-de335934/FeaturesCTA";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema, softwareApplicationSchema } from "@/lib/schema";
+import { FeaturesHero } from "@/components/sites/steamvalu/features-de335934/FeaturesHero";
+import { FeatureCardsGrid } from "@/components/sites/steamvalu/features-de335934/FeatureCardsGrid";
+import { SupportedDataSources } from "@/components/sites/steamvalu/features-de335934/SupportedDataSources";
+import { ComingNext } from "@/components/sites/steamvalu/features-de335934/ComingNext";
+import { FeaturesCTA } from "@/components/sites/steamvalu/features-de335934/FeaturesCTA";
 
 export const metadata: Metadata = {
-  title: "Features | Twinzo - Digital Twin",
+  title: "Digital Twin Features: Live 3D & RTLS Tracking",
   description:
-    "A 3D digital twin app for real-time view. Detailed web analysis for a deep dive. And if something goes wrong, get notified.",
+    "Live 3D factory view, RTLS asset tracking, web analytics and threshold alerts. See every SteamValu digital twin feature and the data sources it connects.",
+  alternates: { canonical: "/features" },
+  openGraph: {
+    type: "website",
+    url: "/features",
+    title: "Digital Twin Features: Live 3D & RTLS Tracking",
+    description:
+      "Live 3D factory view, RTLS asset tracking, web analytics and threshold alerts. See every SteamValu digital twin feature.",
+  },
 };
 
 export default function FeaturesPage() {
   return (
-    <main>
+    <>
+      <JsonLd data={softwareApplicationSchema} />
+      <JsonLd
+        data={breadcrumbSchema([{ name: "Features", path: "/features" }])}
+      />
       <FeaturesHero />
       <FeatureCardsGrid />
       <SupportedDataSources />
       <ComingNext />
       <FeaturesCTA />
-    </main>
+    </>
   );
 }
